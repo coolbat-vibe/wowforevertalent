@@ -112,9 +112,13 @@ test('JS disabled: reference and calculator pages stay readable', async ({ brows
   await context.close();
 });
 
-test('footer carries the fan-made disclaimer and CC BY attribution', async ({ request }) => {
-  const html = (await (await request.get('/')).text()).replace(/\s+/g, ' ');
-  expect(html).toContain('Not affiliated with or endorsed by Blizzard Entertainment');
-  expect(html).toContain('talentsforever.com');
-  expect(html).toContain('CC BY 4.0');
+test('footer carries the fan-made disclaimer; sources page carries CC BY attribution', async ({
+  request,
+}) => {
+  const home = (await (await request.get('/')).text()).replace(/\s+/g, ' ');
+  expect(home).toContain('Not affiliated with or endorsed by Blizzard Entertainment');
+
+  const sources = (await (await request.get('/sources/')).text()).replace(/\s+/g, ' ');
+  expect(sources).toContain('talentsforever.com');
+  expect(sources).toContain('CC BY 4.0');
 });
