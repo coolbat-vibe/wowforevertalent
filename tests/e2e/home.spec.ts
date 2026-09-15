@@ -16,7 +16,7 @@ test('home page: tool usable in first screen without navigation', async ({ page 
 
   // Switch class in-page: shaman loads without leaving the home page.
   await page.getByTestId('home-class-tab-shaman').click();
-  await expect(page.getByTestId('home-class-tab-shaman')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('home-class-tab-shaman')).toHaveAttribute('aria-current', 'true');
   await expect(page.getByTestId('points-remaining')).toHaveText(/^\s*51\s*\/\s*51\s*$/);
   expect(page.url()).toMatch(/localhost:4321\/$/);
   // Shaman tree is rendered (no Mage talents).

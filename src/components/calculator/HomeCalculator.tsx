@@ -101,14 +101,21 @@ export default function HomeCalculator(props: HomeCalculatorProps): JSX.Element 
         data-testid="home-class-tabs"
       >
         {classes.map((c) => (
-          <button
+          <a
             key={c.classId}
-            type="button"
+            href={`/${c.classId}/`}
             className={styles.classTab}
             style={{ '--tab-class-color': c.color } as React.CSSProperties}
-            aria-pressed={currentId === c.classId}
+            aria-current={currentId === c.classId ? 'true' : undefined}
+            aria-label={`${c.name} talent calculator`}
             data-testid={`home-class-tab-${c.classId}`}
-            onClick={() => void selectClass(c.classId)}
+            onClick={(e) => {
+              // In-page switch with JS; the real href keeps the class pages
+              // crawlable and lets users open them in a new tab.
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+              e.preventDefault();
+              void selectClass(c.classId);
+            }}
           >
             <img
               src={`/icons/classes/${c.iconRef}.jpg`}
@@ -121,7 +128,7 @@ export default function HomeCalculator(props: HomeCalculatorProps): JSX.Element 
               }}
             />
             <span className={styles.tabName}>{c.name}</span>
-          </button>
+          </a>
         ))}
       </div>
 

@@ -4,9 +4,7 @@ import HomeCalculator from '@components/calculator/HomeCalculator';
 import { loadClassSnapshot, loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
 import {
   classChangeStats,
-  classIconUrl,
   formatDate,
-  joinNames,
   removedClassicCount,
   stageLabel,
 } from '@data/derive';
@@ -73,43 +71,6 @@ const ruleset = manifest.ruleset;
       initialSnapshot={defaultSnapshot}
       classes={classes}
     />
-  </section>
-
-  <section class="page-section" aria-labelledby="choose-class">
-    <h2 id="choose-class">Choose Your Class</h2>
-    <p class="prose">
-      Each class also has a dedicated page with its talent changes, tree
-      guides, and the full reference — open it to share or bookmark a
-      class-specific link:
-    </p>
-    <ul class="class-grid">
-      {
-        classes.map((c) => (
-          <li>
-            <a
-              class="class-card"
-              href={`/${c.classId}/`}
-              style={`--card-class-color: ${c.color};`}
-            >
-              <img
-                class="class-icon"
-                src={classIconUrl(c.iconRef)}
-                alt=""
-                width="56"
-                height="56"
-                onerror="this.style.display='none'"
-              />
-              <span>
-                <span class="class-name">{c.name}</span>
-                <span class="class-trees">
-                  {joinNames(c.trees)} · {c.talentCount} talents
-                </span>
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </section>
 
   <section class="page-section" aria-labelledby="how-it-works">
