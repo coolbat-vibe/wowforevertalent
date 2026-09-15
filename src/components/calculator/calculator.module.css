@@ -66,7 +66,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3);
-  background: linear-gradient(180deg, #141a22, #0d1117);
+  background: linear-gradient(180deg, #1c1c1c, #101010);
   border: 1px solid #000;
   box-shadow: inset 0 0 0 1px rgb(215 180 106 / 0.25);
   border-radius: 4px;
@@ -87,7 +87,7 @@
   width: 72px;
   min-height: var(--touch-target);
   padding: var(--space-1) var(--space-2);
-  background: #0a0e13;
+  background: #141414;
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -127,7 +127,7 @@
   flex: 1 1 200px;
   min-height: var(--touch-target);
   padding: var(--space-2) var(--space-3);
-  background: #0a0e13;
+  background: #141414;
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -139,7 +139,7 @@
   width: 100%;
   margin: var(--space-2) 0;
   padding: var(--space-2) var(--space-3);
-  background: #0a0e13;
+  background: #141414;
   color: var(--color-text-dim);
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -164,7 +164,7 @@
 .button {
   min-height: var(--touch-target);
   padding: var(--space-2) var(--space-4);
-  background: linear-gradient(180deg, #2a3340, #171f29);
+  background: linear-gradient(180deg, #383838, #222222);
   color: var(--color-accent);
   border: 1px solid var(--color-accent-dim);
   border-radius: 4px;
@@ -174,7 +174,7 @@
 
 .button:hover:not(:disabled) {
   border-color: var(--color-accent);
-  color: #f0d9a0;
+  color: #ebce9a;
   box-shadow: 0 0 6px rgb(215 180 106 / 0.35);
 }
 
@@ -186,7 +186,7 @@
 .buttonSecondary {
   min-height: var(--touch-target);
   padding: var(--space-2) var(--space-3);
-  background: linear-gradient(180deg, #232c38, #141b24);
+  background: linear-gradient(180deg, #333333, #1c1c1c);
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -195,7 +195,7 @@
 
 .buttonSecondary:hover:not(:disabled) {
   border-color: var(--color-accent-dim);
-  color: #f0d9a0;
+  color: #ebce9a;
 }
 
 .buttonSecondary:disabled {
@@ -211,7 +211,7 @@
   min-height: 32px;
   min-width: var(--touch-target);
   padding: var(--space-1) var(--space-2);
-  background: linear-gradient(180deg, #232c38, #141b24);
+  background: linear-gradient(180deg, #333333, #1c1c1c);
   color: var(--color-text-dim);
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -244,7 +244,7 @@
   flex: 1;
   min-height: var(--touch-target);
   padding: var(--space-2);
-  background: linear-gradient(180deg, #1a222c, #10161d);
+  background: linear-gradient(180deg, #242424, #141414);
   color: var(--color-text-dim);
   border: 1px solid var(--color-border);
   border-bottom: none;
@@ -253,7 +253,7 @@
 }
 
 .tabActive {
-  background: linear-gradient(180deg, #232c38, #141b24);
+  background: linear-gradient(180deg, #333333, #1c1c1c);
   color: var(--color-accent);
   border-color: var(--color-accent-dim);
 }
@@ -264,7 +264,7 @@
   padding: 0 var(--space-1);
   min-width: 20px;
   border-radius: 4px;
-  background: #0a0e13;
+  background: #141414;
   color: var(--color-accent);
   font-weight: 700;
 }
@@ -307,7 +307,7 @@
 
   flex: 1 1 260px;
   min-width: 240px;
-  background: linear-gradient(180deg, #0d1117, #141a22);
+  background: linear-gradient(180deg, #101010, #1c1c1c);
   border: 1px solid #000;
   box-shadow: inset 0 0 0 1px rgb(215 180 106 / 0.25);
   border-radius: 4px;
@@ -331,11 +331,12 @@
 .treeName {
   margin: 0;
   flex: 1;
-  font-size: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--color-gold);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-shadow: 0 1px 2px #000;
 }
 
@@ -348,9 +349,10 @@
 }
 
 .treePoints {
+  font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--color-gold);
   text-shadow: 0 1px 2px #000;
   min-width: 24px;
   text-align: center;
@@ -377,7 +379,7 @@
 
 .linkUnmet {
   fill: none;
-  stroke: #39424f;
+  stroke: #454545;
   stroke-width: 2;
 }
 
@@ -386,7 +388,7 @@
 }
 
 .linkHeadUnmet {
-  fill: #39424f;
+  fill: #454545;
 }
 
 .treeGrid {
@@ -508,7 +510,7 @@
 }
 
 .locked .rankBadge {
-  color: #7a828e;
+  color: #8a8a8a;
 }
 
 /* out of points at this level: faded, quiet counter */
@@ -518,7 +520,7 @@
 }
 
 .nobudget .rankBadge {
-  color: #7a828e;
+  color: #8a8a8a;
 }
 
 /* hover: soft white rim + slight icon brighten (no selection rim) */
@@ -647,9 +649,11 @@
 }
 
 .tipName {
-  color: #ffd100;
+  font-family: var(--font-display);
+  color: var(--color-gold);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
+  letter-spacing: 0.02em;
 }
 
 .tipRank {
@@ -685,7 +689,7 @@
 /* ---------- detail panel ---------- */
 
 .detail {
-  background: linear-gradient(180deg, #141a22, #0d1117);
+  background: linear-gradient(180deg, #1c1c1c, #101010);
   border: 1px solid #000;
   box-shadow: inset 0 0 0 1px rgb(215 180 106 / 0.25);
   border-radius: 4px;
@@ -719,7 +723,7 @@
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  background: #0a0e13;
+  background: #141414;
   box-shadow: 0 0 0 1px rgb(215 180 106 / 0.4);
   display: flex;
   align-items: center;
@@ -779,7 +783,7 @@
   height: var(--touch-target);
   font-size: 1.4rem;
   font-weight: 700;
-  background: linear-gradient(180deg, #2a3340, #171f29);
+  background: linear-gradient(180deg, #383838, #222222);
   color: var(--color-accent);
   border: 1px solid var(--color-accent-dim);
   border-radius: 4px;
@@ -789,7 +793,7 @@
 
 .pointButton:hover {
   border-color: var(--color-accent);
-  color: #f0d9a0;
+  color: #ebce9a;
 }
 
 .pointButton[aria-disabled='true'] {

@@ -20,7 +20,7 @@ main#main {
   top: -64px;
   z-index: 100;
   background: var(--color-accent);
-  color: #101419;
+  color: #121212;
   font-weight: 600;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius);
@@ -50,13 +50,15 @@ main#main {
   display: flex;
   align-items: center;
   min-height: var(--touch-target);
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--color-text);
 }
 
 .site-brand span {
-  color: var(--color-accent);
+  color: var(--color-gold);
   margin-left: 0.35em;
 }
 
@@ -457,7 +459,7 @@ main#main {
   margin-bottom: var(--space-2);
   border-radius: 50%;
   background: var(--color-accent);
-  color: #101419;
+  color: #121212;
   font-weight: 700;
 }
 

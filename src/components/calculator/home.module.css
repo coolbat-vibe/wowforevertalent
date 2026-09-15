@@ -16,10 +16,10 @@
   gap: var(--space-2, 8px);
   min-height: var(--touch-target, 44px);
   padding: 4px 12px 4px 4px;
-  background: linear-gradient(180deg, #202936, #141a22);
-  border: 1px solid var(--color-border, #2b3646);
+  background: linear-gradient(180deg, #262626, #1c1c1c);
+  border: 1px solid var(--color-border, #3a3a3a);
   border-radius: var(--radius, 8px);
-  color: var(--color-text, #e8edf2);
+  color: var(--color-text, #e8e8e8);
   font-size: 14px;
   transition:
     border-color 120ms ease,
@@ -49,12 +49,12 @@
 }
 
 .loading {
-  color: var(--color-text-dim, #adb8c5);
+  color: var(--color-text-dim, #bdbdbd);
   margin: 0;
 }
 
 .loadError {
-  color: var(--color-danger, #d76a6a);
+  color: var(--color-danger, #ff4d4d);
   margin: 0;
 }
 
