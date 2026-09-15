@@ -3,24 +3,33 @@
  * header (tree icon, name, spent points, per-tree reset), an SVG layer of
  * prerequisite arrows, and the 7x4 grid of focusable icon node buttons.
  *
+ * Visual language follows the reference calculator at talentsforever.com:
+ * learnable nodes get a green rim and green rank counter, maxed nodes a
+ * gold rim and gold counter, hover lifts the icon with a soft white glow
+ * (no persistent selection rim), and the point that maxes a talent fires
+ * a scale-and-glow flash. Desktop hover shows a floating game tooltip;
+ * mobile keeps the bottom detail panel.
+ *
  * Arrow geometry depends on fixed grid metrics, so --node-size/--node-gap
  * in calculator.module.css must stay in sync with NODE_SIZE/GRID_GAP here.
  */
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   Build,
   NodeAvailability,
   TalentNode,
   TalentTree,
 } from '@domain/talents/types';
-import { initials } from './messages';
+import { evidenceLabel, initials, UNKNOWN_RANK_TEXT } from './messages';
 import { treeIconUrl } from './treeIcons';
 import { IconImg } from './IconImg';
+import { useMediaQuery } from './useMediaQuery';
 import styles from './calculator.module.css';
 
 // Keep in sync with --node-size / --node-gap in calculator.module.css.
 const NODE_SIZE = 44;
 const GRID_GAP = 8;
+const FLASH_MS = 600;
 
 export interface TreePanelProps {
   tree: TalentTree;
@@ -108,6 +117,17 @@ interface PrereqLink {
   met: boolean;
 }
 
+interface HoverTip {
+  node: TalentNode;
+  rank: number;
+  state: NodeVisualState;
+  top: number;
+  left: number;
+}
+
+const TIP_WIDTH = 320;
+const TIP_GAP = 10;
+
 export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
   const {
     tree,
@@ -125,6 +145,62 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
     onResetTree,
     nodeRefs,
   } = props;
+
+  const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)');
+  const [hoverTip, setHoverTip] = useState<HoverTip | null>(null);
+  const [flashIds, setFlashIds] = useState<ReadonlySet<string>>(new Set());
+  const prevRanksRef = useRef<Map<string, number>>(new Map());
+  const flashTimerRef = useRef<number | null>(null);
+
+  // Flash the node that just reached its maximum rank.
+  useEffect(() => {
+    const prev = prevRanksRef.current;
+    const justMaxed: string[] = [];
+    for (const node of nodes) {
+      const rank = build.allocation[node.talentId] ?? 0;
+      const before = prev.get(node.talentId) ?? 0;
+      if (rank === node.maxRank && before < node.maxRank && rank > before) {
+        justMaxed.push(node.talentId);
+      }
+      prev.set(node.talentId, rank);
+    }
+    // Drop ids that left this tree's node set.
+    for (const id of [...prev.keys()]) {
+      if (!nodes.some((n) => n.talentId === id)) prev.delete(id);
+    }
+    if (justMaxed.length > 0) {
+      setFlashIds(new Set(justMaxed));
+      if (flashTimerRef.current !== null) window.clearTimeout(flashTimerRef.current);
+      flashTimerRef.current = window.setTimeout(() => setFlashIds(new Set()), FLASH_MS);
+    }
+  }, [build.allocation, nodes]);
+
+  useEffect(
+    () => () => {
+      if (flashTimerRef.current !== null) window.clearTimeout(flashTimerRef.current);
+    },
+    [],
+  );
+
+  const showTip = useCallback(
+    (node: TalentNode, rank: number, state: NodeVisualState) => {
+      if (!finePointer) return;
+      const el = nodeRefs.current.get(node.talentId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const fitsRight = rect.right + TIP_GAP + TIP_WIDTH <= window.innerWidth - 8;
+      const left = fitsRight
+        ? rect.right + TIP_GAP
+        : Math.max(8, rect.left - TIP_GAP - TIP_WIDTH);
+      const top = Math.min(
+        Math.max(8, rect.top - 8),
+        Math.max(8, window.innerHeight - 220),
+      );
+      setHoverTip({ node, rank, state, top, left });
+    },
+    [finePointer, nodeRefs],
+  );
+  const hideTip = useCallback(() => setHoverTip(null), []);
 
   const moveFocus = useCallback(
     (node: TalentNode, dRow: number, dCol: number) => {
@@ -236,7 +312,6 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
             if (!avail) return null;
             const state = nodeVisualState(node, rank, avail);
             const unknown = hasUnknownEffect(node, rank);
-            const selected = selectedId === node.talentId;
             return (
               <button
                 key={node.talentId}
@@ -245,7 +320,7 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
                   if (el) nodeRefs.current.set(node.talentId, el);
                   else nodeRefs.current.delete(node.talentId);
                 }}
-                className={`${styles.node} ${styles[`r${node.row}`]} ${styles[`c${node.column}`]} ${styles[state]} ${selected ? styles.nodeSelected : ''}`}
+                className={`${styles.node} ${styles[`r${node.row}`]} ${styles[`c${node.column}`]} ${styles[state]} ${flashIds.has(node.talentId) ? styles.flashing : ''}`}
                 aria-disabled={readOnly || (rank === 0 && !avail.canAdd) || undefined}
                 aria-label={`${node.name}, rank ${rank} of ${node.maxRank}, ${STATE_ARIA[state]}`}
                 onClick={(e) => {
@@ -261,6 +336,8 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
                   if (!readOnly && !isMobile) onRemove(node.talentId);
                 }}
                 onFocus={() => onSelect(node.talentId)}
+                onMouseEnter={() => showTip(node, rank, state)}
+                onMouseLeave={hideTip}
                 onKeyDown={(e) => {
                   if (e.key === '+' || e.key === '=') {
                     e.preventDefault();
@@ -280,6 +357,8 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
                   } else if (e.key === 'ArrowRight') {
                     e.preventDefault();
                     moveFocus(node, 0, 1);
+                  } else if (e.key === 'Escape') {
+                    hideTip();
                   }
                 }}
               >
@@ -305,6 +384,61 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
           })}
         </div>
       </div>
+      {hoverTip ? (
+        <div
+          className={styles.tooltip}
+          role="tooltip"
+          style={{ top: hoverTip.top, left: hoverTip.left, width: TIP_WIDTH }}
+          data-testid="node-tooltip"
+        >
+          <p className={styles.tipName}>{hoverTip.node.name}</p>
+          <p className={styles.tipRank}>
+            Rank {hoverTip.rank}/{hoverTip.node.maxRank}
+            {hoverTip.node.passive ? ' · Passive' : ''}
+            {hoverTip.node.cost ? ` · ${hoverTip.node.cost}` : ''}
+          </p>
+          {hoverTip.state === 'locked' ? (
+            <p className={styles.tipUnmet}>
+              {hoverTip.node.requiredEarlierPoints > 0
+                ? `Requires ${hoverTip.node.requiredEarlierPoints} points in ${tree.name} talents`
+                : null}
+              {hoverTip.node.prerequisites.length > 0
+                ? `${hoverTip.node.requiredEarlierPoints > 0 ? ' · ' : ''}Requires ${hoverTip.node.prerequisites
+                    .map(
+                      (p) =>
+                        nodes.find((n) => n.talentId === p.talentId)?.name ?? p.talentId,
+                    )
+                    .join(', ')}`
+                : null}
+            </p>
+          ) : null}
+          {hoverTip.node.requirementText ? (
+            <p className={styles.tipUnmet}>{hoverTip.node.requirementText}</p>
+          ) : null}
+          {hoverTip.rank > 0 ? (
+            <p className={styles.tipEffect}>
+              {hoverTip.node.rankEffects.find((r) => r.rank === hoverTip.rank)?.text ??
+                UNKNOWN_RANK_TEXT}
+            </p>
+          ) : null}
+          {hoverTip.rank < hoverTip.node.maxRank ? (
+            <p className={styles.tipEffect}>
+              <span className={styles.tipNext}>
+                {hoverTip.rank > 0 ? 'Next rank: ' : ''}
+              </span>
+              {hoverTip.node.rankEffects.find((r) => r.rank === hoverTip.rank + 1)?.text ??
+                UNKNOWN_RANK_TEXT}
+            </p>
+          ) : null}
+          <p className={styles.tipMeta}>
+            {evidenceLabel(
+              hoverTip.node.rankEffects.find(
+                (r) => r.rank === Math.min(hoverTip.rank + 1, hoverTip.node.maxRank),
+              )?.evidenceStatus,
+            )}
+          </p>
+        </div>
+      ) : null}
     </section>
   );
 });

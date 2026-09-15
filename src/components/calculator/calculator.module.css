@@ -410,24 +410,28 @@
 .c2 { grid-column: 3; }
 .c3 { grid-column: 4; }
 
-/* ---------- talent node ---------- */
+/* ---------- talent node (reference-style: black core + 2px state rim) ---------- */
 
 .node {
   position: relative;
   width: var(--node-size);
   height: var(--node-size);
   padding: 0;
-  background: #0a0e13;
-  border: 2px solid #42513f; /* available: muted gray-green rim */
-  border-radius: 4px;
+  background: #000;
+  border: none;
+  border-radius: 5px;
   touch-action: manipulation;
+  /* default (not learnable right now): neutral gray rim */
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #6b6b6b;
 }
 
 .nodeImg {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 2px;
+  border-radius: 5px;
   pointer-events: none;
 }
 
@@ -437,50 +441,65 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  border-radius: 5px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--color-text-dim);
+  background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
   pointer-events: none;
 }
 
-/* classic yellow rank counter with dark outline */
+/* rank counter pill anchored to the node's bottom-right corner */
 .rankBadge {
   position: absolute;
-  right: 1px;
-  bottom: 0;
+  right: -8px;
+  bottom: -8px;
+  min-width: 26px;
+  height: 17px;
+  line-height: 17px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: #000;
+  border: 1px solid #444;
+  color: #aaa;
   font-size: 11px;
   font-weight: 700;
-  line-height: 1.2;
-  color: #ffd100;
-  text-shadow:
-    1px 1px 1px #000,
-    0 0 3px #000;
+  text-align: center;
   pointer-events: none;
 }
 
-/* partially learned: green rim (classic learnable highlight) */
+/* learnable (rank 0 or partially learned): green rim + green counter */
+.available,
 .partial {
-  border-color: #57a83c;
-  border-style: solid;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #4fbf3a;
 }
 
-/* maxed: double gold rim + soft glow, gold counter */
+.available .rankBadge,
+.partial .rankBadge {
+  color: #1eff00;
+  border-color: #2a5a1a;
+}
+
+/* maxed: gold rim + gold counter */
 .maxed {
-  border-color: var(--color-accent);
-  border-style: double;
-  border-width: 4px;
-  box-shadow: 0 0 8px rgb(215 180 106 / 0.35);
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #ffd100;
 }
 
 .maxed .rankBadge {
-  color: var(--color-accent);
+  color: #ffd100;
+  border-color: #6a5510;
 }
 
-/* locked: dashed dark rim + desaturated dimmed icon + gray counter */
+/* locked: dark rim + desaturated dimmed icon + gray counter */
 .locked {
-  border-color: #232a33;
-  border-style: dashed;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #3a3f46;
 }
 
 .locked .nodeImg,
@@ -492,12 +511,7 @@
   color: #7a828e;
 }
 
-/* out of points: dotted rim + faded icon */
-.nobudget {
-  border-color: #4a4436;
-  border-style: dotted;
-}
-
+/* out of points at this level: faded, quiet counter */
 .nobudget .nodeImg,
 .nobudget .nodeIcon {
   opacity: 0.4;
@@ -507,28 +521,35 @@
   color: #7a828e;
 }
 
-.nodeSelected {
-  outline: 2px solid var(--color-accent);
+/* hover: soft white rim + slight icon brighten (no selection rim) */
+.node:hover .nodeImg,
+.node:hover .nodeIcon {
+  filter: brightness(1.15);
+}
+
+.locked:hover .nodeImg,
+.locked:hover .nodeIcon {
+  filter: grayscale(1) brightness(0.75);
+}
+
+.node:hover {
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 2px #fff;
+}
+
+/* keyboard focus keeps a visible outline (accessibility) */
+.node:focus-visible {
+  outline: 2px solid #ffd100;
   outline-offset: 2px;
 }
 
-/* hover/focus gold glow (motion-safe transitions only) */
-.node:hover,
-.node:focus-visible {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 8px rgb(215 180 106 / 0.55);
-}
-
-.maxed:hover,
-.maxed:focus-visible {
-  box-shadow: 0 0 10px rgb(215 180 106 / 0.7);
-}
-
+/* the point that maxes a talent: ring flash + icon scale/glow + counter bump */
 @media (prefers-reduced-motion: no-preference) {
   .node {
     transition:
-      border-color 120ms ease,
-      box-shadow 120ms ease;
+      box-shadow 120ms ease,
+      filter 120ms ease;
   }
 
   .nodeImg,
@@ -537,12 +558,64 @@
       filter 120ms ease,
       opacity 120ms ease;
   }
+
+  .flashing {
+    animation: nodeFlash 0.55s ease-out;
+  }
+
+  .flashing .nodeImg,
+  .flashing .nodeIcon {
+    animation: iconPulse 0.45s ease-out;
+  }
+
+  .flashing .rankBadge {
+    animation: rankBump 0.35s ease-out;
+  }
+}
+
+@keyframes nodeFlash {
+  0% {
+    box-shadow:
+      0 0 0 1px #000,
+      0 0 0 2px #ffd100,
+      0 0 0 6px rgb(255 209 0 / 0.5),
+      0 0 22px rgb(255 209 0 / 0.9);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px #000,
+      0 0 0 2px #ffd100;
+  }
+}
+
+@keyframes iconPulse {
+  0% {
+    transform: scale(0.7);
+    filter: brightness(2);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes rankBump {
+  0% {
+    transform: scale(1.35);
+    color: #fff;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .unknownBadge {
   position: absolute;
   top: -7px;
-  right: -7px;
+  left: -7px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -554,6 +627,59 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+/* ---------- floating game tooltip (desktop hover) ---------- */
+
+.tooltip {
+  position: fixed;
+  z-index: 60;
+  padding: 10px 12px;
+  background: rgb(14 14 16 / 0.96);
+  border: 1px solid #5a4a1e;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+}
+
+.tooltip p {
+  margin: 0;
+}
+
+.tipName {
+  color: #ffd100;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.tipRank {
+  color: var(--color-text-dim);
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.tipUnmet {
+  color: #ff5a4a;
+  font-size: 12.5px;
+  margin-top: 6px;
+}
+
+.tipEffect {
+  color: var(--color-text);
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+
+.tipNext {
+  color: #1eff00;
+  font-size: 12px;
+}
+
+.tipMeta {
+  color: var(--color-unknown);
+  font-size: 11px;
+  margin-top: 8px;
 }
 
 /* ---------- detail panel ---------- */
