@@ -1,0 +1,221 @@
+---
+import '../styles/global.css';
+import '../styles/site.css';
+import { loadAllSnapshots } from '@data/loadSnapshot';
+
+export interface Breadcrumb {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogType?: string;
+  noindex?: boolean;
+  lang?: string;
+  breadcrumbs?: Breadcrumb[];
+  classColor?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = 'website',
+  noindex = false,
+  lang = 'en',
+  breadcrumbs,
+  classColor,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://wowforevertalentcalculator.com');
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).href;
+const ogImage = new URL('/og-cover.svg', site).href;
+const isHome = Astro.url.pathname === '/';
+
+const navClasses = loadAllSnapshots().map((s) => ({
+  classId: s.classDef.classId,
+  name: s.classDef.name,
+  color: s.classDef.color,
+}));
+
+const jsonLd: Record<string, unknown>[] = [];
+
+if (isHome) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'WoW Forever Talent Calculator',
+    url: new URL('/', site).href,
+    description,
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+  });
+}
+
+if (breadcrumbs && breadcrumbs.length > 0) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.url, site).href,
+    })),
+  });
+}
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#101419" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="WoW Forever Talent Calculator" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {
+      jsonLd.map((data) => (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(data)}
+        />
+      ))
+    }
+  </head>
+  <body>
+    <div
+      class="site-shell"
+      style={classColor ? `--page-class-color: ${classColor};` : undefined}
+    >
+      <a class="skip-link" href="#main">Skip to content</a>
+
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="site-brand" href="/">
+            WoW Forever <span>Talent Calculator</span>
+          </a>
+          <input
+            type="checkbox"
+            id="nav-toggle"
+            class="nav-toggle visually-hidden"
+            aria-label="Toggle navigation menu"
+          />
+          <label for="nav-toggle" class="nav-toggle-label">
+            <svg
+              aria-hidden="true"
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="19" y2="6"></line>
+              <line x1="3" y1="11" x2="19" y2="11"></line>
+              <line x1="3" y1="16" x2="19" y2="16"></line>
+            </svg>
+          </label>
+          <nav class="site-nav" aria-label="Primary">
+            <a href="/">Calculator</a>
+            <details class="nav-group">
+              <summary>Classes</summary>
+              <div class="nav-group-menu">
+                {
+                  navClasses.map((c) => (
+                    <a
+                      href={`/talent-calculator/${c.classId}/`}
+                      style={`--card-class-color: ${c.color};`}
+                    >
+                      {c.name}
+                    </a>
+                  ))
+                }
+              </div>
+            </details>
+            <a href="/changes/">Changes</a>
+            <a href="/sources/">Sources</a>
+            <a href="/about/">About</a>
+            <a href="/my-builds/">My Builds</a>
+            <a href="/compare/">Compare</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main" class="container">
+        {
+          breadcrumbs && breadcrumbs.length > 0 && (
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <ol>
+                {breadcrumbs.map((crumb, index) => (
+                  <li>
+                    {index === breadcrumbs.length - 1 ? (
+                      <span aria-current="page">{crumb.name}</span>
+                    ) : (
+                      <a href={crumb.url}>{crumb.name}</a>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div class="container">
+          <p>
+            Independent fan-made tool. Not affiliated with or endorsed by
+            Blizzard Entertainment.
+          </p>
+          <p>
+            Talent data from{' '}
+            <a href="https://talentsforever.com/" rel="external"
+              >talentsforever.com</a
+            >{' '}
+            (
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              rel="external">CC BY 4.0</a
+            >
+            ).
+          </p>
+          <nav class="footer-nav" aria-label="Footer">
+            <a href="/sources/">Sources</a>
+            <a href="/about/">About</a>
+            <a href="/privacy/">Privacy</a>
+            <a href="/changes/">Changes</a>
+            <a href="/compare/">Compare</a>
+            <a href="/my-builds/">My Builds</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

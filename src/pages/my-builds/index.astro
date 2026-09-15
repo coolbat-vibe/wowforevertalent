@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MyBuildsApp from '@features/builds/MyBuildsApp';
+import { loadManifest } from '@data/loadSnapshot';
+
+const manifest = loadManifest();
+---
+
+<BaseLayout
+  title="My Builds — WoW Forever Talent Calculator"
+  description="Your saved WoW Forever talent builds: rename, reload, duplicate, or delete setups stored in your browser, and open any of them in the calculator or the compare tool."
+  noindex={true}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'My Builds', url: '/my-builds/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>My Builds</h1>
+    <p class="lede">
+      Builds you save in the calculator are stored in this browser only —
+      nothing is uploaded, and there is no account. From here you can rename,
+      reload, or delete a setup, or send two of them to the
+      {' '}<a href="/compare/">compare tool</a>.
+    </p>
+  </section>
+
+  <MyBuildsApp client:load manifest={manifest} />
+  <noscript>
+    <p class="noscript-note">
+      Saved builds need JavaScript and local storage. Talent listings are
+      readable without them on the
+      {' '}<a href="/talents/">talent reference pages</a>.
+    </p>
+  </noscript>
+</BaseLayout>

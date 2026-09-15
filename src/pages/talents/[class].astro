@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CLASS_ORDER, loadClassSnapshot, loadManifest } from '@data/loadSnapshot';
+import {
+  CLASSIC_STATUS_LABELS,
+  EVIDENCE_BADGE,
+  formatDate,
+  joinNames,
+  rankCoverage,
+  stageLabel,
+  treeTalents,
+} from '@data/derive';
+import type { TalentNode } from '@domain/talents/types';
+
+export function getStaticPaths() {
+  return CLASS_ORDER.map((classId) => ({ params: { class: classId } }));
+}
+
+const classId = Astro.params.class;
+if (!classId) throw new Error('Missing class route param');
+
+const manifest = loadManifest();
+const snapshot = loadClassSnapshot(classId);
+const cls = snapshot.classDef;
+
+const byId = new Map(snapshot.talents.map((t) => [t.talentId, t]));
+const treeNames = snapshot.trees.map((t) => t.name);
+const coverage = rankCoverage(snapshot);
+const stage = stageLabel(manifest.stage);
+const published = formatDate(manifest.publishedAt);
+
+const title = `WoW Forever ${cls.name} Talents — ${treeNames.join(', ')} Reference`;
+const description = `Complete WoW Forever ${cls.name} talent reference: every ${joinNames(treeNames)} talent with rank text, row position, source status, and Classic comparison from snapshot ${manifest.snapshotId}.`;
+
+function classicLine(talent: TalentNode): string | null {
+  const c = talent.classic;
+  if (!c) return null;
+  const parts: string[] = [];
+  if (c.tree) parts.push(c.tree);
+  if (c.row !== null) parts.push(`row ${c.row + 1}`);
+  return parts.length > 0 ? `Classic: ${parts.join(', ')}` : null;
+}
+
+function prereqLine(talent: TalentNode): string | null {
+  if (talent.prerequisites.length === 0) return null;
+  const names = talent.prerequisites.map((p) => {
+    const target = byId.get(p.talentId);
+    return `${target?.name ?? p.talentId} (rank ${p.requiredRank})`;
+  });
+  return `Requires ${names.join(', ')}`;
+}
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  classColor={cls.color}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Talent Reference', url: '/talents/' },
+    { name: cls.name, url: `/talents/${cls.classId}/` },
+  ]}
+>
+  <section class="page-head">
+    <h1>WoW Forever {cls.name} Talents</h1>
+    <p class="lede">
+      Every {cls.name} talent in the current snapshot — rank text, grid
+      position, source status, and Classic comparison. Rank text coverage:
+      {' '}{coverage.withText} of {coverage.total} ranks; ranks without
+      confirmed text are marked explicitly.
+    </p>
+    <p>
+      <span class="stage-badge">
+        {stage} data · generated {published} · {manifest.snapshotId}
+      </span>
+    </p>
+    <p>
+      <a href={`/talent-calculator/${cls.classId}/`}>
+        Open the interactive {cls.name} talent calculator →
+      </a>
+    </p>
+  </section>
+
+  {
+    snapshot.trees.map((tree) => (
+      <section class="page-section" aria-labelledby={`tree-${tree.treeId}`}>
+        <h2 id={`tree-${tree.treeId}`}>{tree.name}</h2>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Talent</th>
+                <th scope="col">Position</th>
+                <th scope="col">Ranks &amp; source status</th>
+                <th scope="col">Classic comparison</th>
+              </tr>
+            </thead>
+            <tbody>
+              {treeTalents(snapshot, tree).map((talent) => (
+                <tr>
+                  <td>
+                    <strong>{talent.name}</strong>
+                    <div class="talent-meta">
+                      {[
+                        talent.passive ? 'Passive' : null,
+                        talent.cost,
+                        prereqLine(talent),
+                        talent.requirementText,
+                        talent.note,
+                      ]
+                        .filter((line) => line !== null)
+                        .join(' · ')}
+                      &nbsp;
+                    </div>
+                  </td>
+                  <td>
+                    Row {talent.row + 1}
+                    <div class="talent-meta">Max rank {talent.maxRank}</div>
+                  </td>
+                  <td>
+                    <ol class="rank-list">
+                      {talent.rankEffects.map((rank) => (
+                        <li>
+                          Rank {rank.rank}/{talent.maxRank} —{' '}
+                          {rank.text ??
+                            'Effect at this rank is not yet confirmed.'}{' '}
+                          <span class={`badge badge-${rank.evidenceStatus}`}>
+                            {EVIDENCE_BADGE[rank.evidenceStatus]}
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                  </td>
+                  <td>
+                    {talent.classic ? (
+                      <>
+                        <span class={`chip chip-${talent.classic.status}`}>
+                          {CLASSIC_STATUS_LABELS[talent.classic.status]}
+                        </span>
+                        {classicLine(talent) && (
+                          <div class="talent-meta">{classicLine(talent)}</div>
+                        )}
+                        {talent.classic.text && (
+                          <div class="talent-meta">
+                            “{talent.classic.text}”
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <span class="chip">No Classic record</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {tree.removedClassic.length > 0 && (
+          <>
+            <h3>Removed from Classic {tree.name}</h3>
+            <ul>
+              {tree.removedClassic.map((r) => (
+                <li>
+                  <strong>{r.name}</strong>
+                  {r.row !== null && <span> (was row {r.row + 1})</span>}
+                  {r.text && <span> — {r.text}</span>}
+                  {r.note && <span class="talent-meta"> {r.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
+    ))
+  }
+
+  <section class="page-section prose">
+    <h2>About this data</h2>
+    <p>
+      Source statuses are defined on the <a href="/sources/">Sources</a> page,
+      which also lists the dataset, license, and coverage for snapshot
+      {' '}<code>{manifest.snapshotId}</code>. Change statistics for all nine
+      classes are on the <a href="/changes/">Changes</a> page.
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wowforevertalentcalculator.com/sitemap-index.xml

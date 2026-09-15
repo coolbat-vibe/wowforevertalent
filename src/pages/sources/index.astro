@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadManifest } from '@data/loadSnapshot';
+import { EVIDENCE_DEFINITIONS, formatDate, stageLabel } from '@data/derive';
+
+const manifest = loadManifest();
+const cov = manifest.coverage;
+const stage = stageLabel(manifest.stage);
+const published = formatDate(manifest.publishedAt);
+const textPct = ((cov.ranksWithText / cov.ranksTotal) * 100).toFixed(1);
+---
+
+<BaseLayout
+  title="Talent Data & Sources — WoW Forever Talent Calculator"
+  description="Where this site's WoW Forever talent data comes from: source records, CC BY 4.0 attribution, coverage summary, evidence-status definitions, and the immutable snapshot policy."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Sources', url: '/sources/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Data &amp; Sources</h1>
+    <p class="lede">
+      Every number on this site traces back to a recorded source and a
+      published snapshot. This page lists the sources, what the current
+      snapshot covers, how each evidence status is defined, and how updates
+      are handled.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="snapshot">
+    <h2 id="snapshot">Current Snapshot</h2>
+    <dl class="def-list">
+      <dt>Snapshot ID</dt>
+      <dd><code>{manifest.snapshotId}</code></dd>
+      <dt>Stage</dt>
+      <dd>{stage}</dd>
+      <dt>Published</dt>
+      <dd>{published}</dd>
+      <dt>Ruleset</dt>
+      <dd>
+        <code>{manifest.rulesetId}</code> — levels {manifest.ruleset.minLevel}–
+        {manifest.ruleset.maxLevel}, {manifest.ruleset.maxBudget} points at
+        level {manifest.ruleset.maxLevel}, first point at level
+        {' '}{manifest.ruleset.pointsStartLevel}
+      </dd>
+      <dt>Game build</dt>
+      <dd>{manifest.gameBuild ?? 'Not recorded for this snapshot'}</dd>
+      <dt>Schema version</dt>
+      <dd>{manifest.schemaVersion}</dd>
+    </dl>
+  </section>
+
+  <section class="page-section" aria-labelledby="sources">
+    <h2 id="sources">Source Records</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Recorded</th>
+            <th scope="col">License</th>
+            <th scope="col">Review</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            manifest.sources.map((s) => (
+              <tr>
+                <td>
+                  <a href={s.url} rel="external">
+                    {s.url}
+                  </a>
+                </td>
+                <td>{s.publisher}</td>
+                <td>{formatDate(s.recordedAt)}</td>
+                <td>{s.license ?? 'Not specified'}</td>
+                <td>{s.reviewStatus}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="prose">
+      Attribution: talent data from
+      {' '}<a href="https://talentsforever.com/" rel="external">talentsforever.com</a>,
+      used under the
+      {' '}<a href="https://creativecommons.org/licenses/by/4.0/" rel="external">
+        Creative Commons Attribution 4.0 International license (CC BY 4.0)
+      </a>. Structure, prerequisites, and rank texts may be reformatted and
+      annotated by this site; evidence statuses mark where that annotation is
+      an estimate rather than a verified fact.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="coverage">
+    <h2 id="coverage">Coverage Summary</h2>
+    <dl class="def-list">
+      <dt>Structure review</dt>
+      <dd>
+        {
+          cov.structureReviewed
+            ? 'Completed — tree layouts, max ranks, prerequisites, and budgets reviewed for all 9 classes'
+            : 'Not completed'
+        }
+      </dd>
+      <dt>Talents</dt>
+      <dd>{cov.talentCount}</dd>
+      <dt>Rank text coverage</dt>
+      <dd>
+        {cov.ranksWithText} of {cov.ranksTotal} ranks have effect text ({
+          textPct
+        }%)
+      </dd>
+      <dt>Community recorded</dt>
+      <dd>{cov.ranksCommunityRecorded} ranks</dd>
+      <dt>Source estimate</dt>
+      <dd>{cov.ranksSourceEstimate} ranks</dd>
+      <dt>Unknown</dt>
+      <dd>{cov.ranksUnknown} ranks (no effect text available)</dd>
+      <dt>Prerequisites</dt>
+      <dd>{cov.prerequisitesResolved} of {cov.prerequisitesTotal} resolved</dd>
+    </dl>
+    <p class="prose">
+      <strong>
+        Having text is not the same as being verified.
+      </strong>{' '}
+      Most rank texts in this snapshot are source estimates, and a large share
+      of ranks have no confirmed text at all. Accuracy claims belong to the
+      per-rank evidence status below, not to the coverage totals.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="evidence">
+    <h2 id="evidence">Evidence Status Definitions</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            EVIDENCE_DEFINITIONS.map((d) => (
+              <tr>
+                <td>
+                  <span class={`badge badge-${d.status}`}>{d.label}</span>
+                </td>
+                <td>{d.definition}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="prose">
+      Statuses are stored per rank, not per page or per class: an official
+      announcement about one {stage.toLowerCase()} change does not upgrade the
+      evidence status of every rank description on that talent.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="policy">
+    <h2 id="policy">Snapshot &amp; Update Policy</h2>
+    <p>
+      Published snapshots are <strong>immutable</strong>. Class data files
+      live under content-hashed paths, and the manifest maps each file hash to
+      a snapshot ID. When the data is updated, a new snapshot is published
+      alongside the old one — old files are never overwritten.
+    </p>
+    <p>
+      Share links record the snapshot they were created with, so a link built
+      on <code>{manifest.snapshotId}</code> will keep restoring that exact
+      version even after the calculator defaults to newer data. Each update is
+      announced with what changed, which classes are affected, and what
+      remains unknown.
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#101419"/>
+  <rect x="40" y="40" width="1120" height="550" rx="16" fill="#192029" stroke="#2b3646" stroke-width="2"/>
+  <text x="600" y="285" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="bold" fill="#E8EDF2">WoW Forever <tspan fill="#D7B46A">Talent Calculator</tspan></text>
+  <text x="600" y="355" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="30" fill="#ADB8C5">Build, compare &amp; share talents for all 9 classes</text>
+  <g>
+    <circle cx="420" cy="440" r="10" fill="#C79C6E"/>
+    <circle cx="465" cy="440" r="10" fill="#F58CBA"/>
+    <circle cx="510" cy="440" r="10" fill="#ABD473"/>
+    <circle cx="555" cy="440" r="10" fill="#FFF569"/>
+    <circle cx="600" cy="440" r="10" fill="#FFFFFF"/>
+    <circle cx="645" cy="440" r="10" fill="#0070DE"/>
+    <circle cx="690" cy="440" r="10" fill="#69CCF0"/>
+    <circle cx="735" cy="440" r="10" fill="#9482C9"/>
+    <circle cx="780" cy="440" r="10" fill="#FF7D0A"/>
+  </g>
+  <text x="600" y="520" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="22" fill="#ADB8C5">wowforevertalentcalculator.com</text>
+</svg>

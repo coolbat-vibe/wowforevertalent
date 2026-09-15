@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy — WoW Forever Talent Calculator"
+  description="Privacy notes for this site: builds are stored in your browser's local storage, share links contain no personal fields, there are no accounts, and no third-party analytics are currently enabled."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Privacy', url: '/privacy/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Privacy</h1>
+    <p class="lede">
+      This site is a static tool with no accounts and no server-side storage
+      of your builds. This page explains exactly what is stored, where, and
+      what a share link contains.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="local-storage">
+    <h2 id="local-storage">Local storage</h2>
+    <p>
+      Saved builds and your current draft are kept in your browser's
+      <code>localStorage</code> on your own device. They are never uploaded.
+      Clearing your browser data or switching devices removes them; the site
+      has no way to recover them for you. If storage is unavailable (private
+      modes, disabled storage), you can still build and copy a share link.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="share-links">
+    <h2 id="share-links">What share links contain</h2>
+    <p>
+      A share link encodes only the build itself: class, level, point
+      allocation, ruleset, and the data snapshot ID. It contains no name,
+      email, account identifier, or any other personal field. Anyone you send
+      the link to sees exactly the talent setup and nothing about you.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="accounts">
+    <h2 id="accounts">Accounts</h2>
+    <p>
+      There is no sign-up, no login, and no user database.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="analytics">
+    <h2 id="analytics">Analytics</h2>
+    <p>
+      Third-party analytics are <strong>not currently enabled</strong> on this
+      site. If aggregated, session-level usage measurement is introduced later
+      (for example, anonymous page-view counts to see which class pages need
+      work), this page will be updated before it goes live. No advertising
+      trackers are used.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="cookies">
+    <h2 id="cookies">Cookies</h2>
+    <p>
+      The site itself does not set tracking cookies. It is served as static
+      files; the hosting provider may process standard connection logs
+      (IP address, user agent) for security and delivery purposes under its
+      own policies.
+    </p>
+  </section>
+
+  <section class="page-section prose">
+    <p>
+      Questions about this policy? See the contact details on the
+      {' '}<a href="/about/">About</a> page.
+    </p>
+  </section>
+</BaseLayout>

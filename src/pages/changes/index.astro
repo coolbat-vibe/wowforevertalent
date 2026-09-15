@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
+import {
+  classChangeStats,
+  formatDate,
+  removedClassicCount,
+  stageLabel,
+} from '@data/derive';
+
+const manifest = loadManifest();
+const snapshots = loadAllSnapshots();
+
+const classes = snapshots.map((s) => {
+  const stats = classChangeStats(s);
+  const removed = s.trees.flatMap((tree) =>
+    tree.removedClassic.map((r) => ({ name: r.name, treeName: tree.name })),
+  );
+  return {
+    classId: s.classDef.classId,
+    name: s.classDef.name,
+    color: s.classDef.color,
+    talentCount: s.talents.length,
+    stats,
+    removed,
+    removedCount: removedClassicCount(s),
+  };
+});
+
+const totals = classes.reduce(
+  (acc, c) => {
+    acc.new += c.stats.new;
+    acc.changed += c.stats.changed;
+    acc.moved += c.stats.moved;
+    acc.unchanged += c.stats.unchanged;
+    acc.removed += c.removedCount;
+    return acc;
+  },
+  { new: 0, changed: 0, moved: 0, unchanged: 0, removed: 0 },
+);
+
+const stage = stageLabel(manifest.stage);
+const published = formatDate(manifest.publishedAt);
+---
+
+<BaseLayout
+  title="WoW Forever Talent Changes vs Classic — All 9 Classes"
+  description="Reviewed WoW Forever talent changes compared with Classic: new, changed, moved, unchanged, and removed talents for all 9 classes, with per-class detail and source status."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Changes', url: '/changes/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>WoW Forever Talent Changes</h1>
+    <p class="lede">
+      How the {stage.toLowerCase()} snapshot ({published}) differs from
+      Classic, counted per class from the reviewed dataset. Statuses compare
+      each talent with its Classic counterpart; "removed" lists Classic
+      talents that no longer appear at all.
+    </p>
+    <p>
+      <span class="stage-badge">
+        {stage} data · generated {published} · {manifest.snapshotId}
+      </span>
+    </p>
+  </section>
+
+  <section aria-label="Totals across all classes">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">{totals.new}</div>
+        <div class="stat-label">New in Forever</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{totals.changed}</div>
+        <div class="stat-label">Changed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{totals.moved}</div>
+        <div class="stat-label">Moved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{totals.unchanged}</div>
+        <div class="stat-label">Unchanged</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{totals.removed}</div>
+        <div class="stat-label">Classic talents removed</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="by-class">
+    <h2 id="by-class">Changes by Class</h2>
+    <div class="card-grid">
+      {
+        classes.map((c) => (
+          <div class="panel" style={`--page-class-color: ${c.color};`}>
+            <h3 class="class-accent">{c.name}</h3>
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="stat-num">{c.stats.new}</div>
+                <div class="stat-label">New</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">{c.stats.changed}</div>
+                <div class="stat-label">Changed</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">{c.stats.moved}</div>
+                <div class="stat-label">Moved</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">{c.stats.unchanged}</div>
+                <div class="stat-label">Unchanged</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">{c.removedCount}</div>
+                <div class="stat-label">Removed</div>
+              </div>
+            </div>
+            {c.removed.length > 0 && (
+              <p>
+                Removed from Classic: {c.removed.map((r) => r.name).join(', ')}
+                .
+              </p>
+            )}
+            <p>
+              <a href={`/talents/${c.classId}/`}>{c.name} reference</a> ·{' '}
+              <a href={`/talent-calculator/${c.classId}/`}>
+                {c.name} calculator
+              </a>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section prose">
+    <h2>How to read these numbers</h2>
+    <p>
+      Counts are computed from snapshot <code>{manifest.snapshotId}</code>,
+      not written by hand. A talent is "changed" when its text, rank count,
+      or effect differs from its Classic record, and "moved" when it changed
+      grid position. Evidence quality varies per rank — see the
+      {' '}<a href="/sources/">source status definitions</a> before quoting a
+      specific number. This is {stage.toLowerCase()}-stage data and will shift
+      as more ranks are verified.
+    </p>
+  </section>
+</BaseLayout>

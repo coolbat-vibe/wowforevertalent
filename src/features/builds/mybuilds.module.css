@@ -1,0 +1,171 @@
+/* My Builds styles — tokens from global.css */
+
+.myBuilds {
+  display: block;
+}
+
+.warningBanner {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-danger);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.statusLine {
+  margin: var(--space-2) 0;
+  color: var(--color-ok);
+}
+
+.empty {
+  color: var(--color-text-dim);
+}
+
+.buildList {
+  list-style: none;
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.buildItem {
+  padding: var(--space-3);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buildInfo {
+  flex: 1 1 260px;
+}
+
+.buildName {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.buildMeta {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+}
+
+.buildActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.renameRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.textInput {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.button {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-panel-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.buttonDanger {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-danger);
+  color: var(--color-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.importSection {
+  padding: var(--space-4);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.importSection h2 {
+  margin-top: 0;
+}
+
+.importRow {
+  margin-bottom: var(--space-3);
+}
+
+.fileLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-text-dim);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-3);
+}
+
+.textArea {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  resize: vertical;
+}
+
+.preview {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-ok);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+}
+
+.preview h3 {
+  margin-top: 0;
+}

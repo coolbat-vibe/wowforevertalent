@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TalentCalculator from '@components/calculator/TalentCalculator';
+import { CLASS_ORDER, loadClassSnapshot, loadManifest } from '@data/loadSnapshot';
+import {
+  classChangeStats,
+  formatDate,
+  joinNames,
+  rankCoverage,
+  removedClassicCount,
+  stageLabel,
+} from '@data/derive';
+
+export function getStaticPaths() {
+  return CLASS_ORDER.map((classId) => ({ params: { class: classId } }));
+}
+
+const classId = Astro.params.class;
+if (!classId) throw new Error('Missing class route param');
+
+const manifest = loadManifest();
+const snapshot = loadClassSnapshot(classId);
+const cls = snapshot.classDef;
+
+const treeNames = snapshot.trees.map((t) => t.name);
+const treeList = joinNames(treeNames);
+const stats = classChangeStats(snapshot);
+const removed = snapshot.trees.flatMap((tree) =>
+  tree.removedClassic.map((r) => ({ ...r, treeName: tree.name })),
+);
+const removedCount = removedClassicCount(snapshot);
+const coverage = rankCoverage(snapshot);
+const ruleset = manifest.ruleset;
+const stage = stageLabel(manifest.stage);
+const published = formatDate(manifest.publishedAt);
+
+const title = `WoW Forever ${cls.name} Talent Calculator — ${treeList}`;
+const description = `Plan WoW Forever ${cls.name} talents across the ${treeList} trees. ${snapshot.talents.length} talents with per-rank source notes, Classic comparison, and shareable builds — no account needed.`;
+
+const treeSummaries = snapshot.trees.map((tree) => {
+  const maxGate = Math.max(
+    0,
+    ...snapshot.talents
+      .filter((t) => t.treeId === tree.treeId)
+      .map((t) => t.requiredEarlierPoints),
+  );
+  return { tree, maxGate };
+});
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  classColor={cls.color}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Talent Calculator', url: '/talent-calculator/' },
+    { name: cls.name, url: `/talent-calculator/${cls.classId}/` },
+  ]}
+>
+  <section class="page-head">
+    <h1>WoW Forever {cls.name} Talent Calculator</h1>
+    <p class="lede">
+      Build your {cls.name} across the {treeList} trees, then save the setup
+      locally or share it with a link. All rules — point budget, row gates,
+      and prerequisites — are enforced as you click.
+    </p>
+    <p>
+      <span class="stage-badge">
+        {stage} data · generated {published} · {manifest.snapshotId}
+      </span>
+    </p>
+  </section>
+
+  <div class="calculator-mount">
+    <TalentCalculator client:load snapshot={snapshot} manifest={manifest} />
+  </div>
+  <noscript>
+    <p class="noscript-note">
+      The interactive calculator needs JavaScript. Everything below — tree
+      structure, change summary, and the full
+      <a href={`/talents/${cls.classId}/`}>{cls.name} talent reference</a> —
+      is readable without it.
+    </p>
+  </noscript>
+
+  <section class="page-section" aria-labelledby="trees">
+    <h2 id="trees">The {cls.name} Trees</h2>
+    <div class="card-grid">
+      {
+        treeSummaries.map(({ tree, maxGate }) => (
+          <div class="panel">
+            <h3>{tree.name}</h3>
+            <p>
+              {tree.talentIds.length} talents across {tree.grid.rows} rows.
+              Rows unlock in {ruleset.pointsPerRowTier}-point steps of
+              earlier-row spending within this tree — the deepest row asks for
+              {' '}{maxGate} points in earlier {tree.name} rows.
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <p>
+      <a href={`/talents/${cls.classId}/`}>
+        Full {cls.name} talent reference with rank text and source status →
+      </a>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="changes">
+    <h2 id="changes">What Changed from Classic</h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">{stats.new}</div>
+        <div class="stat-label">New in Forever</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{stats.changed}</div>
+        <div class="stat-label">Changed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{stats.moved}</div>
+        <div class="stat-label">Moved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{stats.unchanged}</div>
+        <div class="stat-label">Unchanged</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{removedCount}</div>
+        <div class="stat-label">Classic talents removed</div>
+      </div>
+    </div>
+    {
+      removed.length > 0 && (
+        <p class="prose">
+          No longer present from Classic:{' '}
+          {removed.map((r) => r.name).join(', ')}.
+        </p>
+      )
+    }
+    <p>
+      <a href="/changes/">See the change summary for all nine classes →</a>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="snapshot-note">
+    <h2 id="snapshot-note">Data &amp; Source Status</h2>
+    <p class="prose">
+      This page reflects snapshot <code>{manifest.snapshotId}</code>
+      ({stage.toLowerCase()} stage), published {published}. Tree structure for
+      {cls.name} has been reviewed; rank text is available for
+      {' '}{coverage.withText} of {coverage.total} ranks, and each rank carries
+      its own evidence status — estimates and unknowns are labeled, not
+      presented as confirmed. Details and definitions live on the
+      {' '}<a href="/sources/">Sources</a> page.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="faq">
+    <h2 id="faq">{cls.name} Talent Questions</h2>
+
+    <details class="faq-item">
+      <summary>How many talent points does a level 60 {cls.name} have?</summary>
+      <p>
+        {ruleset.maxBudget} points: the first point arrives at level
+        {' '}{ruleset.pointsStartLevel}, with one more per level through
+        {' '}{ruleset.maxLevel}.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do row requirements work?</summary>
+      <p>
+        Each row beyond the first requires points spent in earlier rows of the
+        same tree — {ruleset.pointsPerRowTier} points per row tier. Points in
+        other trees never unlock rows here, and points in the current row do
+        not count toward their own gate.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Are Legacy bonus points included in the budget?</summary>
+      <p>
+        No. The standard ruleset counts only points earned by leveling.
+        Legacy early-spend effects are not modeled in this version.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What happens to my {cls.name} share links after a data update?</summary>
+      <p>
+        They keep opening on the original snapshot. Share links record the
+        snapshot ID, and published snapshots are never overwritten, so an old
+        link always restores the build against the data it was created with.
+      </p>
+    </details>
+  </section>
+</BaseLayout>

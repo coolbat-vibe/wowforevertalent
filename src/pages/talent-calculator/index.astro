@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
+import { formatDate, joinNames, stageLabel } from '@data/derive';
+
+const manifest = loadManifest();
+const snapshots = loadAllSnapshots();
+
+const classes = snapshots.map((s) => ({
+  classId: s.classDef.classId,
+  name: s.classDef.name,
+  color: s.classDef.color,
+  trees: s.trees.map((t) => t.name),
+  talentCount: s.talents.length,
+}));
+
+const stage = stageLabel(manifest.stage);
+---
+
+<BaseLayout
+  title="Choose a Class — WoW Forever Talent Calculator"
+  description="Pick one of the 9 WoW Forever classes to open its talent calculator: three trees per class, enforced point rules, saving, sharing, and build comparison."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Talent Calculator', url: '/talent-calculator/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Choose a Class</h1>
+    <p class="lede">
+      Each class calculator loads its three trees from the current
+      {' '}{stage.toLowerCase()} snapshot ({formatDate(manifest.publishedAt)}),
+      enforces the standard point rules as you spend, and lets you save or
+      share the result.
+    </p>
+  </section>
+
+  <ul class="class-grid">
+    {
+      classes.map((c) => (
+        <li>
+          <a
+            class="class-card"
+            href={`/talent-calculator/${c.classId}/`}
+            style={`--card-class-color: ${c.color};`}
+          >
+            <span class="class-name">{c.name}</span>
+            <span class="class-trees">
+              {joinNames(c.trees)} · {c.talentCount} talents
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompareApp from '@features/compare/CompareApp';
+import { loadManifest } from '@data/loadSnapshot';
+
+const manifest = loadManifest();
+---
+
+<BaseLayout
+  title="Compare Talent Builds — WoW Forever Talent Calculator"
+  description="Compare two WoW Forever talent builds point by point: see which talents changed rank, where points moved, and how tree totals differ between two setups."
+  noindex={true}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Compare', url: '/compare/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Compare Talent Builds</h1>
+    <p class="lede">
+      Load two setups — from saved builds or share links — and see exactly
+      which talents changed rank, how many points moved, and how the tree
+      totals differ. Both builds must belong to the same class and data
+      snapshot.
+    </p>
+  </section>
+
+  <CompareApp client:load manifest={manifest} />
+  <noscript>
+    <p class="noscript-note">
+      The comparison tool needs JavaScript. Talent listings are readable
+      without it on the <a href="/talents/">talent reference pages</a>.
+    </p>
+  </noscript>
+</BaseLayout>

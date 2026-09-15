@@ -1,0 +1,101 @@
+/* Design tokens and base styles — PRD §7.7 visual direction.
+   Dark charcoal base, warm gold accent, class colors. */
+
+:root {
+  --color-bg: #101419;
+  --color-panel: #192029;
+  --color-panel-raised: #202936;
+  --color-border: #2b3646;
+  --color-text: #e8edf2;
+  --color-text-dim: #adb8c5;
+  --color-accent: #d7b46a;
+  --color-accent-dim: #a8894a;
+  --color-danger: #d76a6a;
+  --color-ok: #7fbf6a;
+  --color-unknown: #8a94a3;
+
+  --class-warrior: #c79c6e;
+  --class-paladin: #f58cba;
+  --class-hunter: #abd473;
+  --class-rogue: #fff569;
+  --class-priest: #ffffff;
+  --class-shaman: #0070de;
+  --class-mage: #69ccf0;
+  --class-warlock: #9482c9;
+  --class-druid: #ff7d0a;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius: 8px;
+  --font-ui:
+    'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --touch-target: 44px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}

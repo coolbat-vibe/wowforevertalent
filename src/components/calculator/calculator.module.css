@@ -1,0 +1,620 @@
+/* Talent calculator styles. Uses design tokens from global.css.
+   Node states differ by border style, badges, and icons — never color alone. */
+
+.calculator {
+  display: block;
+}
+
+/* ---------- banners ---------- */
+
+.warningBanner {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-danger);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  background: var(--color-panel);
+  color: var(--color-text);
+}
+
+.infoBanner {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  background: var(--color-panel);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.infoBanner p {
+  margin: 0;
+  flex: 1 1 320px;
+}
+
+.errorPanel {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-danger);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+.errorPanel h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.dataLine {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  margin: 0 0 var(--space-3);
+}
+
+/* ---------- toolbar ---------- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-3);
+}
+
+.levelLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
+}
+
+.levelInput {
+  width: 72px;
+  min-height: var(--touch-target);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.pointsRemaining {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  min-width: 72px;
+  text-align: center;
+}
+
+.minLevelNote {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+}
+
+.toolbarButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-left: auto;
+  align-items: center;
+}
+
+.saveRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.textInput {
+  flex: 1 1 200px;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.linkOutput {
+  display: block;
+  width: 100%;
+  margin: var(--space-2) 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-family: ui-monospace, monospace;
+}
+
+.statusLine {
+  margin: var(--space-1) 0;
+  color: var(--color-ok);
+  font-size: 0.9rem;
+}
+
+.errorLine {
+  margin: var(--space-1) 0;
+  color: var(--color-danger);
+  font-size: 0.9rem;
+}
+
+/* ---------- buttons ---------- */
+
+.button {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-panel-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.buttonSecondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary[aria-disabled='true'] {
+  opacity: 0.5;
+}
+
+.smallButton {
+  min-height: 32px;
+  min-width: var(--touch-target);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-panel-raised);
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+}
+
+.smallButton[aria-disabled='true'] {
+  opacity: 0.5;
+}
+
+.compareLink {
+  min-height: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+}
+
+/* ---------- mobile tree tabs ---------- */
+
+.tabs {
+  display: none;
+}
+
+.tab {
+  flex: 1;
+  min-height: var(--touch-target);
+  padding: var(--space-2);
+  background: var(--color-panel);
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 0.85rem;
+}
+
+.tabActive {
+  background: var(--color-panel-raised);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.tabPoints {
+  display: inline-block;
+  margin-left: var(--space-1);
+  padding: 0 var(--space-1);
+  min-width: 20px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* ---------- layout ---------- */
+
+.layout {
+  display: block;
+}
+
+.trees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 1280px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .trees {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin-bottom: 0;
+  }
+}
+
+/* ---------- tree panel ---------- */
+
+.treePanel {
+  flex: 1 1 300px;
+  min-width: 280px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+.treeHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.treeName {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.treeNameZh {
+  color: var(--color-text-dim);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.treePoints {
+  min-width: 28px;
+  text-align: center;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.treeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 52px;
+  gap: 8px;
+}
+
+/* grid placement classes (avoid inline styles) */
+.r0 { grid-row: 1; }
+.r1 { grid-row: 2; }
+.r2 { grid-row: 3; }
+.r3 { grid-row: 4; }
+.r4 { grid-row: 5; }
+.r5 { grid-row: 6; }
+.r6 { grid-row: 7; }
+.c0 { grid-column: 1; }
+.c1 { grid-column: 2; }
+.c2 { grid-column: 3; }
+.c3 { grid-column: 4; }
+
+/* ---------- node ---------- */
+
+.node {
+  position: relative;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-panel-raised);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  touch-action: manipulation;
+}
+
+.nodeIcon {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-text-dim);
+  pointer-events: none;
+}
+
+.rankBadge {
+  position: absolute;
+  right: -4px;
+  bottom: -7px;
+  padding: 0 3px;
+  font-size: 10px;
+  line-height: 1.4;
+  background: var(--color-bg);
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* available: default solid border */
+
+.partial {
+  border-color: var(--class-color, var(--color-accent));
+  border-style: solid;
+}
+
+.partial .rankBadge {
+  color: var(--color-text);
+  border-color: var(--class-color, var(--color-accent));
+}
+
+.partial .nodeIcon {
+  color: var(--color-text);
+}
+
+.maxed {
+  border-color: var(--color-accent);
+  border-style: solid;
+  border-width: 3px;
+}
+
+.maxed .rankBadge {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+  font-weight: 700;
+}
+
+.maxed .nodeIcon {
+  color: var(--color-accent);
+}
+
+.locked {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.nobudget {
+  border-style: dotted;
+  opacity: 0.75;
+}
+
+.nodeSelected {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.unknownBadge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-unknown);
+  color: var(--color-bg);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* CSS-only lock glyph (no image assets) */
+.lockIcon {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 6px;
+  background: var(--color-text-dim);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.lockIcon::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 1px;
+  width: 4px;
+  height: 4px;
+  border: 1.5px solid var(--color-text-dim);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+}
+
+/* ---------- detail panel ---------- */
+
+.detail {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+@media (min-width: 1280px) {
+  .detail {
+    position: sticky;
+    top: var(--space-4);
+    max-height: calc(100vh - var(--space-8));
+    overflow: auto;
+  }
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.detailHeaderButtons {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.detailTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.detailBody {
+  margin-top: var(--space-3);
+}
+
+.detailHint {
+  color: var(--color-text-dim);
+}
+
+.detailMeta {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  margin: var(--space-2) 0;
+}
+
+.pointRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-2) 0;
+}
+
+.pointButton {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: var(--color-panel-raised);
+  color: var(--color-text);
+  border: 2px solid var(--color-accent-dim);
+  border-radius: var(--radius);
+  touch-action: manipulation;
+}
+
+.pointButton[aria-disabled='true'] {
+  opacity: 0.4;
+  border-color: var(--color-border);
+}
+
+.pointValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 48px;
+  text-align: center;
+}
+
+.effectBlock {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.effectBlock h3 {
+  margin: 0 0 var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.effectBlock p {
+  margin: var(--space-1) 0;
+  font-size: 0.9rem;
+}
+
+.condList {
+  margin: var(--space-1) 0;
+  padding-left: var(--space-4);
+  font-size: 0.9rem;
+}
+
+.sourceLine {
+  color: var(--color-unknown);
+  font-size: 0.8rem;
+}
+
+.noteLine {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 767px) {
+  .calculator {
+    padding-bottom: calc(180px + env(safe-area-inset-bottom));
+  }
+
+  .tabs {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .treePanel {
+    display: none;
+    min-width: 0;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+
+  .treePanelActive {
+    display: block;
+  }
+
+  .trees {
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .detail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    border-radius: var(--radius) var(--radius) 0 0;
+    border-bottom: none;
+    max-height: 55vh;
+    overflow: auto;
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgb(0 0 0 / 0.4);
+  }
+}

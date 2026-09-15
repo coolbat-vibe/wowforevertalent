@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
+import {
+  classChangeStats,
+  formatDate,
+  joinNames,
+  removedClassicCount,
+  stageLabel,
+} from '@data/derive';
+
+const manifest = loadManifest();
+const snapshots = loadAllSnapshots();
+
+const classes = snapshots.map((s) => ({
+  classId: s.classDef.classId,
+  name: s.classDef.name,
+  color: s.classDef.color,
+  trees: s.trees.map((t) => t.name),
+  talentCount: s.talents.length,
+}));
+
+const totals = snapshots.reduce(
+  (acc, s) => {
+    const stats = classChangeStats(s);
+    acc.newTalents += stats.new;
+    acc.changed += stats.changed;
+    acc.moved += stats.moved;
+    acc.unchanged += stats.unchanged;
+    acc.removed += removedClassicCount(s);
+    return acc;
+  },
+  { newTalents: 0, changed: 0, moved: 0, unchanged: 0, removed: 0 },
+);
+
+const stage = stageLabel(manifest.stage);
+const published = formatDate(manifest.publishedAt);
+const ruleset = manifest.ruleset;
+---
+
+<BaseLayout
+  title="WoW Forever Talent Calculator — Build, Compare & Share"
+  description="Plan WoW Forever talents for all 9 classes. Compare builds, save your setups, and share talent trees with clear preview data notes."
+>
+  <section class="hero">
+    <h1>WoW Forever Talent Calculator</h1>
+    <p class="lede">
+      Plan your talents for all nine WoW Forever classes, compare two builds
+      point by point, and share exact setups with a link — free, no account,
+      no sign-up. Every rank effect carries a source-status label so you can
+      see what is confirmed and what is still unknown.
+    </p>
+    <p>
+      <span class="stage-badge">
+        {stage} data · generated {published} · {manifest.snapshotId}
+      </span>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="choose-class">
+    <h2 id="choose-class">Choose Your Class</h2>
+    <ul class="class-grid">
+      {
+        classes.map((c) => (
+          <li>
+            <a
+              class="class-card"
+              href={`/talent-calculator/${c.classId}/`}
+              style={`--card-class-color: ${c.color};`}
+            >
+              <span class="class-name">{c.name}</span>
+              <span class="class-trees">
+                {joinNames(c.trees)} · {c.talentCount} talents
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="how-it-works">
+    <h2 id="how-it-works">How the Talent Calculator Works</h2>
+    <ol class="steps">
+      <li>
+        <h3>Choose your class</h3>
+        <p>
+          Pick any of the nine classes. Each has three talent trees rendered
+          from the current data snapshot.
+        </p>
+      </li>
+      <li>
+        <h3>Spend your points</h3>
+        <p>
+          A level {ruleset.maxLevel} character has {ruleset.maxBudget} points —
+          the first at level {ruleset.pointsStartLevel}, one per level after.
+          Rows unlock every {ruleset.pointsPerRowTier} points spent in earlier
+          rows of the same tree, and prerequisites are enforced automatically.
+        </p>
+      </li>
+      <li>
+        <h3>Save or share</h3>
+        <p>
+          Builds are stored in your browser only. Copy a share link to send the
+          exact setup — class, level, points, and data snapshot included.
+        </p>
+      </li>
+      <li>
+        <h3>Compare two builds</h3>
+        <p>
+          Open <a href="/compare/">Compare</a> to diff two setups point by
+          point and see exactly where talents moved.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="page-section" aria-labelledby="talent-changes">
+    <h2 id="talent-changes">WoW Forever Talent Changes</h2>
+    <p class="prose">
+      Compared with Classic, this snapshot records
+      <strong>{totals.newTalents} new talents</strong>,
+      <strong>{totals.changed} changed</strong>, and
+      <strong>{totals.moved} moved</strong> across the nine classes, while
+      <strong>{totals.unchanged}</strong> remain unchanged and
+      <strong>{totals.removed}</strong> Classic talents no longer appear.
+      Every talent page shows its Classic counterpart and position so you can
+      check what actually happened to a specific pick.
+    </p>
+    <p><a href="/changes/">Browse the full change summary →</a></p>
+  </section>
+
+  <section class="page-section" aria-labelledby="data-updates">
+    <h2 id="talent-data">Talent Data &amp; Updates</h2>
+    <p class="prose">
+      This site is currently running <strong>{stage.toLowerCase()}-stage</strong>
+      data published on {published} (snapshot <code>{manifest.snapshotId}</code>).
+      Talent data comes from
+      <a href="https://talentsforever.com/" rel="external">talentsforever.com</a>
+      under CC BY 4.0, and each rank effect keeps its own evidence status —
+      text that exists but is not yet verified is labeled as such, never
+      presented as fact. Snapshots are immutable: when the data updates, new
+      pages point to the new snapshot while old share links keep opening the
+      version they were created with.
+    </p>
+    <p><a href="/sources/">Read the data &amp; sources policy →</a></p>
+  </section>
+
+  <section class="page-section" aria-labelledby="faq">
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="faq-item">
+      <summary>Is this an official Blizzard tool?</summary>
+      <p>
+        No. This is an independent fan-made project and is not affiliated with
+        or endorsed by Blizzard Entertainment. Whether you found us searching
+        for a WoW Forever talent calculator or a Warcraft Forever talent
+        calculator, this is a community tool built on openly licensed data.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Where does the talent data come from?</summary>
+      <p>
+        From the talentsforever.com dataset, used under its CC BY 4.0 license
+        and recorded on {published}. Each rank effect keeps a per-field
+        evidence status (official, community record, source estimate, unknown,
+        and so on), which you can inspect on every talent's reference row and
+        on the <a href="/sources/">Sources</a> page.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Do I need an account to save or share builds?</summary>
+      <p>
+        No. Saved builds live in your browser's local storage, and sharing
+        works by copying a link that encodes your setup in the URL. There is
+        no sign-up and nothing is uploaded to a server.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Do Legacy bonus talent points count toward the budget?</summary>
+      <p>
+        Not in the standard ruleset this site ships with. The budget counts
+        only points earned by leveling — {ruleset.maxBudget} points at level
+        {ruleset.maxLevel}. Legacy early-spend effects are not modeled yet;
+        if a separate profile is confirmed later, it will be added as its own
+        budget mode rather than silently changing the standard one.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What happens to my old share links when the data updates?</summary>
+      <p>
+        They keep working. Each snapshot is stored once under a content-hashed
+        path and never overwritten, and every share link records the snapshot
+        it was built against. Opening an old link restores your build on the
+        original data, even after the calculator defaults to a newer snapshot.
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is the preview data final?</summary>
+      <p>
+        No — the current snapshot is marked {stage.toLowerCase()}. Tree
+        structure has been reviewed, but many rank texts are still source
+        estimates or unknown. Ranks without confirmed text are labeled
+        "Unknown" instead of being filled with guesses.
+      </p>
+    </details>
+  </section>
+</BaseLayout>

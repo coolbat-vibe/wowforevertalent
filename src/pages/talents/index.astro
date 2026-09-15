@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
+import { joinNames, rankCoverage, stageLabel } from '@data/derive';
+
+const manifest = loadManifest();
+const snapshots = loadAllSnapshots();
+
+const classes = snapshots.map((s) => ({
+  classId: s.classDef.classId,
+  name: s.classDef.name,
+  color: s.classDef.color,
+  trees: s.trees.map((t) => t.name),
+  talentCount: s.talents.length,
+  coverage: rankCoverage(s),
+}));
+
+const stage = stageLabel(manifest.stage);
+---
+
+<BaseLayout
+  title="WoW Forever Talent Reference — All 9 Classes"
+  description="Static WoW Forever talent reference for all 9 classes: every talent's rank text, row position, source status, and Classic comparison, readable without JavaScript."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Talent Reference', url: '/talents/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Talent Reference</h1>
+    <p class="lede">
+      The complete {stage.toLowerCase()}-snapshot talent listing for all nine
+      classes — every rank's text, evidence status, and Classic comparison as
+      plain HTML, for reading, linking, and checking facts without opening the
+      calculator.
+    </p>
+  </section>
+
+  <ul class="class-grid">
+    {
+      classes.map((c) => (
+        <li>
+          <a
+            class="class-card"
+            href={`/talents/${c.classId}/`}
+            style={`--card-class-color: ${c.color};`}
+          >
+            <span class="class-name">{c.name}</span>
+            <span class="class-trees">
+              {joinNames(c.trees)} · {c.talentCount} talents · rank text{' '}
+              {c.coverage.withText}/{c.coverage.total}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
