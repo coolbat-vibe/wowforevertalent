@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 /** PRD §15.2 flow 5: mobile tree tabs, tap-to-view, explicit −/+. */
 
-const MAGE = '/talent-calculator/mage/';
+const MAGE = '/mage/';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(MAGE);

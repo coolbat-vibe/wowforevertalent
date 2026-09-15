@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
 import {
   classChangeStats,
+  classIconUrl,
   formatDate,
   joinNames,
   removedClassicCount,
@@ -16,6 +17,7 @@ const classes = snapshots.map((s) => ({
   classId: s.classDef.classId,
   name: s.classDef.name,
   color: s.classDef.color,
+  iconRef: s.classDef.iconRef,
   trees: s.trees.map((t) => t.name),
   talentCount: s.talents.length,
 }));
@@ -45,10 +47,12 @@ const ruleset = manifest.ruleset;
   <section class="hero">
     <h1>WoW Forever Talent Calculator</h1>
     <p class="lede">
-      Plan your talents for all nine WoW Forever classes, compare two builds
-      point by point, and share exact setups with a link — free, no account,
-      no sign-up. Every rank effect carries a source-status label so you can
-      see what is confirmed and what is still unknown.
+      Plan your WoW Forever talents for all 9 classes: spend all 51 talent
+      points across three trees per class, compare and share builds with a
+      link, and keep setups saved locally — free, no account. Whether you
+      searched for a WoW Forever talent calculator or a Warcraft Forever
+      talent calculator, this fan-made planner shows every rank's source
+      status so you can see what is confirmed and what is still unknown.
     </p>
     <p>
       <span class="stage-badge">
@@ -65,12 +69,22 @@ const ruleset = manifest.ruleset;
           <li>
             <a
               class="class-card"
-              href={`/talent-calculator/${c.classId}/`}
+              href={`/${c.classId}/`}
               style={`--card-class-color: ${c.color};`}
             >
-              <span class="class-name">{c.name}</span>
-              <span class="class-trees">
-                {joinNames(c.trees)} · {c.talentCount} talents
+              <img
+                class="class-icon"
+                src={classIconUrl(c.iconRef)}
+                alt=""
+                width="56"
+                height="56"
+                onerror="this.style.display='none'"
+              />
+              <span>
+                <span class="class-name">{c.name}</span>
+                <span class="class-trees">
+                  {joinNames(c.trees)} · {c.talentCount} talents
+                </span>
               </span>
             </a>
           </li>

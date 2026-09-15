@@ -559,6 +559,69 @@ table.data-table {
   background: rgba(215, 180, 106, 0.08);
 }
 
+/* ---------- Icons & class cards ---------- */
+
+.class-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border: 1px solid
+    color-mix(in srgb, var(--card-class-color, var(--color-accent)) 50%, transparent);
+  border-radius: var(--radius);
+}
+
+.class-icon-lg {
+  border-color: color-mix(
+    in srgb,
+    var(--page-class-color, var(--color-accent)) 50%,
+    transparent
+  );
+}
+
+.class-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.tree-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  vertical-align: middle;
+}
+
+.talent-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  vertical-align: middle;
+}
+
+.class-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.class-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-class-color, var(--color-accent));
+}
+
+.class-card .class-name,
+.class-card .class-trees {
+  display: block;
+}
+
 /* ---------- Definition lists ---------- */
 
 .def-list {

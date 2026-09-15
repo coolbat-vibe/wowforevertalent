@@ -8,6 +8,7 @@ import {
   joinNames,
   rankCoverage,
   stageLabel,
+  talentIconUrl,
   treeTalents,
 } from '@data/derive';
 import type { TalentNode } from '@domain/talents/types';
@@ -75,7 +76,7 @@ function prereqLine(talent: TalentNode): string | null {
       </span>
     </p>
     <p>
-      <a href={`/talent-calculator/${cls.classId}/`}>
+      <a href={`/${cls.classId}/`}>
         Open the interactive {cls.name} talent calculator →
       </a>
     </p>
@@ -99,6 +100,15 @@ function prereqLine(talent: TalentNode): string | null {
               {treeTalents(snapshot, tree).map((talent) => (
                 <tr>
                   <td>
+                    <img
+                      class="talent-icon"
+                      src={talentIconUrl(talent.iconRef)}
+                      alt=""
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                      onerror="this.style.display='none'"
+                    />
                     <strong>{talent.name}</strong>
                     <div class="talent-meta">
                       {[

@@ -12,7 +12,8 @@ import type {
 } from '@domain/talents/types';
 import { earlierRowPoints } from '@domain/talents/rules';
 import type { SiteManifest } from '@data/loadSnapshot';
-import { UNKNOWN_RANK_TEXT, evidenceLabel } from './messages';
+import { UNKNOWN_RANK_TEXT, evidenceLabel, initials } from './messages';
+import { IconImg } from './IconImg';
 import styles from './calculator.module.css';
 
 export interface DetailPanelProps {
@@ -68,9 +69,9 @@ export function DetailPanel(props: DetailPanelProps) {
       </div>
 
       <p className={styles.detailMeta}>
-        {tree?.name}
-        {tree?.nameZh ? ` · ${tree.nameZh}` : ''} · {node.passive ? 'Passive' : 'Active'}
+        {node.passive ? 'Passive' : 'Active'}
         {node.cost ? ` · ${node.cost}` : ''}
+        {tree?.nameZh ? ` · ${tree.nameZh}` : ''}
       </p>
 
       {rank > 0 ? (
@@ -171,7 +172,25 @@ export function DetailPanel(props: DetailPanelProps) {
   return (
     <aside className={styles.detail} data-testid="panel-detail" aria-label="Talent details">
       <div className={styles.detailHeader}>
-        <h2 className={styles.detailTitle}>{node ? node.name : 'Talent details'}</h2>
+        {node ? (
+          <IconImg
+            src={`/icons/talents/${node.iconRef}.jpg`}
+            className={styles.detailIcon}
+            fallback={
+              <span className={styles.detailIconFallback} aria-hidden="true">
+                {initials(node.name)}
+              </span>
+            }
+          />
+        ) : null}
+        <div className={styles.detailHeading}>
+          <h2 className={styles.detailTitle}>{node ? node.name : 'Talent details'}</h2>
+          {node ? (
+            <p className={styles.detailSubline}>
+              {tree?.name ?? ''} · Rank {rank}/{node.maxRank}
+            </p>
+          ) : null}
+        </div>
         <div className={styles.detailHeaderButtons}>
           {node ? (
             <button

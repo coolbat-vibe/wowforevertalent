@@ -92,7 +92,7 @@ describe('share codec', () => {
     const encoded = encodeBuild(sampleBuild());
     const url = buildShareUrl('https://wowforevertalentcalculator.com', 'mage', encoded);
     expect(url).toBe(
-      `https://wowforevertalentcalculator.com/talent-calculator/mage/#b=${encoded}`,
+      `https://wowforevertalentcalculator.com/mage/#b=${encoded}`,
     );
     const hash = new URL(url).hash;
     expect(payloadFromHash(hash)).toBe(encoded);

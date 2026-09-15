@@ -228,7 +228,7 @@ export default function CompareApp({ manifest }: CompareAppProps): JSX.Element {
                   className={styles.textInput}
                   data-testid={`compare-url-${side}`}
                   value={url}
-                  placeholder="https://…/talent-calculator/mage/#b=…"
+                  placeholder="https://…/mage/#b=…"
                   onChange={(e) => setUrl(e.target.value)}
                   aria-label={`Share link for build ${side.toUpperCase()}`}
                 />

@@ -444,9 +444,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
             type="button"
             className={styles.button}
             onClick={() => {
-              window.location.assign(
-                `/talent-calculator/${page.payloadClassId}/${window.location.hash}`,
-              );
+              window.location.assign(`/${page.payloadClassId}/${window.location.hash}`);
             }}
           >
             Open {page.payloadClassId} build

@@ -9,7 +9,7 @@ const CLASSES = [
 
 for (const classId of CLASSES) {
   test(`${classId}: allocate → undo → state consistent`, async ({ page }) => {
-    await page.goto(`/talent-calculator/${classId}/`);
+    await page.goto(`/${classId}/`);
     await page.evaluate(() => localStorage.clear());
     await page.reload();
     const remaining = page.getByTestId('points-remaining');

@@ -184,7 +184,7 @@ export function decodeBuild(
 
 /** Build the full share URL for a class page. */
 export function buildShareUrl(origin: string, classId: string, payload: string): string {
-  return `${origin}/talent-calculator/${classId}/#b=${payload}`;
+  return `${origin}/${classId}/#b=${payload}`;
 }
 
 /** Extract the payload from a location hash like "#b=...". */

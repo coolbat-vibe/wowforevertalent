@@ -4,9 +4,9 @@ import { expect, test } from '@playwright/test';
 
 const PAGES = [
   { path: '/', title: 'WoW Forever Talent Calculator — Build, Compare & Share', noindex: false },
-  { path: '/talent-calculator/', title: /Choose a Class/, noindex: false },
-  { path: '/talent-calculator/mage/', title: /WoW Forever Mage Talent Calculator/, noindex: false },
-  { path: '/talent-calculator/warrior/', title: /WoW Forever Warrior Talent Calculator/, noindex: false },
+  { path: '/mage/', title: /WoW Forever Mage Talent Calculator/, noindex: false },
+  { path: '/warrior/', title: /WoW Forever Warrior Talent Calculator/, noindex: false },
+  { path: '/shaman/', title: /WoW Forever Shaman Talent Calculator/, noindex: false },
   { path: '/talents/', title: /Talent Reference/, noindex: false },
   { path: '/talents/mage/', title: /WoW Forever Mage Talents/, noindex: false },
   { path: '/changes/', title: /Talent Changes/, noindex: false },
@@ -58,7 +58,7 @@ test('all 9 class calculator pages exist with unique titles', async ({ request }
   const classes = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid'];
   const titles = new Set<string>();
   for (const c of classes) {
-    const res = await request.get(`/talent-calculator/${c}/`);
+    const res = await request.get(`/${c}/`);
     expect(res.status()).toBe(200);
     const html = await res.text();
     const title = /<title>([^<]+)<\/title>/.exec(html)?.[1];
@@ -83,7 +83,7 @@ test('home page has WebApplication JSON-LD without fabricated ratings', async ({
 
 test('sitemap excludes noindex pages; robots.txt references sitemap', async ({ request }) => {
   const sitemap = await (await request.get('/sitemap-0.xml')).text();
-  expect(sitemap).toContain('/talent-calculator/mage/');
+  expect(sitemap).toContain('/mage/');
   expect(sitemap).not.toContain('/compare/');
   expect(sitemap).not.toContain('/my-builds/');
 
@@ -92,7 +92,7 @@ test('sitemap excludes noindex pages; robots.txt references sitemap', async ({ r
 });
 
 test('unknown route returns real 404', async ({ request }) => {
-  const res = await request.get('/talent-calculator/unknown-class/');
+  const res = await request.get('/unknown-class/');
   expect(res.status()).toBe(404);
 });
 
@@ -105,7 +105,7 @@ test('JS disabled: reference and calculator pages stay readable', async ({ brows
   await expect(page.locator('body')).toContainText('Wand Specialization');
   await expect(page.locator('body')).toContainText('not yet confirmed'); // unknown ranks shown honestly
 
-  await page.goto('/talent-calculator/mage/');
+  await page.goto('/mage/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(/Mage/);
   // Static class/change content readable without JS.
   await expect(page.locator('body')).toContainText(/Arcane/);

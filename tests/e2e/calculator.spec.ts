@@ -5,7 +5,7 @@ import { expect, test, type Page } from '@playwright/test';
  * All state assertions use auto-retrying locators.
  */
 
-const MAGE = '/talent-calculator/mage/';
+const MAGE = '/mage/';
 
 function nodeButton(page: Page, name: string) {
   return page.getByRole('button', { name: new RegExp(`^${name}, rank`) });
@@ -100,7 +100,7 @@ test('save named build → modify draft → reopen named build → no cross-over
   await page2.goto('/my-builds/');
   await expect(page2.getByText('Raid Frost')).toBeVisible();
   await page2.getByRole('button', { name: 'Open' }).first().click();
-  await page2.waitForURL(/\/talent-calculator\/mage\/#b=/);
+  await page2.waitForURL(/\/mage\/#b=/);
   await expect(page2.getByTestId('external-banner')).toBeVisible();
   await expectRemaining(page2, 50); // 1 point spent in the saved build
   await page2.close();
@@ -112,7 +112,7 @@ test('share link restores exactly in a fresh browser context', async ({ page, br
   await expectRemaining(page, 49);
 
   const shareUrl = await shareUrlFrom(page);
-  expect(shareUrl).toContain('/talent-calculator/mage/#b=');
+  expect(shareUrl).toContain('/mage/#b=');
 
   const fresh = await browser.newContext();
   const page2 = await fresh.newPage();
