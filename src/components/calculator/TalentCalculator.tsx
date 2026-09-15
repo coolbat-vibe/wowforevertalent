@@ -266,6 +266,10 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
     };
   }, [flushSave]);
 
+  // Flush pending changes on unmount (e.g. in-page class switch on the home
+  // page), so an in-flight debounced draft is never lost.
+  useEffect(() => () => flushSave(), [flushSave]);
+
   // ---- Derived data (memoized for tree rendering). ----
   const availability = useMemo(() => {
     const map = new Map<string, NodeAvailability>();

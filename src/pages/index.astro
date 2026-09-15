@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
+import HomeCalculator from '@components/calculator/HomeCalculator';
+import { loadClassSnapshot, loadManifest, loadAllSnapshots } from '@data/loadSnapshot';
 import {
   classChangeStats,
   classIconUrl,
@@ -12,6 +13,7 @@ import {
 
 const manifest = loadManifest();
 const snapshots = loadAllSnapshots();
+const defaultSnapshot = loadClassSnapshot('mage');
 
 const classes = snapshots.map((s) => ({
   classId: s.classDef.classId,
@@ -61,8 +63,25 @@ const ruleset = manifest.ruleset;
     </p>
   </section>
 
+  <section class="page-section hero-tool" aria-labelledby="start-planning">
+    <h2 id="start-planning" class="visually-hidden">
+      Start planning talents — pick a class and spend your points
+    </h2>
+    <HomeCalculator
+      client:load
+      manifest={manifest}
+      initialSnapshot={defaultSnapshot}
+      classes={classes}
+    />
+  </section>
+
   <section class="page-section" aria-labelledby="choose-class">
     <h2 id="choose-class">Choose Your Class</h2>
+    <p class="prose">
+      Each class also has a dedicated page with its talent changes, tree
+      guides, and the full reference — open it to share or bookmark a
+      class-specific link:
+    </p>
     <ul class="class-grid">
       {
         classes.map((c) => (
