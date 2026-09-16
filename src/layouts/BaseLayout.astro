@@ -140,6 +140,17 @@ if (breadcrumbs && breadcrumbs.length > 0) {
     <meta name="twitter:image" content={ogImage} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
+    <!-- GA4 — anonymous usage measurement only; see /privacy/ -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-S8DFC9KTJW"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-S8DFC9KTJW', { anonymize_ip: true });
+    </script>
+
     {
       jsonLd.map((data) => (
         <script
