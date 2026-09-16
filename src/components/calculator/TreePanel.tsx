@@ -20,15 +20,15 @@ import type {
   TalentNode,
   TalentTree,
 } from '@domain/talents/types';
-import { evidenceLabel, initials, UNKNOWN_RANK_TEXT } from './messages';
+import { initials, UNKNOWN_RANK_TEXT } from './messages';
 import { treeIconUrl } from './treeIcons';
 import { IconImg } from './IconImg';
 import { useMediaQuery } from './useMediaQuery';
 import styles from './calculator.module.css';
 
 // Keep in sync with --node-size / --node-gap in calculator.module.css.
-const NODE_SIZE = 44;
-const GRID_GAP = 8;
+const NODE_SIZE = 46;
+const GRID_GAP = 14;
 const FLASH_MS = 600;
 
 export interface TreePanelProps {
@@ -247,7 +247,7 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
         ) : null}
         <h2 className={styles.treeName}>
           {tree.name}
-          {tree.nameZh ? <span className={styles.treeNameZh}> {tree.nameZh}</span> : null}
+          {tree.nameZh ? <span className={styles.treeNameZh}>{tree.nameZh}</span> : null}
         </h2>
         <span className={styles.treePoints} aria-label={`${points} points in ${tree.name}`}>
           {points}
@@ -430,13 +430,6 @@ export const TreePanel = memo(function TreePanel(props: TreePanelProps) {
                 UNKNOWN_RANK_TEXT}
             </p>
           ) : null}
-          <p className={styles.tipMeta}>
-            {evidenceLabel(
-              hoverTip.node.rankEffects.find(
-                (r) => r.rank === Math.min(hoverTip.rank + 1, hoverTip.node.maxRank),
-              )?.evidenceStatus,
-            )}
-          </p>
         </div>
       ) : null}
     </section>

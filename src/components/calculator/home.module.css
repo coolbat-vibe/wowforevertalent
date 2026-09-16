@@ -37,11 +37,25 @@
   transform: translateY(-1px);
 }
 
-.classTab[aria-pressed='true'] {
+.classTab[aria-current='true'] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tab-class-color) 22%, #262626),
+    color-mix(in srgb, var(--tab-class-color) 12%, #1c1c1c)
+  );
   border-color: var(--tab-class-color);
   box-shadow:
     0 0 0 1px var(--tab-class-color),
+    0 0 10px color-mix(in srgb, var(--tab-class-color) 45%, transparent),
     0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.classTab[aria-current='true'] .tabName {
+  color: var(--tab-class-color);
+}
+
+.classTab[aria-current='true'] img {
+  border-color: var(--tab-class-color);
 }
 
 .tabName {

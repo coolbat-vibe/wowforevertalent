@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 /** PRD §15.3 SEO acceptance + JS-disabled readability (§15.2 flow 9). */
 
 const PAGES = [
-  { path: '/', title: 'WoW Forever Talent Calculator — Build, Compare & Share', noindex: false },
+  { path: '/', title: 'WoW Forever Talent Calculator — Free Online, No Sign-Up', noindex: false },
   { path: '/mage/', title: /WoW Forever Mage Talent Calculator/, noindex: false },
   { path: '/warrior/', title: /WoW Forever Warrior Talent Calculator/, noindex: false },
   { path: '/shaman/', title: /WoW Forever Shaman Talent Calculator/, noindex: false },

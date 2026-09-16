@@ -302,8 +302,8 @@
 
 .treePanel {
   /* keep in sync with NODE_SIZE/GRID_GAP in TreePanel.tsx */
-  --node-size: 44px;
-  --node-gap: 8px;
+  --node-size: 46px;
+  --node-gap: 14px;
 
   flex: 1 1 260px;
   min-width: 240px;
@@ -311,40 +311,46 @@
   border: 1px solid #000;
   box-shadow: inset 0 0 0 1px rgb(215 180 106 / 0.25);
   border-radius: 4px;
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-4);
 }
 
 .treeHeader {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .treeIcon {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 3px;
   box-shadow: 0 0 0 1px rgb(215 180 106 / 0.4);
+  flex-shrink: 0;
 }
 
 .treeName {
   margin: 0;
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--color-gold);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.01em;
   text-shadow: 0 1px 2px #000;
 }
 
 .treeNameZh {
+  margin-left: var(--space-1);
   color: var(--color-text-dim);
   font-weight: 400;
-  font-size: 0.75rem;
-  text-transform: none;
+  font-size: 0.78rem;
   letter-spacing: 0;
 }
 
@@ -678,12 +684,6 @@
 .tipNext {
   color: #1eff00;
   font-size: 12px;
-}
-
-.tipMeta {
-  color: var(--color-unknown);
-  font-size: 11px;
-  margin-top: 8px;
 }
 
 /* ---------- detail panel ---------- */

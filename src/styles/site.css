@@ -191,8 +191,14 @@ main#main {
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-1) var(--space-4);
   margin-top: var(--space-3);
+}
+
+.footer-label {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
 }
 
 .footer-nav a {
@@ -242,6 +248,12 @@ main#main {
 
 .hero {
   padding: var(--space-8) 0 var(--space-4);
+  text-align: center;
+}
+
+.hero .lede {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lede {
