@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Terms of Use — WoW Forever Talent Calculator"
+  description="Terms of use for WoW Forever Talent Calculator: a free, fan-made talent planning tool — acceptable use, data licensing, no warranty, and the independence notice."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Terms', url: '/terms/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Terms of Use</h1>
+    <p class="lede">
+      By using WoW Forever Talent Calculator you accept these terms. They are
+      short on purpose — this is a free, fan-made tool, not a service with an
+      account relationship.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="service">
+    <h2 id="service">What this site is</h2>
+    <p>
+      WoW Forever Talent Calculator is an independent, fan-made planning tool
+      for WoW Forever talent builds. It is free to use, requires no sign-up or
+      login, and stores saved builds only in your own browser. It is not
+      affiliated with or endorsed by Blizzard Entertainment; game names and
+      related terms belong to their respective owners.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="acceptable-use">
+    <h2 id="acceptable-use">Acceptable use</h2>
+    <p>
+      Use the calculator, reference pages, and share links for personal,
+      non-commercial planning and discussion. Do not scrape the site at a rate
+      that degrades service for others, misrepresent the site as an official
+      Blizzard product, or use it to distribute harmful content.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="data-license">
+    <h2 id="data-license">Data licensing</h2>
+    <p>
+      Talent data originates from
+      {' '}<a href="https://talentsforever.com/" rel="external">talentsforever.com</a>
+      {' '}under
+      {' '}<a href="https://creativecommons.org/licenses/by/4.0/" rel="external">
+        CC BY 4.0
+      </a>; attribution details live on the
+      {' '}<a href="/sources/">Sources</a> page. Builds you create and share
+      are yours — the share link only encodes point allocations.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="no-warranty">
+    <h2 id="no-warranty">No warranty</h2>
+    <p>
+      The site is provided "as is". The current data snapshot is preview-stage:
+      many rank texts are source estimates or unknown, and each rank carries
+      its own evidence status. Verify important choices in game; do not rely
+      on this tool as the sole source for decisions that matter to you.
+    </p>
+  </section>
+
+  <section class="page-section prose" aria-labelledby="changes-terms">
+    <h2 id="changes-terms">Changes to these terms</h2>
+    <p>
+      If these terms change, the updated version is published on this page.
+      Continued use after a change means you accept the new terms.
+    </p>
+  </section>
+</BaseLayout>

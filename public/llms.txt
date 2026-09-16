@@ -1,0 +1,41 @@
+# WoW Forever Talent Calculator
+
+> Independent, fan-made talent planning tool for WoW Forever (World of
+> Warcraft). Free to use, no sign-up or login required. Covers all 9 classes
+> with 3 talent trees each under the standard 51-point budget (first point at
+> level 10, one per level through 60; rows gate every 5 points spent earlier
+> in the same tree). Builds can be saved locally, shared as URL-encoded
+> links, and compared point by point.
+
+## Calculator pages
+
+- [Home — calculator with class switcher](https://wowforevertalentcalculator.com/)
+- [Warrior](https://wowforevertalentcalculator.com/warrior/)
+- [Paladin](https://wowforevertalentcalculator.com/paladin/)
+- [Hunter](https://wowforevertalentcalculator.com/hunter/)
+- [Rogue](https://wowforevertalentcalculator.com/rogue/)
+- [Priest](https://wowforevertalentcalculator.com/priest/)
+- [Shaman](https://wowforevertalentcalculator.com/shaman/)
+- [Mage](https://wowforevertalentcalculator.com/mage/)
+- [Warlock](https://wowforevertalentcalculator.com/warlock/)
+- [Druid](https://wowforevertalentcalculator.com/druid/)
+
+## Reference & policy pages
+
+- [Talent reference index](https://wowforevertalentcalculator.com/talents/): per-rank effect text, grid positions, Classic comparison
+- [Talent changes vs Classic](https://wowforevertalentcalculator.com/changes/): new / changed / moved / unchanged / removed counts per class
+- [Data & sources](https://wowforevertalentcalculator.com/sources/): snapshot IDs, evidence-status definitions, coverage, CC BY 4.0 attribution
+- [About](https://wowforevertalentcalculator.com/about/)
+- [Privacy](https://wowforevertalentcalculator.com/privacy/)
+- [Terms](https://wowforevertalentcalculator.com/terms/)
+
+## Data notes
+
+- Talent data originates from talentsforever.com under CC BY 4.0 and is
+  published as immutable, content-hashed snapshots.
+- Every rank effect carries an evidence status (official, community record,
+  source estimate, unknown). Ranks without confirmed text are labeled
+  "unknown" rather than guessed.
+- This is a fan-made site and is not affiliated with or endorsed by Blizzard
+  Entertainment. Official sites: worldofwarcraft.blizzard.com (EN) and
+  wow.blizzard.cn/forever (中文“无限”官网).

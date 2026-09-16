@@ -72,7 +72,7 @@ function prereqLine(talent: TalentNode): string | null {
     </p>
     <p>
       <span class="stage-badge">
-        {stage} data · generated {published} · {manifest.snapshotId}
+        {stage} data · generated <time datetime={manifest.publishedAt}>{published}</time> · {manifest.snapshotId}
       </span>
     </p>
     <p>
@@ -103,7 +103,7 @@ function prereqLine(talent: TalentNode): string | null {
                     <img
                       class="talent-icon"
                       src={talentIconUrl(talent.iconRef)}
-                      alt=""
+                      alt={`${talent.name} icon`}
                       width="32"
                       height="32"
                       loading="lazy"

@@ -35,6 +35,19 @@ const totals = snapshots.reduce(
   { newTalents: 0, changed: 0, moved: 0, unchanged: 0, removed: 0 },
 );
 
+const perClass = snapshots.map((s) => {
+  const stats = classChangeStats(s);
+  return {
+    classId: s.classDef.classId,
+    name: s.classDef.name,
+    newTalents: stats.new,
+    changed: stats.changed,
+    moved: stats.moved,
+    unchanged: stats.unchanged,
+    removed: removedClassicCount(s),
+  };
+});
+
 const stage = stageLabel(manifest.stage);
 const published = formatDate(manifest.publishedAt);
 const ruleset = manifest.ruleset;
@@ -57,7 +70,7 @@ const ruleset = manifest.ruleset;
     </p>
     <p>
       <span class="stage-badge">
-        {stage} data · generated {published} · {manifest.snapshotId}
+        {stage} data · generated <time datetime={manifest.publishedAt}>{published}</time> · {manifest.snapshotId}
       </span>
     </p>
   </section>
@@ -75,7 +88,7 @@ const ruleset = manifest.ruleset;
   </section>
 
   <section class="page-section" aria-labelledby="how-it-works">
-    <h2 id="how-it-works">How the Talent Calculator Works</h2>
+    <h2 id="how-it-works">How Does the Talent Calculator Work?</h2>
     <ol class="steps">
       <li>
         <h3>Choose your class</h3>
@@ -111,7 +124,7 @@ const ruleset = manifest.ruleset;
   </section>
 
   <section class="page-section" aria-labelledby="talent-changes">
-    <h2 id="talent-changes">WoW Forever Talent Changes</h2>
+    <h2 id="talent-changes">What Changed in WoW Forever Talents?</h2>
     <p class="prose">
       Compared with Classic, this snapshot records
       <strong>{totals.newTalents} new talents</strong>,
@@ -122,11 +135,41 @@ const ruleset = manifest.ruleset;
       Every talent page shows its Classic counterpart and position so you can
       check what actually happened to a specific pick.
     </p>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Class</th>
+            <th scope="col">New</th>
+            <th scope="col">Changed</th>
+            <th scope="col">Moved</th>
+            <th scope="col">Unchanged</th>
+            <th scope="col">Removed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            perClass.map((row) => (
+              <tr>
+                <td>
+                  <a href={`/${row.classId}/`}>{row.name}</a>
+                </td>
+                <td>{row.newTalents}</td>
+                <td>{row.changed}</td>
+                <td>{row.moved}</td>
+                <td>{row.unchanged}</td>
+                <td>{row.removed}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
     <p><a href="/changes/">Browse the full change summary →</a></p>
   </section>
 
   <section class="page-section" aria-labelledby="data-updates">
-    <h2 id="talent-data">Talent Data &amp; Updates</h2>
+    <h2 id="talent-data">Where Does the Talent Data Come From?</h2>
     <p class="prose">
       This site is currently running <strong>{stage.toLowerCase()}-stage</strong>
       data published on {published} (snapshot <code>{manifest.snapshotId}</code>).

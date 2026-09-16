@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/site.css';
-import { loadAllSnapshots } from '@data/loadSnapshot';
+import { loadAllSnapshots, loadManifest } from '@data/loadSnapshot';
 
 export interface Breadcrumb {
   name: string;
@@ -35,23 +35,65 @@ const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).href;
 const ogImage = new URL('/og-cover.svg', site).href;
 const isHome = Astro.url.pathname === '/';
 
+const SITE_NAME = 'WoW Forever Talent Calculator';
+const manifest = loadManifest();
+// Build timestamp: for a static site, dateModified advances on each deploy.
+const dateModified = new Date().toISOString();
+const datePublished = manifest.publishedAt;
+
+const orgId = new URL('/#organization', site).href;
+const websiteId = new URL('/#website', site).href;
+
 const navClasses = loadAllSnapshots().map((s) => ({
   classId: s.classDef.classId,
   name: s.classDef.name,
   color: s.classDef.color,
 }));
 
-const jsonLd: Record<string, unknown>[] = [];
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': orgId,
+    name: SITE_NAME,
+    url: new URL('/', site).href,
+    logo: new URL('/favicon.svg', site).href,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': websiteId,
+    name: SITE_NAME,
+    url: new URL('/', site).href,
+    publisher: { '@id': orgId },
+    inLanguage: lang,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    description,
+    isPartOf: { '@id': websiteId },
+    author: { '@id': orgId },
+    publisher: { '@id': orgId },
+    datePublished,
+    dateModified,
+    inLanguage: lang,
+  },
+];
 
 if (isHome) {
   jsonLd.push({
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'WoW Forever Talent Calculator',
+    name: SITE_NAME,
     url: new URL('/', site).href,
     description,
     applicationCategory: 'GameApplication',
     operatingSystem: 'Web',
+    author: { '@id': orgId },
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -90,12 +132,13 @@ if (breadcrumbs && breadcrumbs.length > 0) {
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="WoW Forever Talent Calculator" />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
     {
       jsonLd.map((data) => (
@@ -209,7 +252,9 @@ if (breadcrumbs && breadcrumbs.length > 0) {
           <nav class="footer-nav" aria-label="Footer">
             <a href="/sources/">Sources</a>
             <a href="/about/">About</a>
+            <a href="/about/#contact">Contact</a>
             <a href="/privacy/">Privacy</a>
+            <a href="/terms/">Terms</a>
             <a href="/changes/">Changes</a>
             <a href="/compare/">Compare</a>
             <a href="/my-builds/">My Builds</a>

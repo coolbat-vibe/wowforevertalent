@@ -13,6 +13,7 @@ const PAGES = [
   { path: '/sources/', title: /Data & Sources|Sources/, noindex: false },
   { path: '/about/', title: /About/, noindex: false },
   { path: '/privacy/', title: /Privacy/, noindex: false },
+  { path: '/terms/', title: /Terms/, noindex: false },
   { path: '/compare/', title: /Compare/, noindex: true },
   { path: '/my-builds/', title: /My Builds/, noindex: true },
 ];
@@ -74,11 +75,20 @@ test('all 9 class calculator pages exist with unique titles', async ({ request }
 
 test('home page has WebApplication JSON-LD without fabricated ratings', async ({ request }) => {
   const html = await (await request.get('/')).text();
-  const ld = /<script type="application\/ld\+json">(.*?)<\/script>/s.exec(html)?.[1];
-  expect(ld).toBeTruthy();
-  const data = JSON.parse(ld!);
-  expect(data['@type']).toBe('WebApplication');
-  expect(data.aggregateRating).toBeUndefined();
+  const scripts = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)];
+  const blocks = scripts.map((m) => JSON.parse(m[1]) as { '@type': string });
+  const app = blocks.find((b) => b['@type'] === 'WebApplication');
+  expect(app).toBeTruthy();
+  expect((app as Record<string, unknown>).aggregateRating).toBeUndefined();
+  // Entity anchors: Organization + WebSite + dated WebPage on every page.
+  const types = blocks.map((b) => b['@type']);
+  expect(types).toContain('Organization');
+  expect(types).toContain('WebSite');
+  const webPage = blocks.find((b) => b['@type'] === 'WebPage') as Record<string, unknown>;
+  expect(webPage).toBeTruthy();
+  expect(webPage.datePublished).toBeTruthy();
+  expect(webPage.dateModified).toBeTruthy();
+  expect(webPage.author).toBeTruthy();
 });
 
 test('sitemap excludes noindex pages; robots.txt references sitemap', async ({ request }) => {
@@ -87,7 +97,15 @@ test('sitemap excludes noindex pages; robots.txt references sitemap', async ({ r
   expect(sitemap).not.toContain('/compare/');
   expect(sitemap).not.toContain('/my-builds/');
 
+  // Plain /sitemap.xml exists alongside the integration's sitemap-index.xml.
+  const plain = await (await request.get('/sitemap.xml')).text();
+  expect(plain).toContain('<urlset');
+  expect(plain).toContain('/mage/');
+  expect(plain).not.toContain('/compare/');
+  expect(plain).not.toContain('/my-builds/');
+
   const robots = await (await request.get('/robots.txt')).text();
+  expect(robots).toContain('Sitemap: https://wowforevertalentcalculator.com/sitemap.xml');
   expect(robots).toContain('Sitemap: https://wowforevertalentcalculator.com/sitemap-index.xml');
 });
 

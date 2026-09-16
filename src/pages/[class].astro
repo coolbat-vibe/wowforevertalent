@@ -65,7 +65,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
     <img
       class="class-icon class-icon-lg"
       src={classIconUrl(cls.iconRef)}
-      alt=""
+      alt={`${cls.name} class icon`}
       width="56"
       height="56"
       onerror="this.style.display='none'"
@@ -79,7 +79,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
       </p>
       <p>
         <span class="stage-badge">
-          {stage} data · generated {published} · {manifest.snapshotId}
+          {stage} data · generated <time datetime={manifest.publishedAt}>{published}</time> · {manifest.snapshotId}
         </span>
       </p>
     </div>
@@ -98,7 +98,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
   </noscript>
 
   <section class="page-section" aria-labelledby="trees">
-    <h2 id="trees">{cls.name} Talent Trees in WoW Forever</h2>
+    <h2 id="trees">What Are the {cls.name} Talent Trees in WoW Forever?</h2>
     <div class="card-grid">
       {
         treeSummaries.map(({ tree, maxGate, iconUrl }) => (
@@ -108,7 +108,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
                 <img
                   class="tree-icon"
                   src={iconUrl}
-                  alt=""
+                  alt={`${tree.name} talent tree icon`}
                   width="40"
                   height="40"
                   loading="lazy"
@@ -130,7 +130,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
   </section>
 
   <section class="page-section" aria-labelledby="changes">
-    <h2 id="changes">WoW Forever {cls.name} Talent Changes vs Classic</h2>
+    <h2 id="changes">What Changed for {cls.name} Talents vs Classic?</h2>
     <div class="stat-grid">
       <div class="stat-card">
         <div class="stat-num">{stats.new}</div>
@@ -167,7 +167,7 @@ const treeSummaries = snapshot.trees.map((tree) => {
   </section>
 
   <section class="page-section" aria-labelledby="points">
-    <h2 id="points">How {cls.name} Talent Points Work</h2>
+    <h2 id="points">How Do {cls.name} Talent Points Work?</h2>
     <div class="prose">
       <p>
         <strong>How many talent points at level {ruleset.maxLevel}?</strong>{' '}
