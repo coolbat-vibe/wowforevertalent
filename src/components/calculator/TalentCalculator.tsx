@@ -51,6 +51,24 @@ export interface TalentCalculatorProps {
   manifest: SiteManifest;
 }
 
+/**
+ * Transient feedback (rejected actions, save/share results) renders as a
+ * floating game-style toast anchored to the toolbar — out of the document
+ * flow, so the tree panels never shift when a message appears or leaves.
+ * Errors auto-dismiss after TOAST_MS; `leaving` drives the fade-out class.
+ */
+type ToastKind = 'error' | 'ok';
+
+interface ToastState {
+  msg: string;
+  kind: ToastKind;
+  leaving: boolean;
+  id: number;
+}
+
+const TOAST_MS = 3200;
+const TOAST_LEAVE_MS = 400;
+
 const HISTORY_LIMIT = 50;
 
 type PageState =
@@ -72,13 +90,11 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   const [future, setFuture] = useState<Build[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeTreeId, setActiveTreeId] = useState(snapshot.trees[0]?.treeId ?? '');
-  const [actionError, setActionError] = useState<string | null>(null);
   const [storageWarning, setStorageWarning] = useState(false);
   const [levelText, setLevelText] = useState(String(ruleset.defaultLevel));
   const [saveName, setSaveName] = useState('');
-  const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
-  const [shareMsg, setShareMsg] = useState<string | null>(null);
+  const [toast, setToast] = useState<ToastState | null>(null);
 
   const isMobile = useMediaQuery('(max-width: 767px)');
   const nodeRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
@@ -89,6 +105,31 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   const futureRef = useRef<Build[]>([]);
   const initializedRef = useRef(false);
   const dirtyRef = useRef(false);
+  const toastTimersRef = useRef<number[]>([]);
+  const toastIdRef = useRef(0);
+
+  const showToast = useCallback((msg: string, kind: ToastKind) => {
+    for (const t of toastTimersRef.current) window.clearTimeout(t);
+    const id = ++toastIdRef.current;
+    setToast({ msg, kind, leaving: false, id });
+    toastTimersRef.current = [
+      window.setTimeout(
+        () => setToast((t) => (t && t.id === id ? { ...t, leaving: true } : t)),
+        TOAST_MS - TOAST_LEAVE_MS,
+      ),
+      window.setTimeout(
+        () => setToast((t) => (t && t.id === id ? null : t)),
+        TOAST_MS,
+      ),
+    ];
+  }, []);
+
+  useEffect(
+    () => () => {
+      for (const t of toastTimersRef.current) window.clearTimeout(t);
+    },
+    [],
+  );
 
   useEffect(() => {
     buildRef.current = build;
@@ -173,7 +214,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       const result = applyAction(prevBuild, action, snapshot, ruleset);
       if (!result.ok) {
         const first = result.errors[0];
-        setActionError(first ? ruleErrorMessage(first, ruleset) : 'That change is not allowed.');
+        showToast(first ? ruleErrorMessage(first, ruleset) : 'That change is not allowed.', 'error');
         return false;
       }
       const newPast = [...pastRef.current.slice(-(HISTORY_LIMIT - 1)), prevBuild];
@@ -319,10 +360,10 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   const onSaveNamed = () => {
     const result = saveNamedBuild(buildRef.current, saveName);
     if (result.ok) {
-      setSaveMsg(`Saved “${result.value.name}”. Find it under My Builds.`);
+      showToast(`Saved “${result.value.name}”. Find it under My Builds.`, 'ok');
       setSaveName('');
     } else {
-      setSaveMsg(`Could not save: ${result.error.message}`);
+      showToast(`Could not save: ${result.error.message}`, 'error');
       if (result.error.code === 'STORAGE_UNAVAILABLE') setStorageWarning(true);
     }
   };
@@ -333,12 +374,12 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       setShareUrl(url);
       try {
         await navigator.clipboard.writeText(url);
-        setShareMsg('Share link copied to clipboard.');
+        showToast('Share link copied to clipboard.', 'ok');
       } catch {
-        setShareMsg('Copy the full link below.');
+        showToast('Copy the full link below.', 'ok');
       }
     } catch {
-      setShareMsg('Could not create a share link for this build.');
+      showToast('Could not create a share link for this build.', 'error');
     }
   };
 
@@ -530,6 +571,16 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
                 Compare builds
               </a>
             </div>
+            {toast ? (
+              <p
+                key={toast.id}
+                className={`${styles.toast} ${toast.kind === 'error' ? styles.toastError : styles.toastOk} ${toast.leaving ? styles.toastLeaving : ''}`}
+                role={toast.kind === 'error' ? 'alert' : 'status'}
+                data-testid="calc-toast"
+              >
+                {toast.msg}
+              </p>
+            ) : null}
           </div>
 
           <div className={styles.saveRow}>
@@ -579,22 +630,6 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
               onFocus={(e) => e.currentTarget.select()}
             />
           ) : null}
-          {shareMsg ? (
-            <p className={styles.statusLine} role="status">
-              {shareMsg}
-            </p>
-          ) : null}
-          {saveMsg ? (
-            <p className={styles.statusLine} role="status">
-              {saveMsg}
-            </p>
-          ) : null}
-          {actionError ? (
-            <p className={styles.errorLine} role="alert">
-              {actionError}
-            </p>
-          ) : null}
-
           <p className="visually-hidden" role="status" aria-live="polite">
             {spent} of {budget} points spent, {remaining} remaining.
           </p>

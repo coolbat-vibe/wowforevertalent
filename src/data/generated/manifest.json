@@ -63,6 +63,11 @@
       "digest": "7b36b461ce4b407981e1f4319de26fa7fb8d3baf61215f21cc8d940d4249b86a"
     }
   ],
+  "legacy": {
+    "path": "/data/legacy.d679f2d9d1ac.json",
+    "digest": "d679f2d9d1accce7165234141f49f9bffed01319ba44d9901b1dd96116d1bff8",
+    "perkCount": 20
+  },
   "coverage": {
     "structureReviewed": true,
     "talentCount": 470,

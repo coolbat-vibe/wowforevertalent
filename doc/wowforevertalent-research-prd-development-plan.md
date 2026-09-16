@@ -1,6 +1,6 @@
 # WoW Forever Talent：调研、需求说明与开发方案
 
-域名：`wowforevertalentcalculator.com`  
+域名：`wowforevertalent.app`  
 文档版本：v1.1 / 2026-09-15  
 目标关键词：`wow forever talent`、`wow forever talent calculator`、`wow talent calculator`  
 交付范围：公开资料调研、竞品分析、SEO 策略、产品需求、数据与技术方案、实施计划、验收标准。本文未包含已开发或已部署的网站。
@@ -195,7 +195,7 @@
 6. 首页可按真实内容使用 WebApplication/SoftwareApplication 语义，职业与内容页使用 BreadcrumbList；没有真实评分就不编造评分，结构化数据不等于富结果保证。[Google 软件应用规范](https://developers.google.com/search/docs/appearance/structured-data/software-app)
 7. FAQ 为用户解答版本与规则，不承诺获得 FAQ 富结果；不投入 meta keywords 堆砌。
 
-域名采用用户指定的 `wowforevertalentcalculator.com`。域名包含完整核心关键词字符串，但 Google 对域名关键词与顶级域名后缀均不给排名加成，域名不能替代内容与工具质量。[Google 顶级域名说明](https://developers.google.com/search/blog/2015/07/googles-handling-of-new-top-level)
+域名采用用户指定的 `wowforevertalent.app`。域名包含完整核心关键词字符串，但 Google 对域名关键词与顶级域名后缀均不给排名加成，域名不能替代内容与工具质量。[Google 顶级域名说明](https://developers.google.com/search/blog/2015/07/googles-handling-of-new-top-level)
 
 ### 5.5 内容与分发节奏
 
@@ -693,7 +693,7 @@ AI 可协助整理已有文本与术语，但不能成为缺失天赋数值、�
 
 1. 创建独立 Git 仓库，默认分支发布生产，开发分支使用预览地址。
 2. Astro 使用静态输出，构建命令 `npm run build`，部署 `dist/`；实际包管理器固定一种并提交 lockfile。
-3. 在 Cloudflare Pages 连接仓库，绑定 `wowforevertalentcalculator.com`，统一是否保留尾斜杠与 www 跳转。
+3. 在 Cloudflare Pages 连接仓库，绑定 `wowforevertalent.app`，统一是否保留尾斜杠与 www 跳转。
 4. 完成 HTTPS、正确 404、自定义缓存头、资源哈希和快照路径检查。
 5. 预览部署设置 noindex；生产部署去除 noindex，并检查实际 HTTP 响应，不能只看配置文件。
 6. 生产部署关联源提交和 manifest；回滚时同时恢复兼容的页面和数据，不混搭。
@@ -751,7 +751,7 @@ AI 可协助整理已有文本与术语，但不能成为缺失天赋数值、�
 
 | 项目 | 本稿确定方案 |
 | --- | --- |
-| 域名 | wowforevertalentcalculator.com，注册/绑定状态未核验 |
+| 域名 | wowforevertalent.app，注册/绑定状态未核验 |
 | 定位 | Forever 专属轻量天赋规划工具 |
 | 核心关键词 | wow forever talent calculator；职业长尾并行 |
 | 泛词策略 | wow talent calculator 作为辅助，不建设多版本空壳 |
@@ -801,5 +801,5 @@ AI 可协助整理已有文本与术语，但不能成为缺失天赋数值、�
 
 ## 变更记录
 
-- v1.1（2026-09-15）：域名由 `wowforevertalent.app` 改为 `wowforevertalentcalculator.com`；牧师第三树名称由 Shadow Magic 更正为 Shadow；国服官网确认官方译名为"无限"，中文关键词保留；明确完整九职业数据为发布硬前提，单一数据来源失败时改用其他获取方式，不接受数据降级；数据审核与开发并行推进，不视为上线的串行阻碍；15.2 新增中英文切换保留分享载荷的验收项。
+- v1.1（2026-09-15）：域名由 `wowforevertalent.app` 改为 `wowforevertalent.app`；牧师第三树名称由 Shadow Magic 更正为 Shadow；国服官网确认官方译名为"无限"，中文关键词保留；明确完整九职业数据为发布硬前提，单一数据来源失败时改用其他获取方式，不接受数据降级；数据审核与开发并行推进，不视为上线的串行阻碍；15.2 新增中英文切换保留分享载荷的验收项。
 - v1.0（2026-09-15）：首版。

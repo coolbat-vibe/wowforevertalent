@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegacyPlanner from '@features/legacy/LegacyPlanner';
+import { loadLegacy, loadManifest } from '@data/loadSnapshot';
+
+const legacy = loadLegacy();
+const manifest = loadManifest();
+
+const treeIntro: Record<string, string> = {
+  adventure:
+    'Quality-of-life perks for leveling, exploring, and getting around Azeroth — including Talented, which starts your talent points one level earlier.',
+  resourcefulness:
+    'Perks around death, reputation, honor, food, and consumables. Deeper picks such as Reagent Economy remove vendor reagent costs from class abilities.',
+  professions:
+    'Perks for crafting, gathering, fishing, and cooking, plus convenience picks for the Azeroth Commerce Board and weekly skill study.',
+};
+
+const stage = manifest.stage;
+---
+
+<BaseLayout
+  title="WoW Forever Legacy System — All 20 Legacy Perks & Free Planner"
+  description="Every World of Warcraft: Forever Legacy perk across the Adventure, Resourcefulness, and Professions trees. Plan your 16 launch Legacy points in the free online planner — no sign-up."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Legacy System', url: '/legacy/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>WoW Forever Legacy System &amp; Perk Planner</h1>
+    <p class="lede">
+      Legacy is World of Warcraft: Forever's account-wide progression system:
+      you earn Legacy Points by completing Legacy Challenges, then spend them
+      in three non-combat trees — Adventure, Resourcefulness, and
+      Professions. Points are earned account-wide but spent per character,
+      and each character can spend up to
+      <strong>{legacy.spendCapPerCharacter} points at launch</strong>
+      (out of {legacy.earnableCapAtStart} earnable early on). Plan your spread
+      below — free, no sign-up.
+    </p>
+    <p>
+      <span class="stage-badge">
+        {stage} data · snapshot <code>{legacy.snapshotId}</code> · transcribed
+        from the BlizzCon 2026 demo
+      </span>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="legacy-planner-h">
+    <h2 id="legacy-planner-h">Plan Your 16 Launch Legacy Points</h2>
+    <p class="prose">
+      Add and remove points just like the talent calculator. Your plan is
+      kept in this browser only — nothing is uploaded.
+    </p>
+    <div class="calculator-mount">
+      <LegacyPlanner client:load data={legacy} />
+      <noscript>
+        <p class="noscript-note">
+          The interactive planner needs JavaScript. Every Legacy perk and its
+          full text is still listed below.
+        </p>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="legacy-reference">
+    <h2 id="legacy-reference">All Legacy Trees &amp; Perks</h2>
+    <p class="prose">
+      {legacy.trees.reduce((n, t) => n + t.perks.length, 0)} perks across
+      three trees, per the BlizzCon 2026 demo build. The Professions tree
+      also shows two placeholder slots in game whose tooltip reads “To be
+      added in future patch content” — those are not listed here.
+    </p>
+    {
+      legacy.trees.map((tree) => (
+        <div class="panel" style="margin: var(--space-4) 0;">
+          <h3 class="legacy-tree-title">
+            <img
+              src={`/icons/legacy/${tree.iconRef}.jpg`}
+              alt=""
+              width="40"
+              height="40"
+              class="tree-icon"
+              loading="lazy"
+            />
+            {tree.name} tree
+          </h3>
+          <p class="prose talent-meta">{treeIntro[tree.treeId]}</p>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Perk</th>
+                  <th scope="col">Max rank</th>
+                  <th scope="col">Effect</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tree.perks.map((perk) => (
+                  <tr>
+                    <th scope="row">
+                      <img
+                        src={`/icons/legacy/${perk.iconRef}.jpg`}
+                        alt=""
+                        width="32"
+                        height="32"
+                        class="talent-icon"
+                        loading="lazy"
+                      />
+                      {perk.name}
+                    </th>
+                    <td>{perk.maxRank}</td>
+                    <td>{perk.text}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="page-section" aria-labelledby="legacy-rules">
+    <h2 id="legacy-rules">How the Legacy System Works</h2>
+    <ol class="steps">
+      <li>
+        <h3>Earn points account-wide</h3>
+        <p>
+          Legacy Challenges — leveling a specific class, hitting skill
+          milestones, and similar goals — grant Legacy Points on your account.
+        </p>
+      </li>
+      <li>
+        <h3>Spend points per character</h3>
+        <p>
+          Each character spends its own points in the Adventure,
+          Resourcefulness, and Professions trees. At launch the per-character
+          spend cap is {legacy.spendCapPerCharacter}.
+        </p>
+      </li>
+      <li>
+        <h3>Keep earning past the cap</h3>
+        <p>
+          Up to {legacy.earnableCapAtStart} points are earnable at the start.
+          Points beyond the spend cap feed the Legacy Reward Track — cosmetic
+          and prestige rewards such as the Spectral Bear Cub.
+        </p>
+      </li>
+      <li>
+        <h3>Expect growth</h3>
+        <p>
+          Blizzard has said more challenges, perks, spending cap increases,
+          and entire new trees are planned after launch.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="page-section" aria-labelledby="legacy-faq">
+    <h2 id="legacy-faq">Legacy System FAQ</h2>
+    <details class="faq-item">
+      <summary>Do Legacy points replace my 51 class talent points?</summary>
+      <p>
+        No. Legacy is completely separate from the nine classes' talent
+        trees. Class talents still use the standard ruleset — one point per
+        level from level 10, 51 points at 60. Legacy perks are non-combat
+        quality-of-life picks on top of that.
+      </p>
+    </details>
+    <details class="faq-item">
+      <summary>
+        What does “Talented” do — can I get more than 51 talent points?
+      </summary>
+      <p>
+        No. Talented (Adventure tree, 5 ranks) starts your talent point gain
+        at level 9 instead of level 10, but you still can never hold more
+        than 51 total talent points. The demo text does not explain how the
+        five ranks progress, so this planner treats it as flavor context — it
+        does not change the class talent budget.
+      </p>
+    </details>
+    <details class="faq-item">
+      <summary>Are Legacy points shared across all my characters?</summary>
+      <p>
+        Points are earned account-wide, but each character spends separately.
+        Hardcore is the exception: its Legacy progress stays inside the
+        Hardcore ruleset.
+      </p>
+    </details>
+    <details class="faq-item">
+      <summary>Is this Legacy data final?</summary>
+      <p>
+        No — like the class talent data, every perk text was transcribed from
+        the BlizzCon 2026 demo and is marked {stage} until the beta and
+        launch clients confirm it. When the data updates, this page points to
+        a new immutable snapshot.
+      </p>
+    </details>
+  </section>
+
+  <section class="page-section" aria-labelledby="legacy-sources">
+    <h2 id="legacy-sources">Where Does This Data Come From?</h2>
+    <p class="prose">
+      Legacy perk text comes from the
+      <a href="https://talentsforever.com/" rel="external">talentsforever.com</a>
+      dataset (CC BY 4.0), which transcribed it from BlizzCon 2026 demo
+      footage, cross-checked against Blizzard's
+      <a
+        href="https://news.blizzard.com/en-us/article/24303313/world-of-warcraft-forever-deep-dive-panel-recap"
+        rel="external"
+      >Legacy Deep Dive recap</a>. Read the
+      <a href="/sources/">data &amp; sources policy</a> for how evidence
+      statuses work.
+    </p>
+  </section>
+</BaseLayout>

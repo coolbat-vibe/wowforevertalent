@@ -1,10 +1,11 @@
 {
   "source": "Wowhead icon CDN (wow.zamimg.com), Blizzard Entertainment game assets",
-  "fetchedAt": "2026-09-15",
+  "fetchedAt": "2026-09-16",
   "counts": {
     "classes": 9,
     "trees": 25,
-    "talents": 350
+    "talents": 350,
+    "legacy": 23
   },
-  "digest": "8384f63feee9"
+  "digest": "d621e9d9e814"
 }

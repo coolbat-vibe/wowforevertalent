@@ -1,0 +1,324 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Facts on this page come from official Blizzard sources: the announcement
+// and Deep Dive recaps on news.blizzard.com and the CN official site
+// (wow.blizzard.cn). Community/transcribed content links out to the
+// calculator and Legacy pages instead of duplicating their caveats.
+const verified = 'September 16, 2026';
+
+const dates = [
+  {
+    region: 'Global — Beta',
+    date: '2026-09-17',
+    label: 'September 17, 2026',
+    note: 'Beta opens worldwide; first look at live talent data.',
+  },
+  {
+    region: 'China — Beta (国服 Beta)',
+    date: '2026-10-06',
+    label: 'October 6, 2026',
+    note: 'CN beta via the Heavenly Epic pack (天裔史诗礼包) pre-purchase.',
+  },
+  {
+    region: 'Global — Launch',
+    date: '2026-11-04',
+    label: 'November 4, 2026',
+    note: 'World of Warcraft: Forever launches in the Americas, Europe, and Korea.',
+  },
+  {
+    region: 'China — Launch (国服上线)',
+    date: '2026-11-05',
+    label: 'November 5, 2026',
+    note: 'Global simultaneous launch day for the CN realm (全球同步上线).',
+  },
+];
+
+const classes = [
+  { id: 'warrior', name: 'Warrior', trees: 'Arms / Fury / Protection' },
+  { id: 'paladin', name: 'Paladin', trees: 'Holy / Protection / Retribution' },
+  { id: 'hunter', name: 'Hunter', trees: 'Beast Mastery / Marksmanship / Survival' },
+  { id: 'rogue', name: 'Rogue', trees: 'Assassination / Combat / Subtlety' },
+  { id: 'priest', name: 'Priest', trees: 'Discipline / Holy / Shadow' },
+  { id: 'shaman', name: 'Shaman', trees: 'Elemental / Enhancement / Restoration' },
+  { id: 'mage', name: 'Mage', trees: 'Arcane / Fire / Frost' },
+  { id: 'warlock', name: 'Warlock', trees: 'Affliction / Demonology / Destruction' },
+  { id: 'druid', name: 'Druid', trees: 'Balance / Feral / Restoration' },
+];
+---
+
+<BaseLayout
+  title="WoW Forever Wiki — World of Warcraft: Forever Explained 魔兽世界无限"
+  description="What is World of Warcraft: Forever? Official launch dates, talent and Legacy systems, camping, professions, rulesets, and the nine classes — the WoW Forever wiki."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Wiki', url: '/wiki/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>WoW Forever Wiki</h1>
+    <p class="lede">
+      World of Warcraft: Forever — known in China as
+      <span lang="zh-Hans">《魔兽世界》：“无限”</span> — is Blizzard's new
+      standalone World of Warcraft game set in a reimagined original Azeroth,
+      built around the classic 1–60 journey and expanded with modern systems.
+      This wiki collects the official facts today and will grow into full
+      class and leveling guides as the beta data settles.
+    </p>
+    <p>
+      <span class="stage-badge">
+        Official sources · facts verified <time datetime="2026-09-16">{verified}</time>
+      </span>
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-overview">
+    <h2 id="wiki-overview">What Is World of Warcraft: Forever?</h2>
+    <div class="panel" style="margin: var(--space-4) 0; overflow: hidden; padding: 0;">
+      <img
+        src="/images/hero-forever.jpg"
+        alt="Official World of Warcraft: Forever key art — an adventurer and their bear companion overlooking a river valley in Azeroth"
+        width="1920"
+        height="1080"
+        style="display: block; width: 100%; height: auto;"
+        loading="lazy"
+      />
+    </div>
+    <div class="prose">
+      <p>
+        Announced at BlizzCon 2026, Forever returns to the original Azeroth —
+        the world before the Burning Crusade — and treats it as a living,
+        long-term world rather than a legacy server. Blizzard positions it
+        alongside Modern and Classic as a third way to play World of
+        Warcraft: the familiar 1–60 journey, rebuilt and continuously
+        expanded. The CN tagline is
+        <span lang="zh-Hans">“回应崭新天地的召唤”</span> — “answer the call
+        of a brand-new world.”
+      </p>
+      <p>
+        Combat keeps the deliberate, tactical pacing of Classic — solo pulls
+        take roughly 10–15 seconds, crowd control matters, and threat is
+        real — while itemization, talents, and account-wide progression add
+        new decisions on top.
+      </p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-dates">
+    <h2 id="wiki-dates">WoW Forever Beta &amp; Launch Dates</h2>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Region</th>
+            <th scope="col">Date</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            dates.map((d) => (
+              <tr>
+                <th scope="row">{d.region}</th>
+                <td>
+                  <time datetime={d.date}>{d.label}</time>
+                </td>
+                <td>{d.note}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="prose talent-meta">
+      Dates come from the official announcement and the CN official site;
+      exact hours were not stated consistently (PST/PDT markers differ
+      between paragraphs), so this wiki does not publish a countdown.
+      Re-verify with official channels closer to launch.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-talents">
+    <h2 id="wiki-talents">The WoW Forever Talent System</h2>
+    <div class="prose">
+      <p>
+        Forever keeps the classic talent structure — three trees per class,
+        one point per level from level 10, rows unlocking every 5 points —
+        but the nodes themselves change: a new keystone tier arrives at the
+        16-point mark alongside the classic 11/21/31 milestones, some 1.12
+        talents are kept or reworked, and several iconic buffs that used to
+        be talents become baseline abilities.
+      </p>
+      <p>
+        Start planning in the
+        <a href="/">free talent calculator</a> (all nine classes, shareable
+        builds), or see
+        <a href="/changes/">what changed vs. Classic</a> talent by talent.
+      </p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-legacy">
+    <h2 id="wiki-legacy">The WoW Forever Legacy System <span lang="zh-Hans">（传承系统）</span></h2>
+    <div class="prose">
+      <p>
+        Legacy is Forever's account-wide progression layer: you earn Legacy
+        Points by completing Legacy Challenges, and each character spends
+        them in three non-combat trees — <strong>Adventure</strong>,
+        <strong>Resourcefulness</strong>, and <strong>Professions</strong>.
+        At launch each character can spend up to 16 points, with 65 earnable
+        at the start; points beyond the cap feed a cosmetic reward track.
+        Hardcore keeps its own separate Legacy ecosystem.
+      </p>
+      <p>
+        Browse every perk in the
+        <a href="/legacy/">Legacy system reference &amp; planner</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-world">
+    <h2 id="wiki-world">World &amp; Systems</h2>
+    <div class="card-grid">
+      <div class="panel">
+        <h3>Camping <span lang="zh-Hans">（营地）</span></h3>
+        <p class="talent-meta">
+          The Cooking Fire becomes a place to rest: campsites grant one-hour
+          buffs, vendors, repairs, and profession workstations. Every
+          profession can craft camp objects — Blacksmiths place Sharpening
+          Wheels, Tailors raise Faction Banners, Herbalists light Incense
+          Candles.
+        </p>
+      </div>
+      <div class="panel">
+        <h3>Professions <span lang="zh-Hans">（专业）</span></h3>
+        <p class="talent-meta">
+          600+ new recipes across all professions and level ranges, crafted
+          food with experience bonuses and stat boosts, and advanced
+          Blueprint recipes that drop from specific dungeon bosses.
+        </p>
+      </div>
+      <div class="panel">
+        <h3>Realmless Azeroth <span lang="zh-Hans">（无服务器世界）</span></h3>
+        <p class="talent-meta">
+          No realm list: you pick a ruleset — Normal, PvP, Roleplaying, or
+          Hardcore (after launch) — and group within it. Characters use
+          two-part names unique per region, and factions remain separate.
+        </p>
+      </div>
+      <div class="panel">
+        <h3>Transmogrification <span lang="zh-Hans">（幻化）</span></h3>
+        <p class="talent-meta">
+          New to original Azeroth, with an opt-out: players who prefer the
+          untouched look can disable seeing transmog entirely. Dungeon
+          appearances are granted to all eligible looters; epic raid drops
+          keep their prestige.
+        </p>
+      </div>
+      <div class="panel">
+        <h3>Combat &amp; Itemization</h3>
+        <p class="talent-meta">
+          Spell/melee/ranged hit combine into one stat, as do the three
+          critical chances — a buff for hybrids. New affixes reduce parry/
+          dodge against you, caster weapons gain spell power, and trinkets
+          get situational environment- and creature-type effects.
+        </p>
+      </div>
+      <div class="panel">
+        <h3>Mounts &amp; Riding</h3>
+        <p class="talent-meta">
+          Forever adopts the Burning Crusade-style cost model: the up-front
+          mount cost moves into riding training, and learning the skill
+          grants a mount.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-classes">
+    <h2 id="wiki-classes">The Nine Classes in WoW Forever</h2>
+    <p class="prose">
+      Forever launches with the nine classic classes, three talent trees
+      each — plan any of them in the calculator:
+    </p>
+    <ul class="class-grid">
+      {
+        classes.map((c) => (
+          <li>
+            <a class="class-card" href={`/${c.id}/`}>
+              <img
+                src={`/icons/classes/class_${c.id}.jpg`}
+                alt=""
+                width="56"
+                height="56"
+                class="class-icon"
+                loading="lazy"
+              />
+              <span>
+                <span class="class-name">{c.name}</span>
+                <span class="class-trees">{c.trees}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-guides">
+    <h2 id="wiki-guides">Guides — Coming With Beta Data</h2>
+    <p class="prose">
+      This wiki is the foundation for the site's guide section. Once the
+      beta client lands on September 17 and the numbers stop moving, each
+      anchor above becomes a full guide hub: leveling paths, per-spec build
+      orders, and Legacy challenge routes. Tools that already work today:
+    </p>
+    <ol class="steps">
+      <li>
+        <h3>Talent calculator</h3>
+        <p>
+          Plan and share 51-point builds for all nine classes —
+          <a href="/">start here</a>.
+        </p>
+      </li>
+      <li>
+        <h3>Legacy planner</h3>
+        <p>
+          Spread each character's 16 launch Legacy points —
+          <a href="/legacy/">plan your spread</a>.
+        </p>
+      </li>
+      <li>
+        <h3>Build compare</h3>
+        <p>
+          Diff two setups point by point — <a href="/compare/">open compare</a>.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="page-section" aria-labelledby="wiki-sources">
+    <h2 id="wiki-sources">Sources</h2>
+    <p class="prose">
+      Facts on this page come from official Blizzard channels: the
+      <a
+        href="https://news.blizzard.com/en-us/article/24302093/carve-a-new-path-with-world-of-warcraft-forever"
+        rel="external"
+      >announcement</a>
+      and
+      <a
+        href="https://news.blizzard.com/en-us/article/24303313/world-of-warcraft-forever-deep-dive-panel-recap"
+        rel="external"
+      >Deep Dive panel recap</a>
+      on news.blizzard.com, and the
+      <a href="https://wow.blizzard.cn/forever/" rel="external"
+        >CN official site</a
+      >
+      for CN beta and launch dates. Key art is Blizzard Entertainment's,
+      used on this fan-made site to identify the game (see
+      <a href="/about/">About</a>). Talent and Legacy perk data — which is
+      transcribed from demo footage rather than official text — follows the
+      separate <a href="/sources/">data &amp; sources policy</a>.
+    </p>
+  </section>
+</BaseLayout>

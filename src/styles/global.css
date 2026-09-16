@@ -1,22 +1,36 @@
-/* Design tokens and base styles — WoW fan-site palette.
-   Warm neutral dark (#121212), two-tier gold (#ffd100 / #d2ad70), serif
-   display font for headings (quest-title feel), class colors.
-   References: talentsforever.com, wowforevertalent.com, in-game UI. */
+/* Design tokens and base styles — WoW in-game frame language.
+   Deep blue-black stone (#0a0d13), ornate gold trim tiers (#f4d163 /
+   #c8a24a), Cinzel display type (Friz Quadrata feel), class colors.
+   Panels are built as double frames: black outer line + gold hairline +
+   slate bevel, echoing the in-game talent / quest UI. */
+
+@import '@fontsource/cinzel/600.css';
+@import '@fontsource/cinzel/700.css';
+@import '@fontsource/cinzel/800.css';
 
 :root {
-  --color-bg: #121212;
-  --color-panel: #1e1e1e;
-  --color-panel-raised: #262626;
-  --color-border: #3a3a3a;
-  --color-text: #e8e8e8;
-  --color-text-dim: #bdbdbd;
-  --color-accent: #d2ad70;
-  --color-accent-dim: #c89b1a;
-  --color-gold: #ffd100;
-  --color-gold-light: #ebce9a;
-  --color-danger: #ff4d4d;
+  /* stone surfaces */
+  --color-bg: #0a0d13;
+  --color-bg-deep: #06080c;
+  --color-panel: #141822;
+  --color-panel-raised: #1b202d;
+  --color-panel-sunken: #0e1118;
+  --color-border: #2c3242;
+
+  /* gold trim tiers */
+  --color-accent: #d8b56a;
+  --color-accent-dim: #a8863d;
+  --color-gold: #f4d163;
+  --color-gold-deep: #c8a24a;
+  --color-gold-light: #f7e3ac;
+  --color-trim-line: rgb(200 162 74 / 0.55);
+
+  --color-text: #e6e1d3;
+  --color-text-dim: #a9a698;
+  --color-danger: #ff5050;
   --color-ok: #7fbf6a;
   --color-unknown: #8a8a8a;
+  --color-enchant: #1eff00;
 
   --class-warrior: #c79c6e;
   --class-paladin: #f58cba;
@@ -35,14 +49,32 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  --radius: 8px;
+  --radius: 6px;
   --font-ui:
     'Open Sans', 'Segoe UI', system-ui, -apple-system, Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-display:
-    'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman',
-    serif;
+    'Cinzel', 'Friz Quadrata', 'Palatino Linotype', 'Book Antiqua', Palatino,
+    Georgia, serif;
   --touch-target: 44px;
+
+  /* game-frame shadow stack: black outer line + gold hairline + drop */
+  --frame-gold:
+    0 0 0 1px #000,
+    0 0 0 2px var(--color-trim-line),
+    0 6px 18px rgb(0 0 0 / 0.55);
+  --frame-plain:
+    0 0 0 1px #000,
+    0 0 0 2px rgb(84 92 112 / 0.35),
+    0 6px 18px rgb(0 0 0 / 0.45);
+
+  /* slate bevel for panels */
+  --panel-face: linear-gradient(180deg, #171c27 0%, #10141d 100%);
+  --panel-face-raised: linear-gradient(180deg, #20263466 0%, #14182266 100%),
+    #1b202d;
+
+  /* fine stone noise, overlaid by body::before */
+  --noise-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 *,
@@ -58,12 +90,29 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(ellipse at 50% 120px, rgb(210 173 112 / 0.08), transparent 600px),
+    radial-gradient(ellipse 900px 460px at 50% -80px, rgb(200 162 74 / 0.09), transparent),
+    radial-gradient(ellipse 1400px 900px at 50% 115%, rgb(20 34 58 / 0.35), transparent),
     var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.55;
+}
+
+/* fixed stone-grain overlay (decorative only) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--noise-url);
+  background-size: 160px 160px;
+  pointer-events: none;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -87,7 +136,10 @@ h3 {
 h1,
 h2 {
   color: var(--color-gold);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.035em;
+  text-shadow:
+    0 1px 0 #000,
+    0 2px 6px rgb(0 0 0 / 0.8);
 }
 
 h3 {
@@ -120,4 +172,56 @@ button {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 var(--space-4);
+}
+
+/* ---------- game-frame building blocks ---------- */
+
+/* Ornate gold frame: black outer line, gold hairline, slate bevel face.
+   Used by hero sections and feature panels. */
+.frame-gold {
+  background:
+    linear-gradient(180deg, rgb(200 162 74 / 0.14), rgb(200 162 74 / 0.03) 34%),
+    var(--panel-face);
+  border-radius: var(--radius);
+  box-shadow: var(--frame-gold), inset 0 1px 0 rgb(255 224 130 / 0.12);
+}
+
+/* subtle inner glow line just inside the gold hairline */
+.frame-gold--inner {
+  position: relative;
+}
+
+.frame-gold--inner::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgb(200 162 74 / 0.18);
+  border-radius: calc(var(--radius) - 3px);
+  pointer-events: none;
+}
+
+/* engraved section divider: hairline fading to a centered diamond */
+.divider-ornate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-2) 0;
+  color: var(--color-accent-dim);
+}
+
+.divider-ornate::before,
+.divider-ornate::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-trim-line));
+}
+
+.divider-ornate::after {
+  background: linear-gradient(90deg, var(--color-trim-line), transparent);
+}
+
+.divider-ornate svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 3px rgb(244 209 99 / 0.4));
 }

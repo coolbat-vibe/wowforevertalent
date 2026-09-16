@@ -33,6 +33,38 @@ export function loadAllSnapshots(): ClassSnapshot[] {
   return loadManifest().classes.map((c) => loadClassSnapshot(c.classId));
 }
 
+export interface LegacyPerk {
+  perkId: string;
+  name: string;
+  maxRank: number;
+  text: string;
+  iconRef: string;
+  evidenceStatus: string;
+  sourceIds: string[];
+}
+
+export interface LegacyData {
+  schemaVersion: number;
+  snapshotId: string;
+  note: string | null;
+  spendCapPerCharacter: number;
+  earnableCapAtStart: number;
+  trees: {
+    treeId: string;
+    name: string;
+    iconRef: string;
+    perks: LegacyPerk[];
+  }[];
+}
+
+export function loadLegacy(): LegacyData {
+  const manifest = loadManifest();
+  if (!manifest.legacy) throw new Error('manifest has no legacy entry');
+  return JSON.parse(
+    readFileSync(path.join(root, 'public', manifest.legacy.path), 'utf8'),
+  );
+}
+
 export const CLASS_ORDER = [
   'warrior',
   'paladin',

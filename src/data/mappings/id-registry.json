@@ -2348,5 +2348,105 @@
     "classId": "druid",
     "sourceName": "Wild Growth",
     "sourceTree": "Restoration"
+  },
+  "adventure:well-rested": {
+    "classId": "legacy",
+    "sourceName": "Well Rested",
+    "sourceTree": "Adventure"
+  },
+  "adventure:talented": {
+    "classId": "legacy",
+    "sourceName": "Talented",
+    "sourceTree": "Adventure"
+  },
+  "adventure:high-alert": {
+    "classId": "legacy",
+    "sourceName": "High Alert",
+    "sourceTree": "Adventure"
+  },
+  "adventure:thrill-of-adventure": {
+    "classId": "legacy",
+    "sourceName": "Thrill of Adventure",
+    "sourceTree": "Adventure"
+  },
+  "adventure:field-guide": {
+    "classId": "legacy",
+    "sourceName": "Field Guide",
+    "sourceTree": "Adventure"
+  },
+  "adventure:frequent-flier": {
+    "classId": "legacy",
+    "sourceName": "Frequent Flier",
+    "sourceTree": "Adventure"
+  },
+  "adventure:field-medicine": {
+    "classId": "legacy",
+    "sourceName": "Field Medicine",
+    "sourceTree": "Adventure"
+  },
+  "resourcefulness:the-quick-and-the-dead": {
+    "classId": "legacy",
+    "sourceName": "The Quick and the Dead",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:reinforce": {
+    "classId": "legacy",
+    "sourceName": "Reinforce",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:diplomat": {
+    "classId": "legacy",
+    "sourceName": "Diplomat",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:for-great-honor": {
+    "classId": "legacy",
+    "sourceName": "For Great Honor",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:permanence": {
+    "classId": "legacy",
+    "sourceName": "Permanence",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:gourmand": {
+    "classId": "legacy",
+    "sourceName": "Gourmand",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:reagent-economy": {
+    "classId": "legacy",
+    "sourceName": "Reagent Economy",
+    "sourceTree": "Resourcefulness"
+  },
+  "professions:working-overtime": {
+    "classId": "legacy",
+    "sourceName": "Working Overtime",
+    "sourceTree": "Professions"
+  },
+  "professions:bountiful-harvest": {
+    "classId": "legacy",
+    "sourceName": "Bountiful Harvest",
+    "sourceTree": "Professions"
+  },
+  "professions:performance-bonus": {
+    "classId": "legacy",
+    "sourceName": "Performance Bonus",
+    "sourceTree": "Professions"
+  },
+  "professions:luremaster": {
+    "classId": "legacy",
+    "sourceName": "Luremaster",
+    "sourceTree": "Professions"
+  },
+  "professions:master-chef": {
+    "classId": "legacy",
+    "sourceName": "Master Chef",
+    "sourceTree": "Professions"
+  },
+  "professions:dedicated-study": {
+    "classId": "legacy",
+    "sourceName": "Dedicated Study",
+    "sourceTree": "Professions"
   }
 }

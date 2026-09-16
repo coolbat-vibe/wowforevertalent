@@ -30,5 +30,5 @@ npm run test:e2e     # Playwright: key browser flows + SEO acceptance (needs dis
 
 - Build command: `npm run build`
 - Output directory: `dist`
-- Bind `wowforevertalentcalculator.com`; decide trailing-slash and www policy once.
+- Bind `wowforevertalent.app`; decide trailing-slash and www policy once.
 - Preview deployments must be noindex; verify real HTTP responses after deploy.

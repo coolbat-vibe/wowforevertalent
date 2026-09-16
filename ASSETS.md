@@ -1,5 +1,10 @@
 # Asset Inventory
 
+## Key art (`public/images/`)
+
+- **`hero-forever.jpg`** — official World of Warcraft: Forever key art, sourced from the CN official site CDN (`nie.res.netease.com`, wow.blizzard.cn/forever, fetched 2026-09-16; same artwork appears in Blizzard's EN announcement). Used as the home hero background and on the Wiki page. Blizzard Entertainment game art; fan-made site identifies the game with it, no ownership claimed. Delete the file to fall back to the plain gradient hero.
+- **Policy**: bundled locally (no hotlinking).
+
 ## Talent / class / tree icons (`public/icons/`)
 
 - **What**: 384 JPG icons (9 class, 25 tree, 350 talent), ~1.5 MB total.

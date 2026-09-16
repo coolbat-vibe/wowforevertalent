@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wowforevertalentcalculator.com/sitemap.xml
-Sitemap: https://wowforevertalentcalculator.com/sitemap-index.xml
+Sitemap: https://wowforevertalent.app/sitemap.xml
+Sitemap: https://wowforevertalent.app/sitemap-index.xml

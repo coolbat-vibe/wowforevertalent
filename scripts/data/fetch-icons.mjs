@@ -18,7 +18,7 @@ const manifest = JSON.parse(
   await readFile(path.join(root, 'public/data/manifest.json'), 'utf8'),
 );
 
-const names = { talents: new Set(), classes: new Set(), trees: new Set() };
+const names = { talents: new Set(), classes: new Set(), trees: new Set(), legacy: new Set() };
 for (const c of manifest.classes) {
   const snap = JSON.parse(await readFile(path.join(root, 'public', c.path), 'utf8'));
   names.classes.add(snap.classDef.iconRef);
@@ -35,6 +35,16 @@ const raw = JSON.parse(
 for (const classData of Object.values(raw.talents)) {
   for (const tree of classData.trees) {
     if (tree.icon) names.trees.add(tree.icon);
+  }
+}
+
+// Legacy tree + perk icons, kept in their own folder (legacy planner UI).
+if (raw.legacy && Array.isArray(raw.legacy.trees)) {
+  for (const tree of raw.legacy.trees) {
+    if (tree.icon) names.legacy.add(tree.icon);
+    for (const perk of tree.perks ?? []) {
+      if (perk[3]) names.legacy.add(perk[3]);
+    }
   }
 }
 
@@ -67,7 +77,7 @@ async function fetchAll(kind, set) {
 }
 
 const report = {};
-for (const kind of ['classes', 'trees', 'talents']) {
+for (const kind of ['classes', 'trees', 'talents', 'legacy']) {
   const results = await fetchAll(kind, names[kind]);
   const failed = results.filter((r) => r.status !== 'ok' && r.status !== 'cached');
   report[kind] = {

@@ -9,25 +9,27 @@
 
 ## Calculator pages
 
-- [Home — calculator with class switcher](https://wowforevertalentcalculator.com/)
-- [Warrior](https://wowforevertalentcalculator.com/warrior/)
-- [Paladin](https://wowforevertalentcalculator.com/paladin/)
-- [Hunter](https://wowforevertalentcalculator.com/hunter/)
-- [Rogue](https://wowforevertalentcalculator.com/rogue/)
-- [Priest](https://wowforevertalentcalculator.com/priest/)
-- [Shaman](https://wowforevertalentcalculator.com/shaman/)
-- [Mage](https://wowforevertalentcalculator.com/mage/)
-- [Warlock](https://wowforevertalentcalculator.com/warlock/)
-- [Druid](https://wowforevertalentcalculator.com/druid/)
+- [Home — calculator with class switcher](https://wowforevertalent.app/)
+- [Warrior](https://wowforevertalent.app/warrior/)
+- [Paladin](https://wowforevertalent.app/paladin/)
+- [Hunter](https://wowforevertalent.app/hunter/)
+- [Rogue](https://wowforevertalent.app/rogue/)
+- [Priest](https://wowforevertalent.app/priest/)
+- [Shaman](https://wowforevertalent.app/shaman/)
+- [Mage](https://wowforevertalent.app/mage/)
+- [Warlock](https://wowforevertalent.app/warlock/)
+- [Druid](https://wowforevertalent.app/druid/)
 
 ## Reference & policy pages
 
-- [Talent reference index](https://wowforevertalentcalculator.com/talents/): per-rank effect text, grid positions, Classic comparison
-- [Talent changes vs Classic](https://wowforevertalentcalculator.com/changes/): new / changed / moved / unchanged / removed counts per class
-- [Data & sources](https://wowforevertalentcalculator.com/sources/): snapshot IDs, evidence-status definitions, coverage, CC BY 4.0 attribution
-- [About](https://wowforevertalentcalculator.com/about/)
-- [Privacy](https://wowforevertalentcalculator.com/privacy/)
-- [Terms](https://wowforevertalentcalculator.com/terms/)
+- [Talent reference index](https://wowforevertalent.app/talents/): per-rank effect text, grid positions, Classic comparison
+- [Talent changes vs Classic](https://wowforevertalent.app/changes/): new / changed / moved / unchanged / removed counts per class
+- [Legacy system](https://wowforevertalent.app/legacy/): all 20 Legacy perks across Adventure, Resourcefulness, and Professions, plus a 16-point planner
+- [Wiki](https://wowforevertalent.app/wiki/): what World of Warcraft: Forever is — official launch dates (global and CN), talent and Legacy systems, camping, professions, rulesets, and the nine classes
+- [Data & sources](https://wowforevertalent.app/sources/): snapshot IDs, evidence-status definitions, coverage, CC BY 4.0 attribution
+- [About](https://wowforevertalent.app/about/)
+- [Privacy](https://wowforevertalent.app/privacy/)
+- [Terms](https://wowforevertalent.app/terms/)
 
 ## Data notes
 

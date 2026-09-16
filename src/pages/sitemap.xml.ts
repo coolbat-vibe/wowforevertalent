@@ -10,14 +10,16 @@ const STATIC_ROUTES = [
   '/',
   '/about/',
   '/changes/',
+  '/legacy/',
   '/privacy/',
   '/terms/',
   '/sources/',
   '/talents/',
+  '/wiki/',
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const base = site ?? new URL('https://wowforevertalentcalculator.com');
+  const base = site ?? new URL('https://wowforevertalent.app');
   const routes = [
     ...STATIC_ROUTES,
     ...CLASS_ORDER.flatMap((c) => [`/${c}/`, `/talents/${c}/`]),

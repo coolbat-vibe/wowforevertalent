@@ -5,6 +5,7 @@
  * Input:  data-raw/talentsforever-data.json
  * Output: public/data/manifest.json
  *         public/data/classes/<classId>.<hash>.json  (immutable snapshots)
+ *         public/data/legacy.<hash>.json             (Legacy perk reference)
  *         src/data/generated/manifest.json           (build-time copy)
  *         src/data/mappings/id-registry.json         (stable ID registry)
  */
@@ -327,6 +328,52 @@ for (const [className, meta] of Object.entries(CLASS_META)) {
   });
 }
 
+// Legacy trees: account-wide perks transcribed from the BlizzCon demo
+// (non-combat; 16 points spendable per character at launch, 65 earnable).
+const LEGACY_TREE_SLUGS = {
+  Adventure: 'adventure',
+  Resourcefulness: 'resourcefulness',
+  Professions: 'professions',
+};
+
+function normalizeLegacy(rawLegacy) {
+  if (!rawLegacy || !Array.isArray(rawLegacy.trees)) {
+    fail('legacy section missing or malformed in source data');
+  }
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    snapshotId: '', // filled in after the class snapshotId is derived
+    note: rawLegacy.note ?? null,
+    spendCapPerCharacter: 16,
+    earnableCapAtStart: 65,
+    trees: rawLegacy.trees.map((tree) => {
+      const treeId = LEGACY_TREE_SLUGS[tree.name];
+      if (!treeId) fail(`legacy tree with unknown name: ${tree.name}`);
+      const perks = (tree.perks ?? []).map(([name, maxRank, text, icon]) => {
+        const perkId = `${treeId}:${slugify(name)}`;
+        idRegistry[perkId] = {
+          classId: 'legacy',
+          sourceName: name,
+          sourceTree: tree.name,
+        };
+        return {
+          perkId,
+          name,
+          maxRank,
+          text,
+          iconRef: icon ?? 'unknown',
+          evidenceStatus: 'community_recorded',
+          sourceIds: ['src-talentsforever'],
+        };
+      });
+      return { treeId, name: tree.name, iconRef: tree.icon ?? 'unknown', perks };
+    }),
+  };
+}
+
+const legacy = normalizeLegacy(raw.legacy);
+const legacyPerkCount = legacy.trees.reduce((n, t) => n + t.perks.length, 0);
+
 // Hash per-class snapshots, derive snapshotId from combined digests.
 await mkdir(OUT_DATA, { recursive: true });
 await mkdir(path.join(OUT_DATA, 'classes'), { recursive: true });
@@ -360,6 +407,15 @@ const combinedDigest = sha256(
   classFiles.map((f) => `${f.classId}:${f.digest}`).join('\n'),
 );
 const snapshotId = `snap-${combinedDigest.slice(0, 12)}`;
+
+// Legacy reference file: content-hashed like class snapshots, plus the
+// shared snapshotId so pages can tie a Legacy view to a data snapshot.
+legacy.snapshotId = snapshotId;
+const legacyBody = JSON.stringify(legacy);
+const legacyDigest = sha256(legacyBody);
+const legacyFileName = `legacy.${legacyDigest.slice(0, 12)}.json`;
+const legacyPath = `/data/${legacyFileName}`;
+await writeFile(path.join(OUT_DATA, legacyFileName), legacyBody);
 
 // Rewrite snapshotId inside class files so all classes share one snapshotId.
 for (let i = 0; i < classSnapshots.length; i++) {
@@ -405,6 +461,11 @@ const manifest = {
     },
   ],
   classes: classFiles,
+  legacy: {
+    path: legacyPath,
+    digest: legacyDigest,
+    perkCount: legacyPerkCount,
+  },
   coverage,
   ruleset: RULESET,
 };
@@ -424,6 +485,7 @@ await writeFile(
 
 console.log(`snapshotId: ${snapshotId}`);
 console.log(`classes: ${classFiles.length}, talents: ${coverage.talentCount}`);
+console.log(`legacy: ${legacyPerkCount} perks across ${legacy.trees.length} trees`);
 console.log(
   `ranks: ${coverage.ranksTotal} total, ${coverage.ranksWithText} with text, ` +
     `${coverage.ranksCommunityRecorded} recorded, ${coverage.ranksSourceEstimate} estimate, ` +

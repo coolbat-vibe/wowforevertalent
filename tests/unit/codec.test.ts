@@ -90,9 +90,9 @@ describe('share codec', () => {
 
   it('builds and parses share URLs via the fragment', () => {
     const encoded = encodeBuild(sampleBuild());
-    const url = buildShareUrl('https://wowforevertalentcalculator.com', 'mage', encoded);
+    const url = buildShareUrl('https://wowforevertalent.app', 'mage', encoded);
     expect(url).toBe(
-      `https://wowforevertalentcalculator.com/mage/#b=${encoded}`,
+      `https://wowforevertalent.app/mage/#b=${encoded}`,
     );
     const hash = new URL(url).hash;
     expect(payloadFromHash(hash)).toBe(encoded);

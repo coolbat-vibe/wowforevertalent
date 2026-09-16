@@ -41,7 +41,7 @@ for (const p of PAGES) {
 
     // Self-referencing canonical with trailing slash.
     const canonical = /<link rel="canonical" href="([^"]+)"/.exec(html)?.[1];
-    expect(canonical).toBe(`${baseURL?.replace(/:\d+/, '').replace('http://localhost', 'https://wowforevertalentcalculator.com')}${p.path}`.replace(/\/$/, '') + '/');
+    expect(canonical).toBe(`${baseURL?.replace(/:\d+/, '').replace('http://localhost', 'https://wowforevertalent.app')}${p.path}`.replace(/\/$/, '') + '/');
 
     const description = /<meta name="description" content="([^"]+)"/.exec(html)?.[1];
     expect(description?.length ?? 0).toBeGreaterThan(40);
@@ -105,8 +105,8 @@ test('sitemap excludes noindex pages; robots.txt references sitemap', async ({ r
   expect(plain).not.toContain('/my-builds/');
 
   const robots = await (await request.get('/robots.txt')).text();
-  expect(robots).toContain('Sitemap: https://wowforevertalentcalculator.com/sitemap.xml');
-  expect(robots).toContain('Sitemap: https://wowforevertalentcalculator.com/sitemap-index.xml');
+  expect(robots).toContain('Sitemap: https://wowforevertalent.app/sitemap.xml');
+  expect(robots).toContain('Sitemap: https://wowforevertalent.app/sitemap-index.xml');
 });
 
 test('unknown route returns real 404', async ({ request }) => {

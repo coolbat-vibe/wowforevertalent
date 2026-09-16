@@ -1,0 +1,260 @@
+/* Legacy planner — same game-frame language as the talent calculator. */
+
+.planner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.plannerBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background:
+    linear-gradient(180deg, rgb(200 162 74 / 0.12), rgb(200 162 74 / 0.02) 60%),
+    linear-gradient(180deg, #171c27, #10141d);
+  border: 1px solid #000;
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 1px rgb(200 162 74 / 0.55),
+    inset 0 1px 0 rgb(255 224 130 / 0.1),
+    0 4px 12px rgb(0 0 0 / 0.45);
+}
+
+.pointsLeft {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.pointsNum {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  text-shadow:
+    0 1px 0 #000,
+    0 0 12px rgb(244 209 99 / 0.35);
+}
+
+.earnableNote {
+  margin: 0;
+  flex: 1 1 260px;
+  font-size: 0.82rem;
+  color: var(--color-text-dim);
+}
+
+.resetBtn {
+  min-height: 36px;
+  padding: var(--space-1) var(--space-4);
+  background: linear-gradient(180deg, #262c3b 0%, #141822 100%);
+  color: var(--color-text);
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px var(--color-border),
+    inset 0 1px 0 rgb(255 255 255 / 0.06);
+  font-weight: 600;
+}
+
+.resetBtn:hover {
+  color: var(--color-gold-light);
+  box-shadow:
+    0 0 0 1px var(--color-accent-dim),
+    inset 0 1px 0 rgb(255 224 130 / 0.12);
+}
+
+.resetBtn[aria-disabled='true'] {
+  opacity: 0.45;
+}
+
+.trees {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.treeCard {
+  background:
+    linear-gradient(180deg, rgb(200 162 74 / 0.1), rgb(200 162 74 / 0.02) 30%),
+    linear-gradient(180deg, #171c27, #10141d);
+  border: 1px solid #000;
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 1px rgb(200 162 74 / 0.55),
+    inset 0 1px 0 rgb(255 224 130 / 0.1),
+    0 6px 18px rgb(0 0 0 / 0.55);
+  padding: var(--space-3);
+}
+
+.treeHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 rgb(200 162 74 / 0.55);
+}
+
+.treeIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  box-shadow: 0 0 0 1px rgb(200 162 74 / 0.55);
+  flex-shrink: 0;
+}
+
+.treeName {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 0 #000;
+}
+
+.treePoints {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  text-shadow: 0 1px 0 #000;
+  min-width: 24px;
+  text-align: center;
+}
+
+.perkList {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perk {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: rgb(6 8 12 / 0.55);
+  border: 1px solid rgb(44 50 66 / 0.7);
+  border-radius: 4px;
+}
+
+.perkMaxed {
+  border-color: rgb(200 162 74 / 0.6);
+  box-shadow: inset 0 0 0 1px rgb(200 162 74 / 0.25);
+}
+
+.perkPartial {
+  border-color: rgb(79 191 58 / 0.45);
+}
+
+.perkIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  box-shadow: 0 0 0 1px rgb(200 162 74 / 0.4);
+  flex-shrink: 0;
+}
+
+.iconFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2c3242, #10141d);
+  color: var(--color-text-dim);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.perkBody {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.perkName {
+  font-weight: 700;
+  color: var(--color-gold-light);
+  font-size: 0.92rem;
+}
+
+.perkMaxed .perkName {
+  color: var(--color-gold);
+}
+
+.perkText {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-text-dim);
+}
+
+.perkControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepBtn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: linear-gradient(180deg, #4a3d22 0%, #2b2312 100%);
+  color: var(--color-gold);
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px var(--color-accent-dim),
+    inset 0 1px 0 rgb(255 224 130 / 0.28);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stepBtn:hover {
+  color: var(--color-gold-light);
+  box-shadow:
+    0 0 0 1px var(--color-accent),
+    inset 0 1px 0 rgb(255 224 130 / 0.35);
+}
+
+.stepBtn[aria-disabled='true'] {
+  opacity: 0.35;
+  box-shadow: 0 0 0 1px var(--color-border);
+  color: var(--color-text-dim);
+}
+
+.perkRank {
+  min-width: 34px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-dim);
+}
+
+.perkMaxed .perkRank {
+  color: var(--color-gold);
+}
+
+.perkPartial .perkRank {
+  color: var(--color-enchant);
+}
+
+.plannerNote {
+  margin: 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--color-text-dim);
+}

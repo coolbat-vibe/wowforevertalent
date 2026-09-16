@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const r = (p) => fileURLToPath(new URL(p, import.meta.url));
 
 export default defineConfig({
-  site: 'https://wowforevertalentcalculator.com',
+  site: 'https://wowforevertalent.app',
   trailingSlash: 'always',
   output: 'static',
   integrations: [

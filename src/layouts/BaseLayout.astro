@@ -30,7 +30,7 @@ const {
   classColor,
 } = Astro.props;
 
-const site = Astro.site ?? new URL('https://wowforevertalentcalculator.com');
+const site = Astro.site ?? new URL('https://wowforevertalent.app');
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).href;
 const ogImage = new URL('/og-cover.svg', site).href;
 const isHome = Astro.url.pathname === '/';
@@ -185,7 +185,6 @@ if (breadcrumbs && breadcrumbs.length > 0) {
             </svg>
           </label>
           <nav class="site-nav" aria-label="Primary">
-            <a href="/">Calculator</a>
             <details class="nav-group">
               <summary>Classes</summary>
               <div class="nav-group-menu">
@@ -202,8 +201,9 @@ if (breadcrumbs && breadcrumbs.length > 0) {
               </div>
             </details>
             <a href="/changes/">Changes</a>
+            <a href="/wiki/">Wiki</a>
+            <a href="/legacy/">Legacy</a>
             <a href="/sources/">Sources</a>
-            <a href="/about/">About</a>
             <a href="/my-builds/">My Builds</a>
             <a href="/compare/">Compare</a>
           </nav>
@@ -256,6 +256,7 @@ if (breadcrumbs && breadcrumbs.length > 0) {
             <a href="/privacy/">Privacy</a>
             <a href="/terms/">Terms</a>
             <a href="/changes/">Changes</a>
+            <a href="/legacy/">Legacy</a>
             <a href="/compare/">Compare</a>
             <a href="/my-builds/">My Builds</a>
           </nav>
