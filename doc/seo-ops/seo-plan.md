@@ -81,6 +81,8 @@
 | P2 | 第一批 referring domains | S1 外链任务延续 | ≥ 3 个真实相关来源域名 | not_started |
 | P2 | 9 职业页内容对齐 Druid 模板 | Druid 页跳出率 18.2% 表现最好 | 内容质量对齐 + 有数据后复查 CTR | not_started |
 | P1 | Beta 数据更新内容页 | 9-17 Beta 已开，数据源会重建 | 数据更新后 Changes/Legacy 页同步 + 日志记录 | in_progress（等待源） |
+| P2 | **变现准备：AdSense 申请** | **日均 UV ≥ 300 且连续 2 周**（GA4 报告监控） | AdSense 过审 + ads.txt 上线；合规页已齐 | not_started（等触发信号） |
+| P3 | Adsterra 评估 | AdSense 有 2-4 周真实 RPM 数据 | 对比 RPM/UX 后裁决是否作补充或兜底 | not_started（明确不在当前流量段申请） |
 | P3 | GA4 关键事件补充（compare 打开、Legacy 规划使用） | 关键事件基线稳定 | 事件上报且标记 | not_started |
 
 ---
@@ -95,6 +97,7 @@
 - 默认查询窗口：7d（数据少时用 28d）
 - 页面 cohort 复查点：D7 / D30
 - 数据延迟缓冲：T-3，回补最近 7 天
+- **变现触发阈值**：日均 UV ≥ 300 连续 2 周 → 启动 AdSense 申请（每日 GA4 检查监控此值）
 
 ## 七、下一步优化方向（按优先级）
 
