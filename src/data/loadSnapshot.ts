@@ -14,6 +14,11 @@ const root = process.cwd();
 
 export interface SiteManifest extends DatasetManifest {
   ruleset: Ruleset;
+  legacy?: {
+    path: string;
+    digest: string;
+    perkCount: number;
+  };
 }
 
 export function loadManifest(): SiteManifest {

@@ -69,6 +69,17 @@ interface ToastState {
 const TOAST_MS = 3200;
 const TOAST_LEAVE_MS = 400;
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+/** GA4 custom event; no-op when analytics is blocked or absent. */
+function trackEvent(name: string, params: Record<string, unknown> = {}): void {
+  window.gtag?.('event', name, params);
+}
+
 const HISTORY_LIMIT = 50;
 
 type PageState =
@@ -224,7 +235,6 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       setFuture([]);
       buildRef.current = result.build;
       setBuild(result.build);
-      setActionError(null);
       return true;
     },
     [snapshot, ruleset, structureOk],
@@ -361,6 +371,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
     const result = saveNamedBuild(buildRef.current, saveName);
     if (result.ok) {
       showToast(`Saved “${result.value.name}”. Find it under My Builds.`, 'ok');
+      trackEvent('save_build', { class_id: classId });
       setSaveName('');
     } else {
       showToast(`Could not save: ${result.error.message}`, 'error');
@@ -372,11 +383,14 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
     try {
       const url = buildShareUrl(window.location.origin, classId, encodeBuild(buildRef.current));
       setShareUrl(url);
+      trackEvent('share_create', { class_id: classId });
       try {
         await navigator.clipboard.writeText(url);
         showToast('Share link copied to clipboard.', 'ok');
+        trackEvent('share_copy', { class_id: classId, method: 'clipboard' });
       } catch {
         showToast('Copy the full link below.', 'ok');
+        trackEvent('share_copy', { class_id: classId, method: 'manual' });
       }
     } catch {
       showToast('Could not create a share link for this build.', 'error');
@@ -390,6 +404,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
     if (!shareUrl || typeof navigator.share !== 'function') return;
     try {
       await navigator.share({ title: 'WoW Forever talent build', url: shareUrl });
+      trackEvent('share_copy', { class_id: classId, method: 'native' });
     } catch {
       // user dismissed or share failed; the copyable link stays visible
     }
