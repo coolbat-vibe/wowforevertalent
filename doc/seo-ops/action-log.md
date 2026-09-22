@@ -19,3 +19,5 @@
 | 20260916-05 | 2026-09-16 | 内容 | 上线 /wiki/ 官方资料 Wiki（含国服/全球日期） | /wiki/ | wow forever wiki, what is wow forever | 新页面 | — | — | 本仓库 | live_verified | D7/D30 | commit 102bb73 | 2026-10-16 | — |
 | 20260920-01 | 2026-09-20 | 体验 | GA4 关键事件埋点：share_create / share_copy / save_build | 计算器全站 | — | trackEvent helper | — | — | 本仓库 | live_verified | D7 | commit 78493cd | 2026-09-27 | share_copy 已标关键事件 |
 | 20260920-02 | 2026-09-20 | GSC发现 | 首批索引数据：19/27 已索引；GA4 首周 190 用户（google/organic 93，chatgpt.com 5） | 全站 | wow forever talent calculator 族 | — | — | — | GSC / GA4 | 已记录 | D7 | doc/seo-ops/reports/ | 2026-09-27 | 查询数据返回后建 B2 |
+| 20260922-01 | 2026-09-22 | 内容 | /druid/ 新增"headliner new talents"叙事块（Eclipse/Mangle/Berserk/Wild Growth，数据驱动）+ 指向 /changes/、/talents/druid/、/legacy/ 的内链 | /druid/ | wow forever druid talents | — | — | — | 本仓库 | live_verified | D7 | commit 待填（78493cd 后） | 2026-09-29 | 观察 /druid/ 点击与排名变化；有效则推广到其他 8 个职业页 |
+| 20260922-02 | 2026-09-22 | GSC发现 | 查询数据返回：95→119 点击 / 1110→1590 曝光 / 平均排名 9.7；首个职业词 wow forever druid talents 出曝光（1/57） | 全站 | wow forever druid talents | — | — | — | GSC | 已记录 | D7 | doc/seo-ops/reports/2026-09-22.md | 2026-09-29 | — |

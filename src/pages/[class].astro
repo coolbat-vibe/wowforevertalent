@@ -50,6 +50,29 @@ const treeSummaries = snapshot.trees.map((tree) => {
   );
   return { tree, maxGate, iconUrl: treeIconUrl(tree.treeId) };
 });
+
+// S2 pilot (2026-09-22): curated "headliner new talents" narrative, druid
+// first — the first class page with class-specific query impressions.
+// Text is pulled from the live snapshot so data updates keep it accurate.
+// Roll out to other classes after measuring CTR/position on /druid/.
+const HIGHLIGHT_TALENTS: Partial<Record<(typeof CLASS_ORDER)[number], string[]>> = {
+  druid: ['Eclipse', 'Mangle', 'Berserk', 'Wild Growth'],
+};
+const highlights = (HIGHLIGHT_TALENTS[classId as (typeof CLASS_ORDER)[number]] ?? [])
+  .map((name) => {
+    const talent = snapshot.talents.find(
+      (t) => t.name === name && t.classic?.status === 'new',
+    );
+    if (!talent) return null;
+    const treeName =
+      snapshot.trees.find((tr) => tr.treeId === talent.treeId)?.name ?? '';
+    return {
+      name: talent.name,
+      tree: treeName,
+      text: talent.rankEffects.find((r) => r.rank === 1)?.text ?? '',
+    };
+  })
+  .filter((h) => h !== null && h.text !== '');
 ---
 
 <BaseLayout
@@ -159,6 +182,32 @@ const treeSummaries = snapshot.trees.map((tree) => {
           Classic {cls.name} talents that no longer appear:{' '}
           {removed.map((r) => r.name).join(', ')}.
         </p>
+      )
+    }
+    {
+      highlights.length > 0 && (
+        <div class="panel" style="margin-top: var(--space-4);">
+          <h3>The headliner new {cls.name} talents in Forever</h3>
+          <p class="prose">
+            Forever adds {stats.new} brand-new {cls.name} talents on top of the
+            Classic tree. The ones most likely to redefine your spec:
+          </p>
+          <ul class="prose">
+            {highlights.map((h) => (
+              <li>
+                <strong>{h.name}</strong> ({h.tree} tree) — {h.text}
+              </li>
+            ))}
+          </ul>
+          <p class="prose">
+            Theorycrafting how they fit together? The{' '}
+            <a href="/changes/">full talent changes report</a> and the{' '}
+            <a href={`/talents/${classId}/`}>{cls.name} talent reference</a>{' '}
+            list every rank side by side with Classic, and the{' '}
+            <a href="/legacy/">Legacy perk planner</a> covers the account-wide
+            bonuses that level alongside your tree.
+          </p>
+        </div>
       )
     }
     <p>
