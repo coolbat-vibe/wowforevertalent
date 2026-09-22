@@ -12,18 +12,18 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-09-21
+## 运营快照 2026-09-22
 
-- 当前阶段：**S2 已进入**（查询数据已返回：95 点击 / 1110 曝光 / 平均排名 10）
+- 当前阶段：**S2 已进入**（查询数据持续返回：119 点击 / 1590 曝光 / 平均排名 9.7）
 - demand_status：游戏 2026-11-04 上线，需求窗口明确且持续增长
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
 - live_status：verified_live（首页/职业页/Legacy/Wiki 全部 200）
-- search_status：19/27 索引；95 点击 / 1110 曝光 / 平均排名 10（窗口 09-15~09-18）；核心词 wow forever talent calculator 排名 ~10
-- growth_status：GA4 190 用户（google/organic 93，chatgpt.com 5）；share_copy 关键事件已标记
+- search_status：19/27 索引；119 点击 / 1590 曝光 / 平均排名 9.7（窗口 09-15~09-19）；曝光日增 +43%；首个职业词（druid talents）出曝光
+- growth_status：GA4 过去 7 天 228 用户 / 459 浏览；share_copy 关键事件已标记；save_build 处理中
 - blocker_status：GA4↔GSC 关联向导需人工完成（自动化不生效）
-- GSC 最近完整日期：2026-09-18（T-3）
-- 今日唯一重点：wowforevertalent 低 CTR 复查 + 建立关键词机会队列
+- GSC 最近完整日期：2026-09-19（T-3）
+- 今日唯一重点：德鲁伊词机会加固（/druid/ 内容块 + 内链）
 - 当前 P0：无
 - 下次复查：每日 09:00（自动）
 
