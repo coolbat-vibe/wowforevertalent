@@ -12,18 +12,18 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-09-23
+## 运营快照 2026-09-24
 
-- 当前阶段：**S2 已进入**（查询数据持续增长：130 点击 / 2040 曝光 / 平均排名 10）
+- 当前阶段：**S2 已进入**（150 点击 / 2440 曝光 / 平均排名 10.3；索引单日 +4 至 23）
 - demand_status：游戏 2026-11-04 上线，需求窗口明确且持续增长
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
 - live_status：verified_live（首页/职业页/Legacy/Wiki 全部 200）
-- search_status：19/27 索引；130 点击 / 2040 曝光 / 平均排名 10（窗口 09-15~09-20）；曝光日增 +28%；wowforevertalent 低 CTR 进入复查期
-- growth_status：GA4 过去 7 天 285 用户 / 558 浏览；share_copy / save_build 关键事件已标记
+- search_status：23/27+ 索引（+4）；150 点击 / 2440 曝光 / 排名 10.3（窗口 09-15~09-21）；首页 description 实验今日启动
+- growth_status：GA4 过去 7 天 315 用户 / 604 浏览；share_copy / save_build 关键事件已标记
 - blocker_status：GA4↔GSC 关联向导需人工完成（自动化不生效）
-- GSC 最近完整日期：2026-09-20（T-3）
-- 今日唯一重点：明日启动 wowforevertalent 低 CTR 的 description 实验
+- GSC 最近完整日期：2026-09-21（T-3）
+- 今日唯一重点：description 实验上线（已部署），观察窗口至 10-01
 - 当前 P0：无
 - 下次复查：每日 09:00（自动）
 
