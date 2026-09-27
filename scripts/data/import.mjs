@@ -401,6 +401,7 @@ await mkdir(OUT_MAP, { recursive: true });
 // links resolve against them via public/data/snapshots.json. Never delete
 // other generations here — only overwrite this import's own class files.
 const classFiles = [];
+const intermediateFiles = [];
 for (const snap of classSnapshots) {
   const body = JSON.stringify(snap.classDef) + JSON.stringify(snap.trees) +
     JSON.stringify(snap.talents);
@@ -410,6 +411,7 @@ for (const snap of classSnapshots) {
   const finalDigest = sha256(finalBody);
   const fileName = `${snap.classDef.classId}.${finalDigest.slice(0, 12)}.json`;
   await writeFile(path.join(OUT_DATA, 'classes', fileName), finalBody);
+  intermediateFiles.push(fileName);
   classFiles.push({
     classId: snap.classDef.classId,
     path: `/data/classes/${fileName}`,
@@ -451,6 +453,10 @@ for (let i = 0; i < classSnapshots.length; i++) {
     path.join(OUT_DATA, 'classes', fileName),
     JSON.stringify(classSnapshots[i]),
   );
+  const inter = intermediateFiles[i];
+  if (inter && inter !== fileName) {
+    await rm(path.join(OUT_DATA, 'classes', inter)).catch(() => {});
+  }
 }
 
 // Snapshot registry: old share links resolve against the generation they
