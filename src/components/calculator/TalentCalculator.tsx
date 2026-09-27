@@ -31,6 +31,7 @@ import {
   decodeBuild,
   encodeBuild,
   payloadFromHash,
+  peekPayloadMeta,
 } from '@domain/sharing/codec';
 import {
   MAX_NAME_LENGTH,
@@ -89,8 +90,10 @@ type PageState =
 
 export default function TalentCalculator(props: TalentCalculatorProps): JSX.Element {
   const { snapshot, manifest } = props;
+  // Active generation: current by default; historical share links swap this.
+  const [activeSnapshot, setActiveSnapshot] = useState(snapshot);
   const ruleset = manifest.ruleset;
-  const classId = snapshot.classDef.classId;
+  const classId = activeSnapshot.classDef.classId;
   const structureOk = manifest.coverage.structureReviewed;
 
   const [build, setBuild] = useState<Build>(() =>
@@ -100,7 +103,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   const [past, setPast] = useState<Build[]>([]);
   const [future, setFuture] = useState<Build[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [activeTreeId, setActiveTreeId] = useState(snapshot.trees[0]?.treeId ?? '');
+  const [activeTreeId, setActiveTreeId] = useState(activeSnapshot.trees[0]?.treeId ?? '');
   const [storageWarning, setStorageWarning] = useState(false);
   const [levelText, setLevelText] = useState(String(ruleset.defaultLevel));
   const [saveName, setSaveName] = useState('');
@@ -167,8 +170,59 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
     if (!storageAvailable()) setStorageWarning(true);
     const url = window.location.href;
     const payload = payloadFromHash(window.location.hash);
-    if (payload) {
-      const decoded = decodeBuild(payload, [manifest.snapshotId], ruleset);
+    if (!payload) {
+      const draft = loadDraft(classId, manifest.snapshotId);
+      if (draft && validateBuild(draft, activeSnapshot, ruleset).valid) {
+        setBuild(draft);
+      }
+      // An invalid or stale draft is left untouched in storage but not restored.
+      resetHistory();
+      initializedRef.current = true;
+      return;
+    }
+    void (async () => {
+      // Historical links carry the generation they were created with; they
+      // resolve against that snapshot (kept in /data/snapshots.json) so old
+      // builds keep opening exactly as saved.
+      const meta = peekPayloadMeta(payload);
+      let targetSnapshot: ClassSnapshot = activeSnapshot;
+      let targetSnapshotId = manifest.snapshotId;
+      if (meta && meta.s !== manifest.snapshotId) {
+        try {
+          const res = await fetch('/data/snapshots.json');
+          if (!res.ok) throw new Error('registry unavailable');
+          const registry = (await res.json()) as {
+            snapshotId: string;
+            classes: Record<string, string>;
+          }[];
+          const entry = Array.isArray(registry)
+            ? registry.find((e) => e.snapshotId === meta.s)
+            : null;
+          const path = entry?.classes[classId];
+          if (!entry || !path) throw new Error('snapshot not in registry');
+          const res2 = await fetch(path);
+          if (!res2.ok) throw new Error('snapshot fetch failed');
+          targetSnapshot = (await res2.json()) as ClassSnapshot;
+          targetSnapshotId = meta.s;
+          setActiveSnapshot(targetSnapshot);
+        } catch {
+          setPage({
+            status: 'error',
+            message: ruleErrorMessage(
+              {
+                code: 'UNSUPPORTED_VERSION',
+                message: `unknown snapshot ${meta.s}`,
+              },
+              ruleset,
+            ),
+            url,
+          });
+          resetHistory();
+          initializedRef.current = true;
+          return;
+        }
+      }
+      const decoded = decodeBuild(payload, [targetSnapshotId], ruleset);
       if (!decoded.ok) {
         setPage({ status: 'error', message: ruleErrorMessage(decoded.error, ruleset), url });
       } else if (decoded.build.classId !== classId) {
@@ -186,7 +240,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
           });
         }
       } else {
-        const validation = validateBuild(decoded.build, snapshot, ruleset);
+        const validation = validateBuild(decoded.build, targetSnapshot, ruleset);
         if (!validation.valid) {
           const first = validation.errors[0];
           setPage({
@@ -201,15 +255,9 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
           setPage({ status: 'ready', readOnly: true });
         }
       }
-    } else {
-      const draft = loadDraft(classId, manifest.snapshotId);
-      if (draft && validateBuild(draft, snapshot, ruleset).valid) {
-        setBuild(draft);
-      }
-      // An invalid or stale draft is left untouched in storage but not restored.
-    }
-    resetHistory();
-    initializedRef.current = true;
+      resetHistory();
+      initializedRef.current = true;
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -222,7 +270,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       // during the later render, by which time buildRef already points at
       // the new state.
       const prevBuild = buildRef.current;
-      const result = applyAction(prevBuild, action, snapshot, ruleset);
+      const result = applyAction(prevBuild, action, activeSnapshot, ruleset);
       if (!result.ok) {
         const first = result.errors[0];
         showToast(first ? ruleErrorMessage(first, ruleset) : 'That change is not allowed.', 'error');
@@ -237,7 +285,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       setBuild(result.build);
       return true;
     },
-    [snapshot, ruleset, structureOk],
+    [activeSnapshot, ruleset, structureOk],
   );
 
   const handleAdd = useCallback((id: string) => dispatch({ type: 'add', talentId: id }), [dispatch]);
@@ -247,12 +295,12 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   );
   const handleResetTree = useCallback(
     (treeId: string) => {
-      const tree = snapshot.trees.find((t) => t.treeId === treeId);
+      const tree = activeSnapshot.trees.find((t) => t.treeId === treeId);
       if (!tree) return;
       const hasPoints = tree.talentIds.some((id) => (buildRef.current.allocation[id] ?? 0) > 0);
       if (hasPoints) dispatch({ type: 'resetTree', treeId });
     },
-    [dispatch, snapshot],
+    [dispatch, activeSnapshot],
   );
   const handleResetAll = useCallback(() => {
     if (Object.keys(buildRef.current.allocation).length > 0) dispatch({ type: 'resetAll' });
@@ -324,26 +372,26 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   // ---- Derived data (memoized for tree rendering). ----
   const availability = useMemo(() => {
     const map = new Map<string, NodeAvailability>();
-    for (const t of snapshot.talents) {
-      map.set(t.talentId, getNodeAvailability(t.talentId, build, snapshot, ruleset));
+    for (const t of activeSnapshot.talents) {
+      map.set(t.talentId, getNodeAvailability(t.talentId, build, activeSnapshot, ruleset));
     }
     return map;
-  }, [build, snapshot, ruleset]);
+  }, [build, activeSnapshot, ruleset]);
 
   const nodesByTree = useMemo(() => {
     const map = new Map<string, TalentNode[]>();
-    for (const tree of snapshot.trees) {
+    for (const tree of activeSnapshot.trees) {
       map.set(
         tree.treeId,
-        snapshot.talents.filter((t) => t.treeId === tree.treeId),
+        activeSnapshot.talents.filter((t) => t.treeId === tree.treeId),
       );
     }
     return map;
-  }, [snapshot]);
+  }, [activeSnapshot]);
 
   const treeTotals = useMemo(
-    () => perTreeTotals(build.allocation, snapshot),
-    [build.allocation, snapshot],
+    () => perTreeTotals(build.allocation, activeSnapshot),
+    [build.allocation, activeSnapshot],
   );
 
   const budgetResult = getPointBudget(build.level, build.budgetProfile, ruleset);
@@ -352,7 +400,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
   const remaining = Math.max(0, budget - spent);
 
   const selectedNode = selectedId
-    ? (snapshot.talents.find((t) => t.talentId === selectedId) ?? null)
+    ? (activeSnapshot.talents.find((t) => t.talentId === selectedId) ?? null)
     : null;
 
   // ---- Toolbar actions. ----
@@ -466,7 +514,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       {page.status === 'ready' && page.readOnly ? (
         <div className={styles.infoBanner} data-testid="external-banner" role="status">
           <p>
-            You are viewing a shared build (snapshot {manifest.snapshotId}, level {build.level}).
+            You are viewing a shared build (snapshot {activeSnapshot.snapshotId}, level {build.level}).
             It is read-only until you edit a copy — your local draft is untouched.
           </p>
           <button type="button" className={styles.button} data-testid="btn-edit-copy" onClick={onEditCopy}>
@@ -518,7 +566,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
       {page.status !== 'error' ? (
         <>
           <p className={styles.dataLine}>
-            {snapshot.classDef.name} talents · {manifest.stage} data · published{' '}
+            {activeSnapshot.classDef.name} talents · {manifest.stage} data · published{' '}
             {manifest.publishedAt} · Legacy early-point effects are not included in the standard
             budget.
           </p>
@@ -650,7 +698,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
           </p>
 
           <div className={styles.tabs} role="tablist" aria-label="Talent trees">
-            {snapshot.trees.map((tree) => (
+            {activeSnapshot.trees.map((tree) => (
               <button
                 key={tree.treeId}
                 type="button"
@@ -668,7 +716,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
 
           <div className={styles.layout}>
             <div className={styles.trees}>
-              {snapshot.trees.map((tree) => (
+              {activeSnapshot.trees.map((tree) => (
                 <TreePanel
                   key={tree.treeId}
                   tree={tree}
@@ -691,7 +739,7 @@ export default function TalentCalculator(props: TalentCalculatorProps): JSX.Elem
             <DetailPanel
               node={selectedNode}
               build={build}
-              snapshot={snapshot}
+              snapshot={activeSnapshot}
               manifest={manifest}
               availability={selectedId ? (availability.get(selectedId) ?? null) : null}
               readOnly={!editable}

@@ -85,6 +85,20 @@ function decodeErr(code: RuleError['code'], message: string): DecodeResult {
  * snapshotId must resolve against the caller-provided allow list.
  * Legality of the allocation itself is checked separately via validateBuild.
  */
+/** Minimal read of a payload's snapshot/class ids without full validation. */
+export function peekPayloadMeta(payload: string): { s: string; c: string } | null {
+  try {
+    if (!B64URL_PATTERN.test(payload)) return null;
+    const raw: unknown = JSON.parse(fromBase64Url(payload));
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+    const p = raw as Record<string, unknown>;
+    if (typeof p.s !== 'string' || typeof p.c !== 'string') return null;
+    return { s: p.s, c: p.c };
+  } catch {
+    return null;
+  }
+}
+
 export function decodeBuild(
   payload: string,
   allowedSnapshotIds: readonly string[],

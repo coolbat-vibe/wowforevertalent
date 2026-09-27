@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { UPDATES } from '../../data/updates';
+
+const title = 'Updates & Changelog — WoW Forever Talent Calculator';
+const description =
+  'Every update to the WoW Forever talent calculator: beta-client data migrations, new tools, fixes, and content — newest first. Free, no sign-up.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Updates', url: '/updates/' },
+  ]}
+>
+  <section class="page-head">
+    <h1>Updates &amp; Changelog</h1>
+    <p class="lede">
+      Every functional update to the calculator, planner, and data — newest
+      first. The site serves immutable data snapshots, so share links always
+      reopen exactly what was shared; this page tracks what changed between
+      those snapshots.
+    </p>
+  </section>
+
+  <section class="page-section" aria-labelledby="updates-list">
+    <h2 id="updates-list" class="visually-hidden">All updates</h2>
+    <div class="card-grid">
+      {
+        UPDATES.map((entry) => (
+          <article class="panel update-entry">
+            <p class="update-meta">
+              <time datetime={entry.date}>{entry.date}</time>
+              <span class="chip">{entry.tag}</span>
+            </p>
+            <h3>{entry.title}</h3>
+            <ul class="prose">
+              {entry.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="updates-policy">
+    <h2 id="updates-policy">How updates work here</h2>
+    <div class="prose">
+      <p>
+        Talent data comes from the community dataset as immutable,
+        content-hashed snapshots: when the source updates, the site points to
+        a new snapshot and keeps the old one so existing share links reopen
+        exactly what was shared. Tools and content ship continuously via
+        automatic deploys from the repository.
+      </p>
+      <p>
+        Questions or something looks off? <a href="/about/">Contact us</a> — or
+        read the <a href="/sources/">data &amp; sources policy</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,36 @@
+[
+  {
+    "snapshotId": "snap-2a4f9d4f6bbf",
+    "stage": "beta",
+    "publishedAt": "2026-09-26",
+    "label": "Beta client",
+    "classes": {
+      "warrior": "/data/classes/warrior.8acdf2e5b491.json",
+      "paladin": "/data/classes/paladin.0e4a97712ee9.json",
+      "hunter": "/data/classes/hunter.01529f87bdfd.json",
+      "rogue": "/data/classes/rogue.47420a97c3c7.json",
+      "priest": "/data/classes/priest.f3b45b80a442.json",
+      "shaman": "/data/classes/shaman.bbd211830622.json",
+      "mage": "/data/classes/mage.9a9e308bb608.json",
+      "warlock": "/data/classes/warlock.27066acf0e06.json",
+      "druid": "/data/classes/druid.aca77d536589.json"
+    }
+  },
+  {
+    "snapshotId": "snap-ce4da8695e9d",
+    "stage": "preview",
+    "publishedAt": "2026-09-15",
+    "label": "BlizzCon 2026 demo",
+    "classes": {
+      "warrior": "/data/classes/warrior.9315dccff903.json",
+      "paladin": "/data/classes/paladin.59bfd6f8ce5d.json",
+      "hunter": "/data/classes/hunter.4619aca57d05.json",
+      "rogue": "/data/classes/rogue.e4822831d90b.json",
+      "priest": "/data/classes/priest.563a977e7f79.json",
+      "shaman": "/data/classes/shaman.aa31ffd8e6dd.json",
+      "mage": "/data/classes/mage.a8b952ada3b3.json",
+      "warlock": "/data/classes/warlock.3d9db4a19639.json",
+      "druid": "/data/classes/druid.7b36b461ce4b.json"
+    }
+  }
+]

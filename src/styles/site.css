@@ -803,3 +803,26 @@ table.data-table {
     margin-bottom: var(--space-2);
   }
 }
+
+/* Updates changelog page */
+.update-entry .update-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+}
+
+.update-entry h3 {
+  margin: 0 0 var(--space-2);
+}
+
+.update-entry ul {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.update-entry ul li {
+  margin-bottom: var(--space-1);
+}

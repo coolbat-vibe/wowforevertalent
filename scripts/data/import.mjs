@@ -397,12 +397,9 @@ await mkdir(path.join(OUT_DATA, 'classes'), { recursive: true });
 await mkdir(OUT_GEN, { recursive: true });
 await mkdir(OUT_MAP, { recursive: true });
 
-// Remove stale hashed class files (immutable naming: old files accumulate
-// across imports only when content changes; clean to avoid orphans).
-for (const f of await readdir(path.join(OUT_DATA, 'classes'))) {
-  if (f.endsWith('.json')) await rm(path.join(OUT_DATA, 'classes', f));
-}
-
+// Historical snapshots are kept: class files are immutable and old share
+// links resolve against them via public/data/snapshots.json. Never delete
+// other generations here — only overwrite this import's own class files.
 const classFiles = [];
 for (const snap of classSnapshots) {
   const body = JSON.stringify(snap.classDef) + JSON.stringify(snap.trees) +
@@ -448,9 +445,6 @@ for (let i = 0; i < classSnapshots.length; i++) {
     digest: finalDigest,
   };
 }
-for (const f of await readdir(path.join(OUT_DATA, 'classes'))) {
-  if (f.endsWith('.json')) await rm(path.join(OUT_DATA, 'classes', f));
-}
 for (let i = 0; i < classSnapshots.length; i++) {
   const fileName = classFiles[i].path.split('/').pop();
   await writeFile(
@@ -458,6 +452,32 @@ for (let i = 0; i < classSnapshots.length; i++) {
     JSON.stringify(classSnapshots[i]),
   );
 }
+
+// Snapshot registry: old share links resolve against the generation they
+// were created with. Merge this import's entry into the existing registry
+// (older generations are preserved, never deleted).
+const registryPath = path.join(OUT_DATA, 'snapshots.json');
+let registry = [];
+try {
+  registry = JSON.parse(await readFile(registryPath, 'utf8'));
+  if (!Array.isArray(registry)) registry = [];
+} catch {
+  registry = [];
+}
+const registryEntry = {
+  snapshotId,
+  stage: 'beta',
+  publishedAt: raw.generated ?? new Date().toISOString().slice(0, 10),
+  label: 'Beta client',
+  classes: Object.fromEntries(
+    classFiles.map((f) => [f.classId, f.path]),
+  ),
+};
+registry = [
+  registryEntry,
+  ...registry.filter((e) => e.snapshotId !== snapshotId),
+].sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)));
+await writeFile(registryPath, JSON.stringify(registry, null, 2));
 
 const manifest = {
   schemaVersion: SCHEMA_VERSION,
