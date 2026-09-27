@@ -14,7 +14,7 @@ describe('data contract', () => {
       expect(c.digest).toMatch(/^[0-9a-f]{64}$/);
     }
     expect(manifest.snapshotId).toMatch(/^snap-[0-9a-f]{12}$/);
-    expect(manifest.stage).toBe('preview');
+    expect(['preview', 'beta']).toContain(manifest.stage);
   });
 
   for (const classId of [

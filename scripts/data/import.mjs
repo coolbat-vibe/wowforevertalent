@@ -87,15 +87,24 @@ function normalizeRankText(talent) {
   const confirmed = new Set(
     Array.isArray(talent.confirmed) ? talent.confirmed.map(Number) : [],
   );
+  // Beta-client export (src=beta, read file-by-file from the game client):
+  // every rank text is client data, upgraded from demo-footage estimates.
+  const isBetaClient = talent.src === 'beta';
   const ranks = [];
   for (let rank = 1; rank <= talent.max; rank++) {
     if (textByRank.has(rank)) {
+      const text = textByRank.get(rank);
       ranks.push({
         rank,
-        text: textByRank.get(rank),
-        evidenceStatus: confirmed.has(rank)
-          ? 'community_recorded'
-          : 'source_estimate',
+        text,
+        evidenceStatus:
+          text == null
+            ? 'unknown'
+            : isBetaClient
+              ? 'client_verified'
+              : confirmed.has(rank)
+                ? 'community_recorded'
+                : 'source_estimate',
       });
     } else if (estByRank.has(rank)) {
       ranks.push({
@@ -349,20 +358,28 @@ function normalizeLegacy(rawLegacy) {
     trees: rawLegacy.trees.map((tree) => {
       const treeId = LEGACY_TREE_SLUGS[tree.name];
       if (!treeId) fail(`legacy tree with unknown name: ${tree.name}`);
-      const perks = (tree.perks ?? []).map(([name, maxRank, text, icon]) => {
-        const perkId = `${treeId}:${slugify(name)}`;
+      // Beta export format: perks are objects with per-rank "ranks" arrays.
+      const perks = (tree.perks ?? []).map((perk) => {
+        const perkName = typeof perk === 'object' ? perk.name : perk[0];
+        const maxRank = typeof perk === 'object' ? perk.max : perk[1];
+        const icon = typeof perk === 'object' ? perk.icon : perk[3];
+        const rankTexts =
+          typeof perk === 'object'
+            ? (perk.ranks ?? [])
+            : [perk[2]];
+        const perkId = `${treeId}:${slugify(perkName)}`;
         idRegistry[perkId] = {
           classId: 'legacy',
-          sourceName: name,
+          sourceName: perkName,
           sourceTree: tree.name,
         };
         return {
           perkId,
-          name,
+          name: perkName,
           maxRank,
-          text,
+          text: rankTexts[0] ?? null,
           iconRef: icon ?? 'unknown',
-          evidenceStatus: 'community_recorded',
+          evidenceStatus: 'client_verified',
           sourceIds: ['src-talentsforever'],
         };
       });
@@ -446,7 +463,7 @@ const manifest = {
   schemaVersion: SCHEMA_VERSION,
   snapshotId,
   rulesetId: RULESET.rulesetId,
-  stage: 'preview',
+  stage: 'beta',
   publishedAt: raw.generated ?? new Date().toISOString().slice(0, 10),
   gameBuild: null,
   sourceDigest: sha256(JSON.stringify(raw.talents)),

@@ -121,7 +121,8 @@ test('JS disabled: reference and calculator pages stay readable', async ({ brows
   await page.goto('/talents/mage/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.locator('body')).toContainText('Wand Specialization');
-  await expect(page.locator('body')).toContainText('not yet confirmed'); // unknown ranks shown honestly
+  // Beta-client data: every rank carries verified text (no unknown placeholders).
+  await expect(page.locator('body')).toContainText('Verified against the game client');
 
   await page.goto('/mage/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(/Mage/);

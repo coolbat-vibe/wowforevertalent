@@ -249,9 +249,9 @@
     "sourceName": "Improved Shield Bash",
     "sourceTree": "Protection"
   },
-  "warrior:vitality": {
+  "warrior:bastion": {
     "classId": "warrior",
-    "sourceName": "Vitality",
+    "sourceName": "Bastion",
     "sourceTree": "Protection"
   },
   "warrior:focused-rage": {
@@ -259,20 +259,10 @@
     "sourceName": "Focused Rage",
     "sourceTree": "Protection"
   },
-  "warrior:bastion": {
-    "classId": "warrior",
-    "sourceName": "Bastion",
-    "sourceTree": "Protection"
-  },
   "warrior:shield-slam": {
     "classId": "warrior",
     "sourceName": "Shield Slam",
     "sourceTree": "Protection"
-  },
-  "paladin:improved-holy-strike": {
-    "classId": "paladin",
-    "sourceName": "Improved Holy Strike",
-    "sourceTree": "Holy"
   },
   "paladin:divine-strength": {
     "classId": "paladin",
@@ -492,11 +482,6 @@
   "paladin:sacred-arbiter": {
     "classId": "paladin",
     "sourceName": "Sacred Arbiter",
-    "sourceTree": "Retribution"
-  },
-  "paladin:crusade": {
-    "classId": "paladin",
-    "sourceName": "Crusade",
     "sourceTree": "Retribution"
   },
   "paladin:two-handed-weapon-specialization": {
@@ -914,9 +899,9 @@
     "sourceName": "Improved Kick",
     "sourceTree": "Combat"
   },
-  "rogue:restless-blades": {
+  "rogue:flawless-execution": {
     "classId": "rogue",
-    "sourceName": "Restless Blades",
+    "sourceName": "Flawless Execution",
     "sourceTree": "Combat"
   },
   "rogue:dual-wield-specialization": {
@@ -1222,172 +1207,172 @@
   "priest:shadow-focus": {
     "classId": "priest",
     "sourceName": "Shadow Focus",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:blackout": {
     "classId": "priest",
     "sourceName": "Blackout",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:spirit-tap": {
     "classId": "priest",
     "sourceName": "Spirit Tap",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:shadow-affinity": {
     "classId": "priest",
     "sourceName": "Shadow Affinity",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:improved-shadow-word-pain": {
     "classId": "priest",
     "sourceName": "Improved Shadow Word: Pain",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:shadow-reach": {
     "classId": "priest",
     "sourceName": "Shadow Reach",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:improved-mind-blast": {
     "classId": "priest",
     "sourceName": "Improved Mind Blast",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:improved-psychic-scream": {
     "classId": "priest",
     "sourceName": "Improved Psychic Scream",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:mind-flay": {
     "classId": "priest",
     "sourceName": "Mind Flay",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:improved-mind-flay": {
     "classId": "priest",
     "sourceName": "Improved Mind Flay",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:improved-fade": {
     "classId": "priest",
     "sourceName": "Improved Fade",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:vampiric-embrace": {
     "classId": "priest",
     "sourceName": "Vampiric Embrace",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:shadow-weaving": {
     "classId": "priest",
     "sourceName": "Shadow Weaving",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:silence": {
     "classId": "priest",
     "sourceName": "Silence",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:devouring-contagion": {
     "classId": "priest",
     "sourceName": "Devouring Contagion",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:early-demise": {
     "classId": "priest",
     "sourceName": "Early Demise",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:darkness": {
     "classId": "priest",
     "sourceName": "Darkness",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "priest:shadowform": {
     "classId": "priest",
     "sourceName": "Shadowform",
-    "sourceTree": "Shadow Magic"
+    "sourceTree": "Shadow"
   },
   "shaman:convection": {
     "classId": "shaman",
     "sourceName": "Convection",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:concussion": {
     "classId": "shaman",
     "sourceName": "Concussion",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:elemental-warding": {
     "classId": "shaman",
     "sourceName": "Elemental Warding",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:reverberation": {
     "classId": "shaman",
     "sourceName": "Reverberation",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:call-of-flame": {
     "classId": "shaman",
     "sourceName": "Call of Flame",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:elemental-devastation": {
     "classId": "shaman",
     "sourceName": "Elemental Devastation",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:elemental-focus": {
     "classId": "shaman",
     "sourceName": "Elemental Focus",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:elemental-fury": {
-    "classId": "shaman",
-    "sourceName": "Elemental Fury",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:improved-fire-nova": {
-    "classId": "shaman",
-    "sourceName": "Improved Fire Nova",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:eye-of-the-storm": {
-    "classId": "shaman",
-    "sourceName": "Eye of the Storm",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:call-of-thunder": {
-    "classId": "shaman",
-    "sourceName": "Call of Thunder",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:elemental-reach": {
-    "classId": "shaman",
-    "sourceName": "Elemental Reach",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:lightning-overload": {
-    "classId": "shaman",
-    "sourceName": "Lightning Overload",
-    "sourceTree": "Elemental Combat"
-  },
-  "shaman:earthbound": {
-    "classId": "shaman",
-    "sourceName": "Earthbound",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:elemental-alacrity": {
     "classId": "shaman",
     "sourceName": "Elemental Alacrity",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
+  },
+  "shaman:improved-fire-nova": {
+    "classId": "shaman",
+    "sourceName": "Improved Fire Nova",
+    "sourceTree": "Elemental"
+  },
+  "shaman:eye-of-the-storm": {
+    "classId": "shaman",
+    "sourceName": "Eye of the Storm",
+    "sourceTree": "Elemental"
+  },
+  "shaman:call-of-thunder": {
+    "classId": "shaman",
+    "sourceName": "Call of Thunder",
+    "sourceTree": "Elemental"
+  },
+  "shaman:elemental-reach": {
+    "classId": "shaman",
+    "sourceName": "Elemental Reach",
+    "sourceTree": "Elemental"
+  },
+  "shaman:lightning-overload": {
+    "classId": "shaman",
+    "sourceName": "Lightning Overload",
+    "sourceTree": "Elemental"
+  },
+  "shaman:earthbound": {
+    "classId": "shaman",
+    "sourceName": "Earthbound",
+    "sourceTree": "Elemental"
+  },
+  "shaman:elemental-fury": {
+    "classId": "shaman",
+    "sourceName": "Elemental Fury",
+    "sourceTree": "Elemental"
   },
   "shaman:lava-burst": {
     "classId": "shaman",
     "sourceName": "Lava Burst",
-    "sourceTree": "Elemental Combat"
+    "sourceTree": "Elemental"
   },
   "shaman:earth-s-grasp": {
     "classId": "shaman",
@@ -1484,9 +1469,9 @@
     "sourceName": "Improved Healing Wave",
     "sourceTree": "Restoration"
   },
-  "shaman:tidal-mastery": {
+  "shaman:totemic-focus": {
     "classId": "shaman",
-    "sourceName": "Tidal Mastery",
+    "sourceName": "Totemic Focus",
     "sourceTree": "Restoration"
   },
   "shaman:mindfulness": {
@@ -1524,9 +1509,9 @@
     "sourceName": "Water Shield",
     "sourceTree": "Restoration"
   },
-  "shaman:totemic-focus": {
+  "shaman:tidal-mastery": {
     "classId": "shaman",
-    "sourceName": "Totemic Focus",
+    "sourceName": "Tidal Mastery",
     "sourceTree": "Restoration"
   },
   "shaman:restorative-totems": {
@@ -1909,9 +1894,9 @@
     "sourceName": "Shadow Mastery",
     "sourceTree": "Affliction"
   },
-  "warlock:drain-hope": {
+  "warlock:wrack": {
     "classId": "warlock",
-    "sourceName": "Drain Hope",
+    "sourceName": "Wrack",
     "sourceTree": "Affliction"
   },
   "warlock:improved-health-funnel": {
@@ -2129,19 +2114,14 @@
     "sourceName": "Nature's Splendor",
     "sourceTree": "Balance"
   },
-  "druid:balance-of-nature": {
+  "druid:insect-swarm": {
     "classId": "druid",
-    "sourceName": "Balance of Nature",
+    "sourceName": "Insect Swarm",
     "sourceTree": "Balance"
   },
   "druid:vengeance": {
     "classId": "druid",
     "sourceName": "Vengeance",
-    "sourceTree": "Balance"
-  },
-  "druid:insect-swarm": {
-    "classId": "druid",
-    "sourceName": "Insect Swarm",
     "sourceTree": "Balance"
   },
   "druid:improved-starfire": {
@@ -2224,9 +2204,9 @@
     "sourceName": "Shredding Attacks",
     "sourceTree": "Feral Combat"
   },
-  "druid:mangle": {
+  "druid:primal-bite": {
     "classId": "druid",
-    "sourceName": "Mangle",
+    "sourceName": "Primal Bite",
     "sourceTree": "Feral Combat"
   },
   "druid:predatory-strikes": {
@@ -2234,9 +2214,9 @@
     "sourceName": "Predatory Strikes",
     "sourceTree": "Feral Combat"
   },
-  "druid:primal-fury": {
+  "druid:blood-frenzy": {
     "classId": "druid",
-    "sourceName": "Primal Fury",
+    "sourceName": "Blood Frenzy",
     "sourceTree": "Feral Combat"
   },
   "druid:predatory-instincts": {
@@ -2349,6 +2329,11 @@
     "sourceName": "Wild Growth",
     "sourceTree": "Restoration"
   },
+  "adventure:high-alert": {
+    "classId": "legacy",
+    "sourceName": "High Alert",
+    "sourceTree": "Adventure"
+  },
   "adventure:well-rested": {
     "classId": "legacy",
     "sourceName": "Well Rested",
@@ -2359,9 +2344,9 @@
     "sourceName": "Talented",
     "sourceTree": "Adventure"
   },
-  "adventure:high-alert": {
+  "adventure:unknown": {
     "classId": "legacy",
-    "sourceName": "High Alert",
+    "sourceName": "Unknown",
     "sourceTree": "Adventure"
   },
   "adventure:thrill-of-adventure": {
@@ -2384,9 +2369,34 @@
     "sourceName": "Field Medicine",
     "sourceTree": "Adventure"
   },
+  "resourcefulness:for-great-honor": {
+    "classId": "legacy",
+    "sourceName": "For Great Honor",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:gourmand": {
+    "classId": "legacy",
+    "sourceName": "Gourmand",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:permanence": {
+    "classId": "legacy",
+    "sourceName": "Permanence",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:unknown": {
+    "classId": "legacy",
+    "sourceName": "Unknown",
+    "sourceTree": "Resourcefulness"
+  },
   "resourcefulness:the-quick-and-the-dead": {
     "classId": "legacy",
     "sourceName": "The Quick and the Dead",
+    "sourceTree": "Resourcefulness"
+  },
+  "resourcefulness:reagent-economy": {
+    "classId": "legacy",
+    "sourceName": "Reagent Economy",
     "sourceTree": "Resourcefulness"
   },
   "resourcefulness:reinforce": {
@@ -2399,29 +2409,24 @@
     "sourceName": "Diplomat",
     "sourceTree": "Resourcefulness"
   },
-  "resourcefulness:for-great-honor": {
+  "professions:master-chef": {
     "classId": "legacy",
-    "sourceName": "For Great Honor",
-    "sourceTree": "Resourcefulness"
-  },
-  "resourcefulness:permanence": {
-    "classId": "legacy",
-    "sourceName": "Permanence",
-    "sourceTree": "Resourcefulness"
-  },
-  "resourcefulness:gourmand": {
-    "classId": "legacy",
-    "sourceName": "Gourmand",
-    "sourceTree": "Resourcefulness"
-  },
-  "resourcefulness:reagent-economy": {
-    "classId": "legacy",
-    "sourceName": "Reagent Economy",
-    "sourceTree": "Resourcefulness"
+    "sourceName": "Master Chef",
+    "sourceTree": "Professions"
   },
   "professions:working-overtime": {
     "classId": "legacy",
     "sourceName": "Working Overtime",
+    "sourceTree": "Professions"
+  },
+  "professions:bartering": {
+    "classId": "legacy",
+    "sourceName": "Bartering",
+    "sourceTree": "Professions"
+  },
+  "professions:dedicated-study": {
+    "classId": "legacy",
+    "sourceName": "Dedicated Study",
     "sourceTree": "Professions"
   },
   "professions:bountiful-harvest": {
@@ -2434,19 +2439,14 @@
     "sourceName": "Performance Bonus",
     "sourceTree": "Professions"
   },
+  "professions:unknown": {
+    "classId": "legacy",
+    "sourceName": "Unknown",
+    "sourceTree": "Professions"
+  },
   "professions:luremaster": {
     "classId": "legacy",
     "sourceName": "Luremaster",
-    "sourceTree": "Professions"
-  },
-  "professions:master-chef": {
-    "classId": "legacy",
-    "sourceName": "Master Chef",
-    "sourceTree": "Professions"
-  },
-  "professions:dedicated-study": {
-    "classId": "legacy",
-    "sourceName": "Dedicated Study",
     "sourceTree": "Professions"
   }
 }
