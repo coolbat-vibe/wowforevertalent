@@ -33,6 +33,28 @@ const published = formatDate(manifest.publishedAt);
 const title = `WoW Forever ${cls.name} Talents — ${treeNames.join(', ')} Reference`;
 const description = `Complete WoW Forever ${cls.name} talent reference: every ${joinNames(treeNames)} talent with rank text, row position, source status, and Classic comparison from snapshot ${manifest.snapshotId}.`;
 
+// Intent split with /{class}/ (the calculator locks "talent calculator"
+// queries; this reference locks "{class} talents" queries). All numbers
+// are computed from the live snapshot so beta updates keep them accurate.
+const newCount = snapshot.talents.filter((t) => t.classic?.status === 'new').length;
+const changedCount = snapshot.talents.filter(
+  (t) => t.classic?.status === 'changed',
+).length;
+const movedCount = snapshot.talents.filter(
+  (t) => t.classic?.status === 'moved',
+).length;
+
+const treeStats = snapshot.trees.map((tree) => {
+  const talents = treeTalents(snapshot, tree);
+  return {
+    tree,
+    total: talents.length,
+    new: talents.filter((t) => t.classic?.status === 'new').length,
+    changed: talents.filter((t) => t.classic?.status === 'changed').length,
+    removed: tree.removedClassic.length,
+  };
+});
+
 function classicLine(talent: TalentNode): string | null {
   const c = talent.classic;
   if (!c) return null;
@@ -82,11 +104,41 @@ function prereqLine(talent: TalentNode): string | null {
     </p>
   </section>
 
+  <section class="page-section prose" aria-labelledby="overview">
+    <h2 id="overview" class="visually-hidden">
+      What changed in the {cls.name} talent trees
+    </h2>
+    <p>
+      World of Warcraft: Forever reworks the Classic {cls.name} specialization
+      trees: <strong>{snapshot.talents.length} talents</strong> across{' '}
+      {treeNames.join(', ')}, with <strong>{newCount} brand-new talents</strong>,{' '}
+      {changedCount} carrying over with changed text or ranks, and {movedCount}{' '}
+      relocated. This page is the complete WoW Forever {cls.name} talents
+      reference — every rank of every talent with its verified text and where
+      it came from — while the{' '}
+      <a href={`/${cls.classId}/`}>{cls.name} talent calculator</a> handles
+      planning and the <a href="/changes/">Changes report</a> compares all
+      nine classes side by side.
+    </p>
+    <p>
+      Prefer to click around instead of reading tables? The{' '}
+      <a href={`/${cls.classId}/`}>free {cls.name} talent calculator</a>{' '}
+      enforces the 51-point budget, row gates, and prerequisites for you.
+    </p>
+  </section>
+
   {
-    snapshot.trees.map((tree) => (
-      <section class="page-section" aria-labelledby={`tree-${tree.treeId}`}>
-        <h2 id={`tree-${tree.treeId}`}>{tree.name}</h2>
-        <div class="table-scroll">
+    snapshot.trees.map((tree, treeIndex) => {
+      const stat = treeStats[treeIndex];
+      return (
+        <section class="page-section" aria-labelledby={`tree-${tree.treeId}`}>
+          <h2 id={`tree-${tree.treeId}`}>{tree.name}</h2>
+          <p class="prose talent-meta">
+            {stat.total} talents · {stat.new} new in Forever ·{' '}
+            {stat.changed} changed from Classic
+            {stat.removed > 0 ? ` · ${stat.removed} Classic talents removed` : ''}
+          </p>
+          <div class="table-scroll">
           <table class="data-table">
             <thead>
               <tr>
@@ -182,7 +234,8 @@ function prereqLine(talent: TalentNode): string | null {
           </>
         )}
       </section>
-    ))
+        );
+      })
   }
 
   <section class="page-section prose">
