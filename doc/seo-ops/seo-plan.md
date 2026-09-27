@@ -78,7 +78,8 @@
 | P2 | 首页二跳引导 | 首页跳出率 59.2%（工具页正常偏高） | Legacy/Wiki/Changes 入口更醒目 | not_started |
 | P2 | 第一批 referring domains（详见 [link-building.md](./link-building.md)：A 目录/GitHub 零风险先行，B 社区养号，C Beta 数据钩子） | S1 外链任务延续；John 公式外链乘数 | D30 内 ≥ 5 个真实相关来源域名 | in_progress（清单已建） |
 | P2 | 9 职业页内容对齐 Druid 模板 | Druid 页跳出率 18.2% 表现最好 | 内容质量对齐 + 有数据后复查 CTR | not_started |
-| P1 | Beta 数据更新内容页 | 9-17 Beta 已开，数据源会重建 | 数据更新后 Changes/Legacy 页同步 + 日志记录 | in_progress（等待源） |
+| ✅ | Beta 数据更新内容页 | 9-17 Beta 已开，数据源已于 9-26 重建 | 全站数据迁移至 snap-2a4f9d4f，证据升级 client_verified，Changes/Legacy 自动同步 | done 2026-09-27 |
+| **P0** | **旧分享链接兼容**：数据更新后旧分享链接（payload.s=旧快照）报 UNSUPPORTED_VERSION 错误，与站点"旧链接保持原快照"承诺矛盾 | Beta 迁移后首次激活 | 分享链接打开不再报错（保留历史快照文件 + 允许历史 snapshotId 解析） | not_started |
 | P2 | **变现准备：AdSense 申请** | **日均 UV ≥ 300 且连续 2 周**（GA4 报告监控） | AdSense 过审 + ads.txt 上线；合规页已齐 | not_started（等触发信号） |
 | P3 | Adsterra 评估 | AdSense 有 2-4 周真实 RPM 数据 | 对比 RPM/UX 后裁决是否作补充或兜底 | not_started（明确不在当前流量段申请） |
 | P3 | GA4 关键事件补充（compare 打开、Legacy 规划使用） | 关键事件基线稳定 | 事件上报且标记 | not_started |
