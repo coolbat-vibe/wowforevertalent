@@ -12,19 +12,19 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-10-05
+## 运营快照 2026-10-06
 
 - 当前阶段：**S2 已进入**（基线：181 点击 / 3520 曝光 / 平均排名 10.5）
 - demand_status：游戏 2026-11-04 上线，需求窗口明确且持续增长
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
 - live_status：verified_live（首页/职业页/Legacy/Wiki 全部 200）
-- search_status：**数据源不可用（Google 登录过期第 7 天）**——基线维持 09-28 口径（23 索引 / 181 点击 / 3520 曝光 / 排名 10.5）
+- search_status：**数据源不可用（Google 登录过期第 8 天）**——基线维持 09-28 口径（23 索引 / 181 点击 / 3520 曝光 / 排名 10.5）
 - growth_status：**数据源不可用**——GA4 昨日口径 264 用户 / 433 浏览
-- ⭐ **新发现：多域名自相竞争**——SERP 取证显示 wowforevertalent.com（同款工具，文案几乎相同）排核心词 #1，wowforevertalent.org 也在结果中；本站 .app 被自家域名集群压制。**待用户决策**：A 域名 301 合并 / B .com 差异化 / C 维持
-- blocker_status：① Google 登录过期（第 7 天）② 多域名竞争策略待用户决策
+- ⭐ 多域名自相竞争待决策（A 301 合并 / B .com 差异化 / C 维持）——见 10-05 报告
+- blocker_status：① Google 登录过期（第 8 天）② 域名竞争策略待用户决策
 - GSC 最近完整日期：2026-09-25（登录恢复后回补读取）
-- 今日唯一重点：域名竞争决策（影响大于所有内容动作）
+- 今日唯一重点：两项人工动作（登录 + 域名决策）
 - 当前 P0：无（生产正常）
 - 下次复查：每日 09:00（自动）
 
