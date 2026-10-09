@@ -12,19 +12,19 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-10-08
+## 运营快照 2026-10-09
 
 - 当前阶段：**S2 已进入**（基线：181 点击 / 3520 曝光 / 平均排名 10.5）
 - demand_status：游戏 2026-11-04 上线，需求窗口明确且持续增长
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
-- live_status：verified_live（首页/职业页/Legacy/Wiki 全部 200，本机网络已恢复）
-- search_status：**数据源不可用（Google 登录未完成）**——基线维持 09-28 口径（23 索引 / 181 点击 / 3520 曝光 / 排名 10.5）
+- live_status：verified_live（首页/职业页/Legacy/Wiki 全部 200）
+- search_status：**数据源不可用（Google 登录持续未完成）**——基线维持 09-28 口径（23 索引 / 181 点击 / 3520 曝光 / 排名 10.5）
 - growth_status：**数据源不可用**——GA4 昨日口径 264 用户 / 433 浏览
-- blocker_status：**Google 登录未完成**（本机网络已恢复，登录页在侧边浏览器打开）
+- blocker_status：**Google 登录未完成**（登录页在侧边浏览器 accounts.google.com）
 - GSC 最近完整日期：2026-09-25（登录完成后回补读取）
 - 今日唯一重点：完成 Google 登录 → 补跑全部积压（数据检查 + description 复盘 + 德鲁伊评估）
-- 当前 P0：无（生产正常，网络已恢复）
+- 当前 P0：无（生产正常）
 - 下次复查：登录完成后立即补跑；随后每日 09:00（自动）
 
 ## 二、阶段判定：S1→S2
