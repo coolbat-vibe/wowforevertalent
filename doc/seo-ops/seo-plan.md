@@ -12,19 +12,20 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-10-12（周一，数据回补完成）
+## 运营快照 2026-10-13（周二）
 
-- 当前阶段：**S2 已进入**（窗口 09-15~10-09：**212 点击 / 4530 曝光 / CTR 4.7% / 平均排名 11.1**）
-- demand_status：游戏 2026-11-04 上线（剩 23 天），需求窗口明确
+- 当前阶段：**S2 已进入**（窗口 09-15~09-26：**213 点击 / 4550 曝光 / CTR 4.7% / 排名 11.1**）
+- demand_status：游戏 2026-11-04 上线（剩 22 天），需求窗口明确
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
-- live_status：verified_live（全站 200；Google 登录已恢复，数据源可用）
-- search_status：**212 点击 / 4530 曝光**（窗口 09-15~10-09）；核心词 wow forever talent calculator 点击翻倍（3→6）/ 曝光 50→118；wowforevertalent 低 CTR 词 2→4 点击（description 实验正向信号）；新词冒出：wow forever prot paladin talents（2/13）
-- growth_status：GA4 待补读（登录恢复后数据源可用）
-- ⭐ SERP 取证（10-05）：多域名自相竞争确认——wowforevertalent.com 排核心词高位、.org 也在结果中；**域名策略 A/B/C 待用户决策**
-- blocker_status：域名竞争策略待用户决策；Google 登录已恢复
-- GSC 最近完整日期：2026-10-09（T-3）
-- 本周主任务建议：① 用户决策域名策略（影响最大）② description 实验 10-12 复盘（今日可做）
+- live_status：verified_live（全站 200；数据源已恢复）
+- search_status：213 点击 / 4550 曝光（+1/+20 vs 昨日）；核心词 wow forever talent calculator 7 点击/120 曝光（续增）；wowforevertalent 实验词 CTR 2.4%（正向）
+- growth_status：GA4 数据源已恢复，详细指标下次补读
+- ⭐ description 实验复盘完成：CTR 1.6%→2.4%，**结论成功，保留新版本**
+- ⭐ 多域名自相竞争待决策（A 301 合并 / B .com 差异化 / C 维持）——见 10-05 报告
+- blocker_status：域名竞争策略待用户决策
+- GSC 最近完整日期：2026-09-26（T-3）
+- 本周主任务建议：① 用户决策域名策略 ② 德鲁伊内容块推广 8 职业（等确认）
 - 当前 P0：无（生产正常）
 - 下次复查：每日 09:00（自动）
 
