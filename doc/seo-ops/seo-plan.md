@@ -12,20 +12,20 @@
 
 ## 一、运营快照（每周一更新）
 
-## 运营快照 2026-10-13（周二）
+## 运营快照 2026-10-14（周二）
 
-- 当前阶段：**S2 已进入**（窗口 09-15~09-26：**213 点击 / 4550 曝光 / CTR 4.7% / 排名 11.1**）
-- demand_status：游戏 2026-11-04 上线（剩 22 天），需求窗口明确
+- 当前阶段：**S2 已进入**（窗口 09-15~10-11：**214 点击 / 4560 曝光 / CTR 4.7% / 排名 11.2 / 查询 343 行**）
+- demand_status：游戏 2026-11-04 上线（剩 21 天），需求窗口明确
 - build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
 - deployment_status：verified（push 即部署）
-- live_status：verified_live（全站 200；数据源已恢复）
-- search_status：213 点击 / 4550 曝光（+1/+20 vs 昨日）；核心词 wow forever talent calculator 7 点击/120 曝光（续增）；wowforevertalent 实验词 CTR 2.4%（正向）
-- growth_status：GA4 数据源已恢复，详细指标下次补读
-- ⭐ description 实验复盘完成：CTR 1.6%→2.4%，**结论成功，保留新版本**
+- live_status：verified_live（全站 200；数据源正常）
+- search_status：214 点击 / 4560 曝光（+1/+10 vs 昨日）；查询总数 343 行（长尾扩展）；德鲁伊词族低于报告阈值
+- growth_status：GA4 过去 7 天 48 活跃用户（US 45%）/ 事件 218；Search Console 关联正常
+- ⭐ description 实验复盘结论：成功（CTR 1.6%→2.4%），已保留
 - ⭐ 多域名自相竞争待决策（A 301 合并 / B .com 差异化 / C 维持）——见 10-05 报告
 - blocker_status：域名竞争策略待用户决策
-- GSC 最近完整日期：2026-09-26（T-3）
-- 本周主任务建议：① 用户决策域名策略 ② 德鲁伊内容块推广 8 职业（等确认）
+- GSC 最近完整日期：2026-10-09（T-3）
+- 今日唯一重点：明日德鲁伊 D7 复查（10-15）→ 内容块推广决策
 - 当前 P0：无（生产正常）
 - 下次复查：每日 09:00（自动）
 
