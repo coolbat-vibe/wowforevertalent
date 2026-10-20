@@ -12,6 +12,23 @@
 
 ## 一、运营快照（每周一更新）
 
+## 运营快照 2026-10-20（周二）
+
+- 当前阶段：**S2 已进入**（窗口 09-15~10-17：**220 点击 / 4678 曝光 / CTR 4.7% / 平均排名 11.5 / 查询 352 行**）
+- demand_status：游戏 2026-11-04 上线（剩 15 天），需求窗口明确且临近
+- build_status：verified_local + ci_verified（Cloudflare Pages 自动构建）
+- deployment_status：verified（push 即部署）
+- live_status：verified_live（全站 200；GA4 在线；数据源正常）
+- search_status：220 点击 / 4678 曝光（稳定增长 +1/+29）；wow forever talent calculator 曝光连续 3 天增长（130→136→144）；索引 23 持平
+- growth_status：GA4 过去 7 天活跃用户 71（+77.5%，窗口滚动后增速回落、绝对量持平高位）、新用户 77（+102.6%）；**⭐ AI Assistant 7 会话首次超过 Organic Search 5 会话（chatgpt.com 连续三周增长 4→4→7）**；druid 计算器页首次出现 GA4 浏览（2）；⚠️ 数据中心 IP 仍占城市榜前列
+- ⭐ SERP 周检（10-19）：核心词本站第一页缺席（28 天均排名 32.3）；.com 在 mage 词一页双席；Reddit 两个词各占 2 席
+- 本周 1+1：主任务 = Reddit 双帖参与（需用户发帖）；后台 = /talents/ 页 description 复用 + llms.txt/职业页 FAQ 同步（GEO）
+- ⭐ 多域名自相竞争待决策（A 301 合并 / B .com 差异化 / C 维持）
+- blocker_status：① 域名竞争策略待用户决策 ② Reddit 发帖账号（用户操作）
+- GSC 最近完整日期：2026-10-17（T-3）
+- 当前 P0：无（生产正常）；⚠️ Google 账号安全提醒待用户处理
+- 下次复查：每日 09:00（自动）
+
 ## 运营快照 2026-10-19（周一，含 SERP 周检）
 
 - 当前阶段：**S2 已进入**（窗口 09-15~10-16：**219 点击 / 4649 曝光 / CTR 4.7% / 平均排名 11.5 / 查询 351 行**）
