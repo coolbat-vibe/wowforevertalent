@@ -1,6 +1,8 @@
 # WoW Forever Talent Calculator — SEO 运营计划
 
-- 生产域名：https://wowforevertalent.app
+> **⚠️ 站点已于 2026-10-20 下线（用户决策）**：wowforevertalent.app 全域 301 → https://wowforevertalentcalculator.com/ 。每日 SEO 定时任务已删除；本文件及 reports/ 作为历史归档保留，不再更新。实施细节见 action-log.md 条目 20261020-01。
+
+- 生产域名：https://wowforevertalent.app（已下线，301 至 wowforevertalentcalculator.com）
 - GSC Property：`sc-domain:wowforevertalent.app`（2026-09-16 已验证）
 - GA4 Property：`G-S8DFC9KTJW`（账号 wowforevertalent）
 - 时区：Asia/Shanghai（GSC 数据按 Pacific Time 标注，联读时注意）
